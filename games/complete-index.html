@@ -20,6 +20,15 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
+        /* FALLBACK FONT DEFINITION (Potential fix if external link fails) */
+        @font-face {
+            font-family: 'VT323';
+            font-style: normal;
+            font-weight: 400;
+            src: local('VT323'), url('https://fonts.gstatic.com/s/vt323/v16/pxiDypS9n2tJ4_WJ0-E-.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
         /* === C64 & AMIGA THEME VARIABLES === */
         :root {
             --c64-blue: #352879;
@@ -39,7 +48,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            /* IMPORTANT: Default styles are now applied inline to BODY below for caching resilience */
+            /* Base styles set inline on the body tag for persistence */
             color: var(--c64-text);
             font-family: 'VT323', monospace;
             margin: 0;
@@ -77,7 +86,6 @@
 
         /* === LOADING OVERLAY (POSITIONED AT TOP) === */
         .loading-overlay {
-            /* BACKGROUND color is now inherited from the inline style for stability */
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--c64-blue); z-index: 2000; 
             display: flex; 
@@ -392,7 +400,7 @@
                 <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
                 <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
                 <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
-                                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0;">MODE</button>
+                                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; color: var(--c64-light-blue); font-family: 'VT323', monospace;">MODE</button>
             </div>
         </div>
 
@@ -450,7 +458,7 @@
         </div>
         
         <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="class="fa-brands fa-youtube"></i> YOUTUBE</a>
             <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
             <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
             <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
