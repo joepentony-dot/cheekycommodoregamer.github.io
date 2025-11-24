@@ -202,6 +202,11 @@
             margin-left: 2px;
         }
         
+        /* FIX: Ensure loading cursor is visible over dark background */
+        .loading-cursor {
+            display: inline-block !important; /* Force display */
+        }
+        
         .commodore-header { text-align: center; margin-bottom: 20px; border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px; }
         .nav-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px; }
         .nav-link { font-size: 1.2rem; color: var(--c64-text); cursor: pointer; white-space: nowrap; }
