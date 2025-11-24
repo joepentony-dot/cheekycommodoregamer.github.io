@@ -39,7 +39,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--c64-blue);
+            /* IMPORTANT: Default styles are now applied inline to BODY below for caching resilience */
             color: var(--c64-text);
             font-family: 'VT323', monospace;
             margin: 0;
@@ -77,8 +77,9 @@
 
         /* === LOADING OVERLAY (POSITIONED AT TOP) === */
         .loading-overlay {
+            /* BACKGROUND color is now inherited from the inline style for stability */
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--c64-blue); z-index: 2000;
+            background: var(--c64-blue); z-index: 2000; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -142,7 +143,7 @@
         a { color: #fff; text-decoration: none; cursor: pointer; }
         a:hover { text-decoration: underline; }
         
-        /* NEW: Styling for the Mode Toggle button in the nav bar */
+        /* Styling for the Mode Toggle button in the nav bar */
         #modeToggle {
             background: none; border: none; cursor: pointer;
             font-size: 1.2rem; color: var(--c64-text); padding: 0;
@@ -367,7 +368,7 @@
         }
     </style>
 </head>
-<body class="c64-mode">
+<body class="c64-mode" style="background-color: #352879; color: #b8c76f; font-family: 'VT323', monospace;">
 
     <div class="crt-overlay"></div>
 
@@ -405,7 +406,7 @@
 
         <div class="search-container">
             <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
-            <div class="search-results-count" id="statsDisplay">LOADING DATA...</div>
+            <div class="search-results-count" id="statsDisplay">FOUND 628 GAMES...</div>
         </div>
 
         <div class="quick-actions">
@@ -515,6 +516,10 @@
             const body = document.body;
             body.classList.remove('c64-mode');
             body.classList.add('amiga-mode');
+            // Also update inline styles for persistence/speed
+            body.style.backgroundColor = '#0055AA'; 
+            body.style.color = '#000000';
+            body.style.fontFamily = "'Amiga Topaz', 'Courier New', monospace";
             localStorage.setItem('preferredMode', 'amiga');
         }
 
@@ -522,13 +527,19 @@
             const body = document.body;
             body.classList.remove('amiga-mode');
             body.classList.add('c64-mode');
+            // Also update inline styles for persistence/speed
+            body.style.backgroundColor = '#352879';
+            body.style.color = '#b8c76f';
+            body.style.fontFamily = "'VT323', monospace";
             localStorage.setItem('preferredMode', 'c64');
         }
 
         // Mode initialization on load
         window.addEventListener('DOMContentLoaded', () => { 
             const savedMode = localStorage.getItem('preferredMode'); 
+            // Only call if saved mode is Amiga, otherwise C64 inline style is the default
             if (savedMode === 'amiga') setAmigaMode();
+            
             // Start the data fetch only after DOM is ready
             fetchAllGames();
         });
@@ -591,7 +602,7 @@
             playClickSound();
             currentPlatform = platform;
             
-            // NEW LOGIC: Also switch the site mode based on platform selection
+            // Mode switch logic remains integrated with platform filter
             if (platform === 'c64') {
                 setC64Mode();
             } else if (platform === 'amiga') {
