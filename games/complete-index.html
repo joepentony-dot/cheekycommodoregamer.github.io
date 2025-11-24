@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
-        /* FALLBACK FONT DEFINITION (Potential fix if external link fails) */
+        /* FALLBACK FONT DEFINITION (kept as a failsafe, but relying on external link) */
         @font-face {
             font-family: 'VT323';
             font-style: normal;
@@ -48,7 +48,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            /* Base styles set inline on the body tag for persistence */
+            /* Color is set inline, font-family is set here */
             color: var(--c64-text);
             font-family: 'VT323', monospace;
             margin: 0;
@@ -151,12 +151,16 @@
         a { color: #fff; text-decoration: none; cursor: pointer; }
         a:hover { text-decoration: underline; }
         
-        /* Styling for the Mode Toggle button in the nav bar */
+        /* FIX: Mode Toggle Button Styling */
         #modeToggle {
-            background: none; border: none; cursor: pointer;
-            font-size: 1.2rem; color: var(--c64-text); padding: 0;
-            font-family: 'VT323', monospace; text-transform: uppercase;
-            white-space: nowrap;
+            background: none; 
+            border: none; 
+            cursor: pointer;
+            font-size: 1.2rem; 
+            padding: 0;
+            font-family: 'VT323', monospace; 
+            text-transform: uppercase;
+            color: inherit; /* FIX: Added inherit to fix color conflict */
         }
         #modeToggle:hover { color: #fff; text-decoration: underline; }
 
@@ -357,7 +361,7 @@
             box-shadow: 2px 2px 0 var(--amiga-black);
         }
 
-        /* === RESPONSIVE === */
+        /* === RESPONSIVE ISSUES FIXES (as provided) === */
         @media (max-width: 600px) {
             body { padding: 0; }
             .container { padding: 10px 5px; margin-top: 15px; width: 100%; border-width: 2px; box-sizing: border-box; }
@@ -373,10 +377,25 @@
             
             td { padding: 8px; font-size: 1.1rem; }
             .badge { display: none; } 
+
+            /* Fix for game links wrapping (as provided) */
+            td > div:first-child {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .game-links-cell {
+                margin-top: 8px;
+                justify-content: flex-start;
+                width: 100%;
+            }
+            .game-link-btn {
+                font-size: 0.9rem;
+                padding: 6px 8px;
+            }
         }
     </style>
 </head>
-<body class="c64-mode" style="background-color: #352879; color: #b8c76f; font-family: 'VT323', monospace;">
+<body class="c64-mode" style="background-color: #352879; color: #b8c76f;">
 
     <div class="crt-overlay"></div>
 
@@ -394,12 +413,12 @@
             <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
             
             <div class="nav-bar">
-                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
-                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
-                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
-                <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
-                <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
+                                <a href="../games/index.html" class="nav-link play-sound">GENRES</a>
+                <a href="./complete-index.html" class="nav-link play-sound">INDEX</a>
+                <a href="../resources/quiz.html" class="nav-link play-sound">QUIZ</a>
+                <a href="../retro-events.html" class="nav-link play-sound">EVENTS</a>
+                <a href="../about.html" class="nav-link play-sound">ABOUT</a>
+                <a href="../contact.html" class="nav-link play-sound">CONTACT</a>
                                 <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; color: var(--c64-light-blue); font-family: 'VT323', monospace;">MODE</button>
             </div>
         </div>
@@ -428,37 +447,37 @@
         <div class="sitemap-container">
             <h2>EXPLORE MORE</h2>
             <div class="sitemap-links">
-                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
-                <a href="/cheekycommodoregamer.github.io/games" class="play-sound">GAMES BY GENRE</a>
-                <a href="/cheekycommodoregamer.github.io/games/top-picks.html" class="play-sound">TOP PICKS</a>
-                <a href="/cheekycommodoregamer.github.io/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
-                <a href="/cheekycommodoregamer.github.io/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
-                <a href="/cheekycommodoregamer.github.io/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
-                <a href="/cheekycommodoregamer.github.io/games/adventure-games.html" class="play-sound">ADVENTURE</a>
-                <a href="/cheekycommodoregamer.github.io/games/arcade.html" class="play-sound">ARCADE</a>
-                <a href="/cheekycommodoregamer.github.io/games/fighting.html" class="play-sound">FIGHTING</a>
-                <a href="/cheekycommodoregamer.github.io/games/casino.html" class="play-sound">CASINO</a>
-                <a href="/cheekycommodoregamer.github.io/games/horror.html" class="play-sound">HORROR</a>
-                <a href="/cheekycommodoregamer.github.io/games/licensed-games.html" class="play-sound">LICENSED</a>
-                <a href="/cheekycommodoregamer.github.io/games/platform.html" class="play-sound">PLATFORM</a>
-                <a href="/cheekycommodoregamer.github.io/games/puzzle-games.html" class="play-sound">PUZZLE</a>
-                <a href="/cheekycommodoregamer.github.io/games/quiz-games.html" class="play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/games/racing.html" class="play-sound">RACING</a>
-                <a href="/cheekycommodoregamer.github.io/games/rpg.html" class="play-sound">RPG</a>
-                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
-                <a href="/cheekycommodoregamer.github.io/games/sports.html" class="play-sound">SPORTS</a>
-                <a href="/cheekycommodoregamer.github.io/games/strategy.html" class="play-sound">STRATEGY</a>
-                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="play-sound">EVENTS</a>
-                <a href="/cheekycommodoregamer.github.io/emulator-guide.html" class="play-sound">EMULATION</a>
-                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="play-sound">FULL INDEX</a>
-                <a href="/cheekycommodoregamer.github.io/about.html" class="play-sound">ABOUT ME</a>
-                <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
+                                <a href="../index.html" class="play-sound">HOME</a>
+                <a href="../games/index.html" class="play-sound">GAMES BY GENRE</a>
+                <a href="./top-picks.html" class="play-sound">TOP PICKS</a>
+                <a href="./c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
+                <a href="./bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
+                <a href="./action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
+                <a href="./adventure-games.html" class="play-sound">ADVENTURE</a>
+                <a href="./arcade.html" class="play-sound">ARCADE</a>
+                <a href="./fighting.html" class="play-sound">FIGHTING</a>
+                <a href="./casino.html" class="play-sound">CASINO</a>
+                <a href="./horror.html" class="play-sound">HORROR</a>
+                <a href="./licensed-games.html" class="play-sound">LICENSED</a>
+                <a href="./platform.html" class="play-sound">PLATFORM</a>
+                <a href="./puzzle-games.html" class="play-sound">PUZZLE</a>
+                <a href="./quiz-games.html" class="play-sound">QUIZ</a>
+                <a href="./racing.html" class="play-sound">RACING</a>
+                <a href="./rpg.html" class="play-sound">RPG</a>
+                <a href="./shooting.html" class="play-sound">SHOOT 'EM UP</a>
+                <a href="./sports.html" class="play-sound">SPORTS</a>
+                <a href="./strategy.html" class="play-sound">STRATEGY</a>
+                <a href="../resources/quiz.html" class="play-sound">QUIZ</a>
+                <a href="../retro-events.html" class="play-sound">EVENTS</a>
+                <a href="../emulator-guide.html" class="play-sound">EMULATION</a>
+                <a href="./complete-index.html" class="play-sound">FULL INDEX</a>
+                <a href="../about.html" class="play-sound">ABOUT ME</a>
+                <a href="../contact.html" class="play-sound">CONTACT</a>
             </div>
         </div>
         
         <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i <i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
             <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
             <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
             <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
@@ -678,15 +697,17 @@
                     if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
                     
                     tr.innerHTML = `
-                        <td style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                            <div>
-                                <span class="badge ${badgeClass}">${game.platform}</span>
-                                <span>${game.title}</span>
-                            </div>
+                        <td>
+                                                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                                <div>
+                                    <span class="badge ${badgeClass}">${game.platform}</span>
+                                    <span>${game.title}</span>
+                                </div>
                                 <div class="game-links-cell">
                                     <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
                                     ${linksHtml}
                                 </div>
+                            </div>
                         </td>
                     `;
                     table.appendChild(tr);
