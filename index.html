@@ -100,7 +100,7 @@
             padding: 40px;
             font-size: 1.5rem;
             color: var(--c64-light-blue);
-            cursor: none;
+            /* REMOVED: cursor: none; to allow mouse pointer to show */
         }
 
         /* --- SKIP BUTTON --- */
@@ -202,7 +202,7 @@
             margin-left: 2px;
         }
         
-        /* FIX: Ensure loading cursor is visible, even if parent sets cursor:none */
+        /* FIX: Ensure loading cursor is visible over dark background */
         .loading-cursor {
             display: inline-block !important; /* Force display */
         }
