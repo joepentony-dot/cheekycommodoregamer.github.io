@@ -492,6 +492,7 @@
         // --- DATA FETCHING (Now uses PapaParse for the public CSV) ---
         async function fetchGameData() {
             try {
+                // Ensure PapaParse script is loaded first if placed in the footer, but since it's in the head, this is fine.
                 const response = await fetch(CSV_DATA_URL);
                 const csvText = await response.text();
 
@@ -528,7 +529,7 @@
             
             try {
                 allGames = await fetchGameData();
-                document.getElementById('gamesCount').textContent = `GAMES: ${allGames.length}`; 
+                document.querySelector('.stats-box span:first-child').textContent = `GAMES: ${allGames.length}`; 
                 
                 searchInput.placeholder = `SEARCH ${allGames.length} TITLES...`;
                 searchInput.removeAttribute('disabled');
