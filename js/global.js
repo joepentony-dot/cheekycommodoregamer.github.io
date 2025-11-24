@@ -1,12 +1,32 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Load the Header
-    fetch('/header.html')
-        .then(response => response.text())
+    // --- SMART HEADER PATH DETECTION ---
+    // If we are in a subfolder (games or resources), go up one level (../)
+    // Otherwise, assume we are at root (./)
+    const isSubfolder = window.location.pathname.includes('/games/') || 
+                        window.location.pathname.includes('/resources/');
+    
+    const headerPath = isSubfolder ? '../header.html' : './header.html';
+
+    console.log("Fetching header from:", headerPath); // Debugging line
+
+    fetch(headerPath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
         .then(data => {
             const container = document.getElementById('global-header-container');
             if(container) {
                 container.innerHTML = data;
                 
+                // Fix links in the header if we are in a subfolder
+                // (This ensures Home/About links work from inside /games/)
+                if (isSubfolder) {
+                    fixRelativeLinks(container);
+                }
+
                 // Re-attach event listeners after HTML injection
                 updateClock();
                 applySavedMode();
@@ -16,8 +36,22 @@ document.addEventListener("DOMContentLoaded", function() {
                     el.addEventListener('click', playClickSound);
                 });
             }
-        });
+        })
+        .catch(err => console.error('Header load failed:', err));
 });
+
+// Helper to fix menu links when inside subfolders
+function fixRelativeLinks(container) {
+    // If we are in /games/, a link to "index.html" needs to become "../index.html"
+    const links = container.querySelectorAll('a');
+    links.forEach(a => {
+        const href = a.getAttribute('href');
+        // If link starts with slash, remove it and prepend ..
+        if (href.startsWith('/')) {
+            a.setAttribute('href', '..' + href);
+        }
+    });
+}
 
 // 2. Mode Logic
 function toggleMode() {
