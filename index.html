@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cheeky Commodore Gamer | Retro Gaming Hub</title>
     <meta name="description" content="Dive into the world of retro gaming! Search the full index of Commodore 64 and Amiga games.">
+    <link rel="canonical" href="https://cheekycommodoregamer.co.uk/">
+
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,52 +14,85 @@
     <link rel="stylesheet" href="./css/style.css">
 
     <style>
-        /* Page-Specific Overrides */
+        /* --- HOME SPECIFIC STYLES --- */
         body { overflow-x: hidden; }
+
+        /* STARFIELD CANVAS */
+        #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; pointer-events: none; }
+
+        /* CRT OVERLAY */
+        .crt-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 9999; }
+
+        /* INTRO SCREENS */
         #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 6000; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; }
         .power-text { color: var(--c64-text); font-size: 2.5rem; font-family: 'VT323', monospace; animation: blink 1s infinite; margin-top: 20px; }
         
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--c64-blue); z-index: 5000; display: none; flex-direction: column; justify-content: flex-start; padding: 40px; font-family: 'VT323', monospace; font-size: 1.5rem; color: var(--c64-light-blue); cursor: none; }
         
+        #skip-btn { position: absolute; top: 20px; right: 20px; z-index: 6002; background: var(--c64-red); color: #fff; border: 2px solid #fff; padding: 10px 20px; font-family: 'VT323', monospace; font-size: 1.2rem; cursor: pointer; text-transform: uppercase; box-shadow: 4px 4px 0px #000; }
+
+        .raster-bars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5001; background: linear-gradient(to bottom, #000 0%, #fff 20%, #f00 30%, #0ff 40%, #f0f 50%, #0f0 60%, #00f 70%, #ff0 80%, #f80 100%); background-size: 100% 400px; animation: rasterScroll 2.5s linear infinite; opacity: 0.8; display: none; pointer-events: none; filter: blur(4px); }
+        @keyframes rasterScroll { 0% { background-position: 0 0; } 100% { background-position: 0 400px; } }
+
+        /* SEARCH & CONTENT */
         .search-wrapper { margin: 30px 0; position: relative; max-width: 800px; margin-left: auto; margin-right: auto; }
         .search-input { width: 100%; padding: 15px; font-size: 1.5rem; text-transform: uppercase; border: 3px solid; background: rgba(0,0,0,0.2); outline: none; }
         
-        /* Mode Colors for Search */
         body.c64-mode .search-input { color: var(--c64-text); border-color: var(--c64-light-blue); font-family: 'VT323', monospace; }
         body.amiga-mode .search-input { color: var(--amiga-black); border-color: var(--amiga-blue); font-family: 'Amiga Topaz', monospace; background: #fff; }
 
-        .monitor-wrapper { background: #111; border: 15px solid #333; border-radius: 20px; padding: 20px; margin: 40px auto; max-width: 900px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        .search-results { display: none; position: absolute; width: 100%; max-height: 300px; overflow-y: auto; z-index: 100; border: 2px solid; border-top: none; }
+        .search-results.active { display: block; }
+        body.c64-mode .search-results { background: #000; border-color: var(--c64-light-blue); color: #fff; font-family: 'VT323', monospace; }
+        body.amiga-mode .search-results { background: #fff; border-color: var(--amiga-blue); color: #000; font-family: 'Amiga Topaz', monospace; }
+
+        .result-item { padding: 10px; cursor: pointer; border-bottom: 1px dashed #555; display: flex; justify-content: space-between; }
+        .result-item:hover { background: rgba(255,255,255,0.2); }
+
+        .monitor-wrapper { background: #111; border: 15px solid #333; border-radius: 20px; padding: 20px; margin: 40px auto; max-width: 900px; box-shadow: 0 0 30px rgba(0,0,0,0.8); position: relative; }
         .monitor-screen { position: relative; padding-bottom: 56.25%; height: 0; background: #000; overflow: hidden; border-radius: 10px; }
         .monitor-screen iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        
+        .monitor-logo { text-align: center; color: #666; font-family: sans-serif; margin-top: 10px; font-weight: bold; letter-spacing: 2px; }
+
         .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .btn-retro { padding: 20px; font-size: 1.5rem; text-transform: uppercase; text-align: center; border: 3px solid; cursor: pointer; text-decoration: none; display: block; font-weight: bold; transition: transform 0.1s; }
         
         body.c64-mode .btn-retro { background: var(--c64-light-blue); color: #fff; border-color: #fff; font-family: 'VT323', monospace; }
         body.c64-mode .btn-retro:hover { background: #fff; color: var(--c64-blue); }
-        
         body.amiga-mode .btn-retro { background: #eee; color: #000; border-color: #aaa; font-family: 'Amiga Topaz', monospace; border-style: outset; }
         body.amiga-mode .btn-retro:active { border-style: inset; }
 
         .stats-box { margin-top: 50px; padding-top: 20px; border-top: 2px dashed; text-align: center; font-size: 1.5rem; display: flex; justify-content: center; gap: 40px; }
-        body.c64-mode .stats-box { border-color: var(--c64-light-blue); color: var(--c64-cyan); }
+        body.c64-mode .stats-box { border-color: var(--c64-light-blue); color: var(--c64-cyan); text-shadow: 0 0 5px var(--c64-cyan); }
         body.amiga-mode .stats-box { border-color: var(--amiga-blue); color: var(--amiga-blue); }
 
+        .marquee-container { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--c64-light-blue); color: #fff; padding: 5px 0; border-top: 2px solid #fff; z-index: 100; white-space: nowrap; overflow: hidden; display: none; font-family: 'VT323', monospace; font-size: 1.2rem; }
+        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        body.amiga-mode .marquee-container { background: var(--amiga-blue); font-family: 'Amiga Topaz', monospace; }
+
+        .cursor { display: inline-block; width: 10px; height: 1em; background: currentColor; animation: blink 1s infinite; vertical-align: bottom; }
         @keyframes blink { 50% { opacity: 0; } }
-        #main-container { display: none; } /* Hidden until "Power On" */
+        
+        #main-container { display: none; }
+        .container { margin-top: 10px; margin-bottom: 60px; margin-left: auto; margin-right: auto; }
     </style>
 </head>
 <body class="c64-mode"> 
     
+    <canvas id="starfield"></canvas>
+    <div class="crt-overlay"></div>
+
     <div id="start-screen" onclick="startSystem()">
         <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Logo" style="max-width: 300px; width: 80%;">
         <div class="power-text">CLICK TO POWER ON</div>
     </div>
 
     <div id="loading-screen">
-        <div style="position: absolute; top: 20px; right: 20px; border: 2px solid #fff; padding: 10px; cursor: pointer;" onclick="skipLoading()">[ESC] SKIP</div>
-        <div style="margin-top: 100px;">
-            <span id="loading-terminal"></span><span style="animation:blink 1s infinite;">&#9608;</span>
+        <button id="skip-btn" onclick="skipLoading()">[ ESC ] SKIP LOAD</button>
+        <div class="raster-bars" id="rasterBars"></div>
+        <div style="position: relative; z-index: 5002; padding-top: 60px;">
+            <span id="loading-terminal"></span><span class="cursor"></span>
         </div>
     </div>
 
@@ -67,11 +102,11 @@
         
         <div style="text-align: center; margin-bottom: 40px; min-height: 80px;">
             <h1 id="typewriter-text" style="font-size: 3rem; margin-bottom: 10px;"></h1>
-            <p id="ready-prompt" style="color: var(--c64-light-blue); font-size: 1.5rem; display:none;">READY.</p>
+            <p id="ready-prompt" style="color: var(--c64-light-blue); font-size: 1.5rem; display:none;">READY.<span class="cursor"></span></p>
         </div>
 
         <div class="search-wrapper">
-            <input type="text" class="search-input" id="homeSearch" placeholder="SEARCH DATABASE..." autocomplete="off">
+            <input type="text" class="search-input" id="homeSearch" placeholder="SEARCH GAME DATABASE..." autocomplete="off">
             <div class="search-results" id="homeSearchResults"></div>
         </div>
 
@@ -80,6 +115,7 @@
             <div class="monitor-screen" id="spotlightVideo">
                 <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff;">LOADING SIGNAL...</div>
             </div>
+            <div class="monitor-logo">COMMODORE 1702 COLOR MONITOR</div>
         </div>
 
         <h2 style="text-align: center; margin-top: 40px;">QUICK ACCESS</h2>
@@ -96,21 +132,75 @@
         </div>
     </div>
 
+    <div class="marquee-container" id="marquee">
+        <div class="marquee-content">
+            *** WELCOME TO CHEEKY COMMODORE GAMER *** UPDATED DAILY WITH NEW C64 & AMIGA TITLES *** CHECK OUT THE NEW QUIZ SECTION *** DON'T FORGET TO SUBSCRIBE ON YOUTUBE *** PRESS PLAY ON TAPE ***
+        </div>
+    </div>
+
     <script src="./js/global.js"></script>
     
     <script>
-        // --- QUICK LOADING LOGIC ---
-        const API_KEY = "AIzaSyABtgqVHmOrfzw2DLE-3ta3OmlaQ0ad_t8"; 
-        const C64_LIST = "PL_TYjnCNYSex7dxxCMMuOsjzcXE1VNiR9";
-        const AMIGA_LIST = "PL_TYjnCNYSezw55SVAMN2_UhdH3gCca1n";
+        // --- CONFIG ---
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhkSGA6HcSvCljqBA91JmQVsVVUPU5LCEO1HlifB_Cjwc0DTFCK3m6hG5ZFDSgVHw9/exec';
+        const API_KEY = "AIzaSyABtgqVHmOrfzw2DLE-3ta3OmlaQ0ad_t8"; 
+        const C64_PLAYLIST_ID = "PL_TYjnCNYSex7dxxCMMuOsjzcXE1VNiR9";
+        const AMIGA_PLAYLIST_ID = "PL_TYjnCNYSezw55SVAMN2_UhdH3gCca1n";
+        const LOADING_SOUND = "https://raw.githubusercontent.com/joepentony-dot/website-images/main/STAYAWHILE.mp3";
+
+        let allGames = [];
         let loadingAborted = false;
 
+        // --- START SYSTEM ---
         function startSystem() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('loading-screen').style.display = 'flex';
+            
+            if(typeof audioCtx !== 'undefined' && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
             loadSequence();
-            fetchData();
+            fetchData(); // Fetch data in background while loading animation plays
+        }
+
+        // --- LOADING ANIMATION ---
+        async function loadSequence() {
+            const terminal = document.getElementById('loading-terminal');
+            const raster = document.getElementById('rasterBars');
+            
+            const type = (txt) => new Promise(resolve => {
+                let i = 0;
+                const t = setInterval(() => {
+                    if (loadingAborted) { clearInterval(t); resolve(); return; }
+                    terminal.innerHTML += txt.charAt(i);
+                    i++;
+                    if (i >= txt.length) { clearInterval(t); resolve(); }
+                }, 50);
+            });
+
+            // SEQUENCE STEPS
+            await type('LOAD "*",8,1');
+            if(loadingAborted) return;
+            terminal.innerHTML += '<br>';
+            await new Promise(r => setTimeout(r, 600));
+            
+            if(loadingAborted) return;
+            terminal.innerHTML += 'SEARCHING FOR CHEEKY GAMER<br>';
+            await new Promise(r => setTimeout(r, 800));
+
+            if(loadingAborted) return;
+            terminal.innerHTML += 'LOADING<br>';
+            raster.style.display = 'block'; // Show Raster Bars
+            
+            // Play Sound
+            const audio = new Audio(LOADING_SOUND);
+            audio.volume = 0.6;
+            audio.play().catch(e=>{});
+
+            await new Promise(r => setTimeout(r, 3500)); // Fake Load Time
+
+            if(!loadingAborted) finishLoading();
         }
 
         function skipLoading() {
@@ -118,52 +208,127 @@
             finishLoading();
         }
 
-        async function loadSequence() {
-            const term = document.getElementById('loading-terminal');
-            const text = 'LOAD "*",8,1... SEARCHING FOR CHEEKY GAMER... LOADING...';
-            let i = 0;
-            const t = setInterval(() => {
-                if (loadingAborted) { clearInterval(t); finishLoading(); return; }
-                term.innerText += text.charAt(i);
-                i++;
-                if (i >= text.length) { clearInterval(t); setTimeout(finishLoading, 1000); }
-            }, 50);
-        }
-
         function finishLoading() {
             document.getElementById('loading-screen').style.display = 'none';
             document.getElementById('main-container').style.display = 'block';
-            // Typewriter Title
+            document.getElementById('marquee').style.display = 'block';
+            
+            // Typewriter for Main Title
             const title = "COMMODORE 64 & AMIGA DATABASE";
-            let j = 0;
-            const h1 = document.getElementById("typewriter-text");
-            h1.innerHTML = "";
-            const t2 = setInterval(() => {
-                h1.innerHTML += title.charAt(j);
-                j++;
-                if(j >= title.length) { clearInterval(t2); document.getElementById('ready-prompt').style.display = 'block'; }
+            const el = document.getElementById("typewriter-text");
+            let i = 0;
+            el.innerHTML = "";
+            const t = setInterval(() => {
+                el.innerHTML += title.charAt(i);
+                i++;
+                if(i >= title.length) {
+                    clearInterval(t);
+                    document.getElementById('ready-prompt').style.display = 'block';
+                }
             }, 50);
         }
 
+        // --- DATA FETCHING ---
         async function fetchData() {
-            // Fetch Stats
+            // 1. Stats
             fetch(`${SCRIPT_URL}?action=trackVisitor`, {method:'POST'}).catch(()=>{});
             fetch(`${SCRIPT_URL}?getCounters=true`).then(r=>r.json()).then(data => {
                 if(data.visitors) document.getElementById('visitorCount').textContent = `VISITORS: ${data.visitors}`;
             });
 
-            // Fetch Video
+            // 2. YouTube Videos (C64 & Amiga)
             try {
-                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${C64_LIST}&key=${API_KEY}`);
-                const data = await res.json();
-                if(data.items && data.items.length > 0) {
-                    const rnd = data.items[Math.floor(Math.random() * data.items.length)];
+                const [c64, amiga] = await Promise.all([
+                    fetchPlaylist(C64_PLAYLIST_ID, 'C64'),
+                    fetchPlaylist(AMIGA_PLAYLIST_ID, 'AMIGA')
+                ]);
+                allGames = [...c64, ...amiga];
+                document.getElementById('gamesCount').textContent = `GAMES: ${allGames.length}`;
+                
+                // Random Spotlight
+                if(allGames.length > 0) {
+                    const rnd = allGames[Math.floor(Math.random() * allGames.length)];
                     document.getElementById('spotlightVideo').innerHTML = 
-                        `<iframe src="https://www.youtube.com/embed/${rnd.snippet.resourceId.videoId}?autoplay=1&mute=1" allowfullscreen></iframe>`;
-                    document.getElementById('gamesCount').textContent = "GAMES: 500+";
+                        `<iframe src="https://www.youtube.com/embed/${rnd.video}?autoplay=1&mute=1" title="${rnd.title}" frameborder="0" allowfullscreen></iframe>`;
                 }
-            } catch(e) { console.log(e); }
+            } catch(e) { console.log("Data Error", e); }
         }
+
+        async function fetchPlaylist(id, genre) {
+            let videos = [];
+            // Limit to 50 items per playlist for homepage speed
+            try {
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${id}&key=${API_KEY}`);
+                const data = await res.json();
+                if(data.items) {
+                    videos = data.items.map(item => ({
+                        title: item.snippet.title,
+                        video: item.snippet.resourceId.videoId,
+                        genre: genre
+                    }));
+                }
+            } catch(e){}
+            return videos;
+        }
+
+        // --- SEARCH LOGIC ---
+        const sInput = document.getElementById('homeSearch');
+        const sResults = document.getElementById('homeSearchResults');
+
+        sInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            sResults.innerHTML = '';
+            if(val.length < 2) { sResults.classList.remove('active'); return; }
+
+            const matches = allGames.filter(g => g.title.toLowerCase().includes(val)).slice(0, 8);
+            
+            if(matches.length === 0) {
+                sResults.innerHTML = '<div style="padding:10px; text-align:center;">NO GAMES FOUND</div>';
+            } else {
+                matches.forEach(g => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerHTML = `<span>${g.title}</span><span style="font-size:0.8em">[${g.genre}]</span>`;
+                    // Click to open video
+                    div.onclick = () => window.open(`https://www.youtube.com/watch?v=${g.video}`, '_blank');
+                    sResults.appendChild(div);
+                });
+            }
+            sResults.classList.add('active');
+        });
+
+        // Close search on outside click
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.search-wrapper')) sResults.classList.remove('active');
+        });
+
+        // --- STARFIELD ---
+        const cvs = document.getElementById('starfield');
+        const cx = cvs.getContext('2d');
+        let stars = [];
+        function initStars() {
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            stars = Array(100).fill().map(() => ({
+                x: Math.random() * cvs.width,
+                y: Math.random() * cvs.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 3 + 0.5
+            }));
+        }
+        function drawStars() {
+            cx.clearRect(0,0,cvs.width,cvs.height);
+            cx.fillStyle = "#fff";
+            stars.forEach(s => {
+                cx.fillRect(s.x, s.y, s.size, s.size);
+                s.y += s.speed;
+                if(s.y > cvs.height) s.y = 0;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        window.addEventListener('resize', initStars);
+        initStars();
+        drawStars();
+
     </script>
 </body>
 </html>
