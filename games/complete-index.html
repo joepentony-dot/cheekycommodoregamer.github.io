@@ -1,181 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheeky Commodore Gamer - Games Index</title>
-    
-    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
-    
-    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky Commodore Gamer - Games Index</title>
+    
+    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
+    
+    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
-    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
+    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    <style>
-        /* === C64 THEME VARIABLES === */
-        :root {
-            --c64-blue: #352879;
-            --c64-light-blue: #6c5eb5;
-            --c64-text: #b8c76f;
-            --c64-red: #880000;
-            --c64-green: #55cc55;
-        }
+    <style>
+        /* === C64 THEME VARIABLES === */
+        :root {
+            --c64-blue: #352879;
+            --c64-light-blue: #6c5eb5;
+            --c64-text: #b8c76f;
+            --c64-red: #880000;
+            --c64-green: #55cc55;
+        }
 
-        /* === GLOBAL RESET === */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            background-color: var(--c64-blue);
-            color: var(--c64-text);
-            font-family: 'VT323', monospace;
-            margin: 0;
-            padding: 10px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            text-transform: uppercase;
-            overflow-x: hidden;
-        }
+        /* === GLOBAL RESET === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--c64-blue);
+            color: var(--c64-text);
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            text-transform: uppercase;
+            overflow-x: hidden;
+        }
 
-        /* === CRT EFFECT === */
-        .crt-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none; z-index: 999;
-        }
+        /* === CRT EFFECT === */
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none; z-index: 999;
+        }
 
-        /* === LOADING OVERLAY (POSITIONED AT TOP) === */
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--c64-blue); z-index: 2000;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            padding-top: 50px; 
-        }
-        
-        .loading-text { 
-            font-size: 2.5rem; 
-            color: #fff; 
-            margin-bottom: 10px; 
-            animation: blink 1s infinite; 
-            text-shadow: 4px 4px #000;
-        }
-        
-        .progress-bar { 
-            width: 90%; 
-            max-width: 600px;
-            height: 30px; 
-            border: 4px solid #fff; 
-            background: #000;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
-        }
-        
-        .progress-fill { 
-            width: 0%; 
-            height: 100%; 
-            background: var(--c64-light-blue); 
-            transition: width 0.2s; 
-        }
-        
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        /* === LOADING OVERLAY (POSITIONED AT TOP) === */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--c64-blue); z-index: 2000;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            /* Moves content to the top */
+            justify-content: flex-start; 
+            /* Small buffer from the very top edge */
+            padding-top: 50px; 
+            /* FIX: Restore default pointer */
+            cursor: default !important;
+        }
+        
+        .loading-text { 
+            font-size: 2.5rem; 
+            color: #fff; 
+            margin-bottom: 10px; 
+            animation: blink 1s infinite; 
+            text-shadow: 4px 4px #000;
+        }
+        
+        .progress-bar { 
+            width: 90%; 
+            max-width: 600px;
+            height: 30px; 
+            border: 4px solid #fff; 
+            background: #000;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+        }
+        
+        .progress-fill { 
+            width: 0%; 
+            height: 100%; 
+            background: var(--c64-light-blue); 
+            transition: width 0.2s; 
+        }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        /* === CONTAINER === */
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            border: 4px solid var(--c64-light-blue);
-            background-color: var(--c64-blue);
-            padding: 15px;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            margin-top: 10px;
-            margin-bottom: 20px;
-            margin-left: auto; margin-right: auto;
-        }
+        /* === CONTAINER === */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            border: 4px solid var(--c64-light-blue);
+            background-color: var(--c64-blue);
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-top: 10px;
+            margin-bottom: 20px;
+            margin-left: auto; margin-right: auto;
+        }
 
-        /* === TYPOGRAPHY === */
-        h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
-        h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
-        p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
-        a { color: #fff; text-decoration: none; cursor: pointer; }
-        a:hover { text-decoration: underline; }
+        /* === TYPOGRAPHY === */
+        h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
+        h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
+        p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
+        a { color: #fff; text-decoration: none; cursor: pointer; }
+        a:hover { text-decoration: underline; }
 
-        /* === HEADER & NAV === */
-        .commodore-header {
-            text-align: center; margin-bottom: 20px;
-            border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
-        }
-        .nav-bar {
-            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
-            margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
-        }
-        .nav-link { font-size: 1.2rem; color: var(--c64-text); white-space: nowrap; }
-        .nav-link:hover { color: #fff; }
+        /* === HEADER & NAV === */
+        .commodore-header {
+            text-align: center; margin-bottom: 20px;
+            border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
+        }
+        .nav-bar {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
+        }
+        .nav-link { font-size: 1.2rem; color: var(--c64-text); white-space: nowrap; }
+        .nav-link:hover { color: #fff; }
 
-        /* === PLATFORM TOGGLES === */
-        .platform-toggles {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;
-        }
-        .platform-btn {
-            background: var(--c64-blue); color: var(--c64-text);
-            border: 2px solid var(--c64-light-blue);
-            padding: 8px 20px; cursor: pointer; font-family: 'VT323'; font-size: 1.4rem;
-            transition: all 0.2s;
-        }
-        .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
-        .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
+        /* === PLATFORM TOGGLES === */
+        .platform-toggles {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;
+        }
+        .platform-btn {
+            background: var(--c64-blue); color: var(--c64-text);
+            border: 2px solid var(--c64-light-blue);
+            padding: 8px 20px; cursor: pointer; font-family: 'VT323'; font-size: 1.4rem;
+            transition: all 0.2s;
+        }
+        .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
+        .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
 
-        /* === SEARCH & ACTIONS === */
-        .search-container { margin-bottom: 20px; text-align: center; }
-        .search-box {
-            width: 100%; max-width: 500px;
-            padding: 10px; font-size: 1.4rem;
-            background: #000; color: var(--c64-text);
-            border: 2px solid var(--c64-light-blue);
-            font-family: 'VT323'; text-transform: uppercase;
-        }
-        .search-results-count { margin-top: 5px; color: #fff; }
+        /* === SEARCH & ACTIONS === */
+        .search-container { margin-bottom: 20px; text-align: center; }
+        .search-box {
+            width: 100%; max-width: 500px;
+            padding: 10px; font-size: 1.4rem;
+            background: #000; color: var(--c64-text);
+            border: 2px solid var(--c64-light-blue);
+            font-family: 'VT323'; text-transform: uppercase;
+        }
+        .search-results-count { margin-top: 5px; color: #fff; }
 
-        .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .quick-btn {
-            background: var(--c64-blue); color: #fff;
-            border: 1px solid var(--c64-light-blue); padding: 5px 15px;
-            cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
-        }
-        .quick-btn:hover { background: var(--c64-light-blue); }
+        .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .quick-btn {
+            background: var(--c64-blue); color: #fff;
+            border: 1px solid var(--c64-light-blue); padding: 5px 15px;
+            cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
+        }
+        .quick-btn:hover { background: var(--c64-light-blue); }
 
-        /* === GAME LIST (Accordion) === */
-        .section { margin-bottom: 10px; }
-        .section h2 {
-            cursor: pointer; background: var(--c64-light-blue); color: #fff;
-            padding: 10px; margin: 0; border: 2px solid #fff;
-            display: flex; justify-content: space-between; font-size: 1.5rem;
-            border-bottom: none; 
-        }
-        .section h2:hover { background: #fff; color: var(--c64-blue); }
-        
-        .games { display: none; border: 2px solid var(--c64-light-blue); border-top: none; background: rgba(0,0,0,0.3); }
-        
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 10px; border-bottom: 1px solid var(--c64-light-blue); color: var(--c64-text); font-size: 1.2rem; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: rgba(255,255,255,0.1); color: #fff; }
+        /* === GAME LIST (Accordion) === */
+        .section { margin-bottom: 10px; }
+        .section h2 {
+            cursor: pointer; background: var(--c64-light-blue); color: #fff;
+            padding: 10px; margin: 0; border: 2px solid #fff;
+            display: flex; justify-content: space-between; font-size: 1.5rem;
+            border-bottom: none; 
+        }
+        .section h2:hover { background: #fff; color: var(--c64-blue); }
+        
+        .games { display: none; border: 2px solid var(--c64-light-blue); border-top: none; background: rgba(0,0,0,0.3); }
+        
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 10px; border-bottom: 1px solid var(--c64-light-blue); color: var(--c64-text); font-size: 1.2rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.1); color: #fff; }
 
-        .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
-        .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
-        .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
+        .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
+        .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
+        .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
         
         /* New Link Styling for Game Details/Downloads */
         .game-links-cell {
@@ -200,317 +204,321 @@
         }
         .game-link-btn:hover { background: var(--c64-light-blue); }
 
-        /* === FOOTER === */
-        .sitemap-container {
-            border-top: 1px solid var(--c64-light-blue);
-            padding-top: 20px; text-align: center; margin-top: 40px;
-        }
-        .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
-        .sitemap-links a:hover { color: #fff; text-decoration: underline; }
+        /* === FOOTER === */
+        .sitemap-container {
+            border-top: 1px solid var(--c64-light-blue);
+            padding-top: 20px; text-align: center; margin-top: 40px;
+        }
+        .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
+        .sitemap-links a:hover { color: #fff; text-decoration: underline; }
 
-        /* === BACK TO TOP === */
-        #back-to-top {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--c64-light-blue); color: #fff;
-            border: 2px solid #fff; padding: 10px;
-            font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
-        }
+        /* === BACK TO TOP === */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--c64-light-blue); color: #fff;
+            border: 2px solid #fff; padding: 10px;
+            font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
+        }
 
-        /* === RESPONSIVE === */
-        @media (max-width: 600px) {
-            body { padding: 0; }
-            .container { padding: 10px 5px; margin-top: 15px; width: 100%; border-width: 2px; box-sizing: border-box; }
-            
-            .nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; justify-items: center; }
-            .nav-link { font-size: 1.1rem; padding: 5px; }
-            
-            .platform-toggles { gap: 5px; }
-            .platform-btn { padding: 5px 10px; font-size: 1.2rem; flex: 1; text-align: center; }
-            
-            .quick-actions { gap: 5px; }
-            .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
-            
-            td { padding: 8px; font-size: 1.1rem; }
-            .badge { display: none; } 
-        }
-    </style>
+        /* === RESPONSIVE === */
+        @media (max-width: 600px) {
+            body { padding: 0; }
+            .container { padding: 10px 5px; margin-top: 15px; width: 100%; border-width: 2px; box-sizing: border-box; }
+            
+            .nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; justify-items: center; }
+            .nav-link { font-size: 1.1rem; padding: 5px; }
+            
+            .platform-toggles { gap: 5px; }
+            .platform-btn { padding: 5px 10px; font-size: 1.2rem; flex: 1; text-align: center; }
+            
+            .quick-actions { gap: 5px; }
+            .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
+            
+            td { padding: 8px; font-size: 1.1rem; }
+            .badge { display: none; } 
+        }
+    </style>
 </head>
 <body>
 
-    <div class="crt-overlay"></div>
+    <div class="crt-overlay"></div>
 
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-text">LOADING DATABASE...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-    </div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text">LOADING DATABASE...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
 
-    <div class="container" id="top">
-        <div class="commodore-header">
-            <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
-            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
-            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
-            
-            <div class="nav-bar">
-                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
-                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
-                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
-                <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
-                <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
-            </div>
-        </div>
+    <div class="container" id="top">
+        <div class="commodore-header">
+            <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
+            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
+            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
+            
+            <div class="nav-bar">
+                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
+                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
+                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
+                <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
+                <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
+            </div>
+        </div>
 
-        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
-        
-        <div class="platform-toggles">
-            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
-            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
-            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
-        </div>
+        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
+        
+        <div class="platform-toggles">
+            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
+            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
+            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
+        </div>
 
-        <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
-            <div class="search-results-count" id="statsDisplay">LOADING DATA...</div>
-        </div>
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
+            <div class="search-results-count" id="statsDisplay">LOADING DATA...</div>
+        </div>
 
-        <div class="quick-actions">
-            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
-            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
-            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
-        </div>
+        <div class="quick-actions">
+            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
+            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
+            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
+        </div>
 
-        <div id="playlist-container"></div>
+        <div id="playlist-container"></div>
 
-        <div class="sitemap-container">
-            <h2>EXPLORE MORE</h2>
-            <div class="sitemap-links">
-                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
-                <a href="/cheekycommodoregamer.github.io/games" class="play-sound">GAMES BY GENRE</a>
-                <a href="/cheekycommodoregamer.github.io/games/top-picks.html" class="play-sound">TOP PICKS</a>
-                <a href="/cheekycommodoregamer.github.io/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
-                <a href="/cheekycommodoregamer.github.io/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
-                <a href="/cheekycommodoregamer.github.io/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
-                <a href="/cheekycommodoregamer.github.io/games/adventure-games.html" class="play-sound">ADVENTURE</a>
-                <a href="/cheekycommodoregamer.github.io/games/arcade.html" class="play-sound">ARCADE</a>
-                <a href="/cheekycommodoregamer.github.io/games/fighting.html" class="play-sound">FIGHTING</a>
-                <a href="/cheekycommodoregamer.github.io/games/casino.html" class="play-sound">CASINO</a>
-                <a href="/cheekycommodoregamer.github.io/games/horror.html" class="play-sound">HORROR</a>
-                <a href="/cheekycommodoregamer.github.io/games/licensed-games.html" class="play-sound">LICENSED</a>
-                <a href="/cheekycommodoregamer.github.io/games/platform.html" class="play-sound">PLATFORM</a>
-                <a href="/cheekycommodoregamer.github.io/games/puzzle-games.html" class="play-sound">PUZZLE</a>
-                <a href="/cheekycommodoregamer.github.io/games/quiz-games.html" class="play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/games/racing.html" class="play-sound">RACING</a>
-                <a href="/cheekycommodoregamer.github.io/games/rpg.html" class="play-sound">RPG</a>
-                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
-                <a href="/cheekycommodoregamer.github.io/games/sports.html" class="play-sound">SPORTS</a>
-                <a href="/cheekycommodoregamer.github.io/games/strategy.html" class="play-sound">STRATEGY</a>
-                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="play-sound">QUIZ</a>
-                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="play-sound">EVENTS</a>
-                <a href="/cheekycommodoregamer.github.io/emulator-guide.html" class="play-sound">EMULATION</a>
-                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="play-sound">FULL INDEX</a>
-                <a href="/cheekycommodoregamer.github.io/about.html" class="play-sound">ABOUT ME</a>
-                <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
-            </div>
-        </div>
+        <div class="sitemap-container">
+            <h2>EXPLORE MORE</h2>
+            <div class="sitemap-links">
+                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
+                <a href="/cheekycommodoregamer.github.io/games" class="play-sound">GAMES BY GENRE</a>
+                <a href="/cheekycommodoregamer.github.io/games/top-picks.html" class="play-sound">TOP PICKS</a>
+                <a href="/cheekycommodoregamer.github.io/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
+                <a href="/cheekycommodoregamer.github.io/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
+                <a href="/cheekycommodoregamer.github.io/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
+                <a href="/cheekycommodoregamer.github.io/games/adventure-games.html" class="play-sound">ADVENTURE</a>
+                <a href="/cheekycommodoregamer.github.io/games/arcade.html" class="play-sound">ARCADE</a>
+                <a href="/cheekycommodoregamer.github.io/games/fighting.html" class="play-sound">FIGHTING</a>
+                <a href="/cheekycommodoregamer.github.io/games/casino.html" class="play-sound">CASINO</a>
+                <a href="/cheekycommodoregamer.github.io/games/horror.html" class="play-sound">HORROR</a>
+                <a href="/cheekycommodoregamer.github.io/games/licensed-games.html" class="play-sound">LICENSED</a>
+                <a href="/cheekycommodoregamer.github.io/games/platform.html" class="play-sound">PLATFORM</a>
+                <a href="/cheekycommodoregamer.github.io/games/puzzle-games.html" class="play-sound">PUZZLE</a>
+                <a href="/cheekycommodoregamer.github.io/games/quiz-games.html" class="play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/games/racing.html" class="play-sound">RACING</a>
+                <a href="/cheekycommodoregamer.github.io/games/rpg.html" class="play-sound">RPG</a>
+                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
+                <a href="/cheekycommodoregamer.github.io/games/sports.html" class="play-sound">SPORTS</a>
+                <a href="/cheekycommodoregamer.github.io/games/strategy.html" class="play-sound">STRATEGY</a>
+                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="play-sound">EVENTS</a>
+                <a href="/cheekycommodoregamer.github.io/emulator-guide.html" class="play-sound">EMULATION</a>
+                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="play-sound">FULL INDEX</a>
+                <a href="/cheekycommodoregamer.github.io/about.html" class="play-sound">ABOUT ME</a>
+                <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
+            </div>
+        </div>
         
         <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
-            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-patreon"></i> PATREON</a>
-            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
-            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
-            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-discord"></i> DISCORD</a>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound" style="background:#5865F2; border-color:#fff;"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound" style="background:#0070BA; border-color:#fff;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
         </div>
 
-    </div>
 
-    <button id="back-to-top" class="play-sound">↑</button>
+    </div>
 
-    <script>
+    <button id="back-to-top" class="play-sound">↑</button>
+
+    <script>
         // MASTER CSV: Includes all data required for the game list
-        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
-        
-        let allGames = [];
-        let currentPlatform = 'all';
+        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
+        
+        let allGames = [];
+        let currentPlatform = 'all';
 
-        // Sound
-        function playClickSound(){
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const o = ctx.createOscillator(), g = ctx.createGain();
-                o.connect(g); g.connect(ctx.destination);
-                o.type = 'square';
-                o.frequency.setValueAtTime(150, ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
-                g.gain.setValueAtTime(0.1, ctx.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                o.start(); o.stop(ctx.currentTime + 0.1);
-            } catch(e) {}
-        }
-        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
+        // Sound
+        function playClickSound(){
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator(), g = ctx.createGain();
+                o.connect(g); g.connect(ctx.destination);
+                o.type = 'square';
+                o.frequency.setValueAtTime(150, ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                o.start(); o.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
+        }
+        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
 
-        // Back to Top
-        const btt = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        // Back to Top
+        const btt = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-        // Loading & Data Fetching
-        async function fetchAllGames() {
-            const progressFill = document.getElementById("progressFill");
-            const overlay = document.getElementById("loadingOverlay");
-            
-            try {
-                const response = await fetch(CSV_DATA_URL);
-                const csvText = await response.text();
+        // Loading & Data Fetching
+        async function fetchAllGames() {
+            const progressFill = document.getElementById("progressFill");
+            const overlay = document.getElementById("loadingOverlay");
+            
+            try {
+                const response = await fetch(CSV_DATA_URL);
+                const csvText = await response.text();
 
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        // Process and store all game data, including new link fields
-                        allGames = results.data.map(g => ({
-                            title: g.gametitle || '',
-                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
-                            platform: (g.platform || '').toLowerCase().includes('amiga') ? 'Amiga' : 'C64',
-                            lemon: g.lemonlinks || '',
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        // Process and store all game data, including new link fields
+                        allGames = results.data.map(g => ({
+                            title: g.gametitle || '',
+                            // Use direct YouTube link structure
+                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
+                            platform: (g.platform || '').toLowerCase().includes('amiga') ? 'Amiga' : 'C64',
+                            // IMPORTANT: Ensure column names match your Google Sheet exactly
+                            lemon: g.lemonlinks || '', 
                             pdf: g.pdflink || '',
                             disk: g.disklinks || '',
-                            sortKey: (g.gametitle || '').replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
-                        })).filter(g => g.title); 
+                            sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
+                        })).filter(g => g.title); 
 
-                        progressFill.style.width = "100%";
-                        
-                        setTimeout(() => {
-                            overlay.style.opacity = "0";
-                            setTimeout(() => overlay.style.display = "none", 500);
-                            renderGames();
-                        }, 500);
-                    }
-                });
-                
-            } catch (err) {
-                document.querySelector('.loading-text').textContent = "LOAD ERROR.";
-            }
-        }
+                        progressFill.style.width = "100%";
+                        
+                        // Hide loading screen and render games
+                        setTimeout(() => {
+                            overlay.style.opacity = "0";
+                            setTimeout(() => overlay.style.display = "none", 500);
+                            renderGames();
+                        }, 500);
+                    }
+                });
+                
+            } catch (err) {
+                document.querySelector('.loading-text').textContent = "LOAD ERROR.";
+            }
+        }
 
-        // Dummy progress update for visual effect during long data fetch
-        const interval = setInterval(() => {
-            let currWidth = parseFloat(document.getElementById("progressFill").style.width) || 0;
-            if (currWidth < 90) {
-                document.getElementById("progressFill").style.width = (currWidth + 5) + "%";
-            } else {
-                clearInterval(interval);
-            }
-        }, 200);
+        // Dummy progress update for visual effect during long data fetch
+        const interval = setInterval(() => {
+            let currWidth = parseFloat(document.getElementById("progressFill").style.width) || 0;
+            if (currWidth < 90) {
+                document.getElementById("progressFill").style.width = (currWidth + 5) + "%";
+            } else {
+                clearInterval(interval);
+            }
+        }, 200);
 
-        function filterPlatform(platform) {
-            playClickSound();
-            currentPlatform = platform;
-            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.p-${platform}`).classList.add('active');
-            renderGames(document.getElementById("searchBox").value.trim());
-        }
+        function filterPlatform(platform) {
+            playClickSound();
+            currentPlatform = platform;
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.p-${platform}`).classList.add('active');
+            renderGames(document.getElementById("searchBox").value.trim());
+        }
 
-        function renderGames(filterText = "") {
-            const container = document.getElementById("playlist-container");
-            container.innerHTML = "";
-            
-            let filtered = allGames;
-            
-            if (currentPlatform !== 'all') {
-                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform.toLowerCase());
-            }
-            
-            if (filterText) {
-                const lowerFilter = filterText.toLowerCase();
-                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
-            }
-            
-            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
+        function renderGames(filterText = "") {
+            const container = document.getElementById("playlist-container");
+            container.innerHTML = "";
+            
+            let filtered = allGames;
+            
+            if (currentPlatform !== 'all') {
+                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform.toLowerCase());
+            }
+            
+            if (filterText) {
+                const lowerFilter = filterText.toLowerCase();
+                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
+            }
+            
+            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
 
-            // Sorting & Grouping
-            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
-            
-            const sections = {};
-            filtered.forEach(g => {
-                let letter = g.sortKey.charAt(0);
-                if (!/[A-Z]/.test(letter)) letter = "#";
-                if (!sections[letter]) sections[letter] = [];
-                sections[letter].push(g);
-            });
+            // Sorting & Grouping
+            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+            
+            const sections = {};
+            filtered.forEach(g => {
+                let letter = g.sortKey.charAt(0);
+                if (!/[A-Z]/.test(letter)) letter = "#";
+                if (!sections[letter]) sections[letter] = [];
+                sections[letter].push(g);
+            });
 
-            // Build HTML
-            Object.keys(sections).sort().forEach(letter => {
-                const section = document.createElement("div");
-                section.className = "section";
-                
-                const h2 = document.createElement("h2");
-                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
-                h2.onclick = () => {
-                    playClickSound();
-                    const content = h2.nextElementSibling;
-                    content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none";
-                };
-                
-                const gamesDiv = document.createElement("div");
-                gamesDiv.className = "games";
-                
-                const table = document.createElement("table");
-                sections[letter].forEach(game => {
-                    const tr = document.createElement("tr");
-                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
+            // Build HTML
+            Object.keys(sections).sort().forEach(letter => {
+                const section = document.createElement("div");
+                section.className = "section";
+                
+                const h2 = document.createElement("h2");
+                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
+                h2.onclick = () => {
+                    playClickSound();
+                    const content = h2.nextElementSibling;
+                    content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none";
+                };
+                
+                const gamesDiv = document.createElement("div");
+                gamesDiv.className = "games";
+                
+                const table = document.createElement("table");
+                sections[letter].forEach(game => {
+                    const tr = document.createElement("tr");
+                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
                     
                     // Build the external links section
                     let linksHtml = '';
                     if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="game-link-btn play-sound">LEMON</a>`;
                     if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="game-link-btn play-sound">PDF</a>`;
                     if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
-                    
-                    tr.innerHTML = `
-                        <td style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                            <div>
-                                <span class="badge ${badgeClass}">${game.platform}</span>
-                                <span>${game.title}</span>
-                            </div>
-                            <div class="game-links-cell">
-                                <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
-                                ${linksHtml}
-                            </div>
-                        </td>
-                    `;
-                    table.appendChild(tr);
-                });
-                
-                gamesDiv.appendChild(table);
-                section.appendChild(h2);
-                section.appendChild(gamesDiv);
-                container.appendChild(section);
-            });
-        }
+                    
+                    tr.innerHTML = `
+                        <td style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                            <div>
+                                <span class="badge ${badgeClass}">${game.platform}</span>
+                                <span>${game.title}</span>
+                            </div>
+                                <div class="game-links-cell">
+                                    <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
+                                    ${linksHtml}
+                                </div>
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                });
+                
+                gamesDiv.appendChild(table);
+                section.appendChild(h2);
+                section.appendChild(gamesDiv);
+                container.appendChild(section);
+            });
+        }
 
-        document.getElementById("searchBox").addEventListener("input", (e) => {
-            renderGames(e.target.value.trim());
-        });
+        document.getElementById("searchBox").addEventListener("input", (e) => {
+            renderGames(e.target.value.trim());
+        });
 
-        document.getElementById("expandAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
-        };
-        document.getElementById("collapseAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
-        };
+        document.getElementById("expandAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
+        };
+        document.getElementById("collapseAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
+        };
 
-        document.getElementById("randomGame").onclick = () => {
-            playClickSound();
-            if (allGames.length === 0) return;
-            const random = allGames[Math.floor(Math.random() * allGames.length)];
-            window.open(random.url, '_blank');
-        };
+        document.getElementById("randomGame").onclick = () => {
+            playClickSound();
+            if (allGames.length === 0) return;
+            const random = allGames[Math.floor(Math.random() * allGames.length)];
+            window.open(random.url, '_blank');
+        };
 
-        document.addEventListener('DOMContentLoaded', fetchAllGames);
-    </script>
+        document.addEventListener('DOMContentLoaded', fetchAllGames);
+    </script>
 </body>
 </html>
