@@ -1,38 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>About Us | Cheeky Commodore Gamer</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky Commodore Gamer - About Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <style>
+        /* === C64 THEME VARIABLES === */
+        :root {
+            --c64-blue: #352879;
+            --c64-light-blue: #6c5eb5;
+            --c64-text: #b8c76f;
+            --c64-red: #880000;
+            --c64-green: #55cc55;
+        }
+
+        /* === GLOBAL RESET === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--c64-blue);
+            color: var(--c64-text);
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            text-transform: uppercase;
+            overflow-x: hidden;
+        }
+
+        /* === CRT EFFECT === */
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none; z-index: 999;
+        }
+
+        /* === CONTAINER === */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            border: 4px solid var(--c64-light-blue);
+            background-color: var(--c64-blue);
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-top: 10px;
+            margin-bottom: 20px;
+            margin-left: auto; margin-right: auto;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
+        h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; margin-top: 20px;}
+        p { font-size: 1.2rem; margin-bottom: 15px; text-align: justify; line-height: 1.4; color: var(--c64-text); }
+        a { color: #fff; text-decoration: none; cursor: pointer; }
+        a:hover { text-decoration: underline; }
+        
+        strong { color: #fff; font-weight: normal; }
+
+        /* === HEADER & NAV === */
+        .commodore-header {
+            text-align: center; margin-bottom: 20px;
+            border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
+        }
+        .header-bytes-free { /* Centralized text */
+            text-align: center;
+            margin: 5px 0 10px;
+            font-size: 1.1rem;
+        }
+        .nav-bar {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
+        }
+        .nav-link { font-size: 1.2rem; color: var(--c64-text); white-space: nowrap; }
+        .nav-link:hover { color: #fff; }
+
+        /* === CONTENT BOX === */
+        .about-content-box {
+            border: 2px solid var(--c64-light-blue);
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* === AUDIO PLAYER === */
+        .audio-player-wrapper {
+            text-align: center;
+            margin: 20px auto;
+            border: 2px solid var(--c64-light-blue);
+            padding: 10px;
+            max-width: 400px;
+            background: #000;
+        }
+        .audio-player-iframe { width: 100%; height: 50px; border: none; }
+        .audio-player-caption { color: #fff; margin-top: 5px; font-size: 1rem; }
+
+        /* === IMAGE GRIDS === */
+        .image-grid-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .image-grid-small img {
+            width: 100%; height: auto;
+            border: 2px solid var(--c64-light-blue);
+        }
+
+        .image-grid-captioned {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .image-grid-captioned figure { margin: 0; text-align: center; }
+        .image-grid-captioned img {
+            width: 100%; height: auto;
+            border: 2px solid var(--c64-light-blue);
+        }
+        figcaption { color: #fff; margin-top: 5px; font-size: 1rem; }
+
+        /* === SINGLE FIGURE / IMAGE === */
+        .content-image-figure {
+            margin: 25px auto;
+            padding: 0;
+            max-width: 100%; /* Ensure it doesn't overflow */
+            text-align: center;
+        }
+        .content-image-figure img {
+            width: 100%;
+            height: auto;
+            border: 2px solid var(--c64-light-blue);
+            display: block; /* Remove extra space below image */
+            margin: 0 auto; /* Center image */
+        }
+        .content-image-figure.large-image {
+            max-width: 600px; /* Make specific figures larger */
+        }
+
+
+        /* === FLOATING IMAGES === */
+        .img-float-right { float: right; margin: 0 0 10px 20px; max-width: 40%; }
+        .img-float-left { float: left; margin: 0 20px 10px 0; max-width: 40%; }
+        .content-image { width: 100%; border: 2px solid var(--c64-light-blue); }
+        .clearfix { clear: both; }
+
+        /* === SEPARATORS === */
+        hr { border: 0; border-top: 1px dashed var(--c64-light-blue); margin: 20px 0; }
+
+        /* === BACK BUTTON === */
+        .content-button-row {
+            display: flex; justify-content: center; margin: 20px 0;
+        }
+        .btn-large {
+            background: var(--c64-light-blue); color: #fff;
+            border: 2px solid #fff; padding: 10px 20px;
+            font-family: 'VT323', monospace; font-size: 1.5rem;
+            cursor: pointer; text-decoration: none; display: inline-block;
+        }
+        .btn-large:hover { background: #fff; color: var(--c64-blue); text-decoration: none; }
+
+        /* === SOCIALS GRID === */
+        .btn-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px; margin-bottom: 20px;
+        }
+        .btn-retro {
+            background: var(--c64-light-blue); color: #fff;
+            border: 2px solid #fff; padding: 10px;
+            font-family: 'VT323', monospace; font-size: 1.2rem;
+            cursor: pointer; text-align: center; display: block;
+        }
+        .btn-retro:hover { background: #fff; color: var(--c64-blue); text-decoration: none; }
+
+        /* === INFO LIST === */
+        .info-list { list-style: none; padding: 0; }
+        .info-list li { margin-bottom: 5px; }
+
+        /* === FOOTER === */
+        .sitemap-container {
+            border-top: 1px solid var(--c64-light-blue);
+            padding-top: 20px; text-align: center; margin-top: 40px;
+        }
+        .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
+        .sitemap-links a:hover { color: #fff; text-decoration: underline; }
+
+        /* === BACK TO TOP === */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--c64-light-blue); color: #fff;
+            border: 2px solid #fff; padding: 10px;
+            font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
+        }
+
+        /* === RESPONSIVE MOBILE FIXES === */
+        @media (max-width: 600px) {
+            body { padding: 0; }
+            .container { 
+                padding: 10px 5px; 
+                margin-top: 5px; 
+                width: 100%; 
+                border-width: 2px; 
+                box-sizing: border-box;
+            }
+            
+            /* 3-COLUMN NAV GRID */
+            .nav-bar { 
+                display: grid; 
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px; 
+                justify-items: center;
+            }
+            .nav-link { font-size: 1.1rem; padding: 5px; }
+            
+            /* Stack Floating Images */
+            .img-float-right, .img-float-left {
+                float: none;
+                margin: 10px auto;
+                max-width: 100%;
+                display: block;
+            }
+
+            .btn-grid { grid-template-columns: 1fr; }
+            
+            .audio-player-wrapper { max-width: 100%; }
+        }
+    </style>
 </head>
-<body class="c64-mode">
+<body>
 
-    <div id="global-header-container"></div>
+    <div class="crt-overlay"></div>
 
-    <div class="container">
-        <h1>ABOUT US</h1>
-        <h2>PRESERVING 8-BIT & 16-BIT HISTORY</h2>
+    <div class="container" id="top">
+        <div class="commodore-header">
+            <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Logo" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
+            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
+            <p class="header-bytes-free">64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
+            
+            <div class="nav-bar">
+                                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
+                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
+                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
+                <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
+                <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
+            </div>
+        </div>
 
-        <div style="text-align: center; padding: 20px; font-size: 1.3rem; line-height: 1.6;">
-            <p>WELCOME TO CHEEKY COMMODORE GAMER.</p>
-            <br>
-            <p>We are dedicated to the golden age of computing.</p>
-            <p>From the beige breadbin C64 to the powerhouse Amiga 500.</p>
-            <p>Explore our database, watch the reviews, and test your knowledge.</p>
-            <br>
-            <p style="color: var(--c64-light-blue);">PRESS PLAY ON TAPE.</p>
-        </div>
+        <h1>ABOUT ME</h1>
 
-        <div class="btn-grid" style="margin-top:30px;">
-            <a href="index.html" class="btn-retro play-sound">BACK TO HOME</a>
-        </div>
-    </div>
+        <div class="content-button-row">
+                          <a href="/cheekycommodoregamer.github.io/games" class="btn-large play-sound">
+                <i class="fa-solid fa-house"></i> BACK TO GAMES HOME
+            </a>
+        </div>
+        
+        <div class="about-content-box">
+            <h2>ABOUT CHEEKY COMMODORE GAMER</h2>
+            
+            <div class="audio-player-wrapper">
+                <iframe src="https://drive.google.com/file/d/1dtw9gMzwhP9n9wlQwrxyQhq4IO75sfgT/preview" class="audio-player-iframe" allow="autoplay"></iframe>
+                <div class="audio-player-caption">MY FAVOURITE SID TRACK OF ALL TIME</div>
+            </div>
 
-    <script src="js/global.js"></script>
+            <figure class="img-float-left">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/Screenshot%202025-11-09%20020153.png" alt="Joe and Dave" class="content-image">
+                <figcaption>ME (LEFT) & BROTHER DAVE (RIGHT)</figcaption>
+            </figure>
+
+            <p>WELCOME TO THE <strong>RETRO</strong> GAMING WORLD OF CHEEKY COMMODORE GAMER! MY NAME IS JOE, AND I'VE BEEN JOYSTICK-DEEP IN RETRO GAMING SINCE I WAS BARELY OUT OF NAPPIES (OR DIAPERS, FOR MY US FRIENDS).</p>
+            
+            <p>IT ALL STARTED IN THE 80s WITH MY BROTHER, DAVE. WHILE MOST KIDS WERE ARGUING OVER THE ZX SPECTRUM, DAVE MADE THE BOLD CHOICE TO GO FOR THE <strong>COMMODORE 64</strong>. HE PAINSTAKINGLY SAVED EVERY PENNY FROM HIS PAPER ROUND DELIVERY MONEY TO AFFORD IT. HE EVEN SAVED UP FOR THE <strong>1530 DATASETTE</strong> SO WE COULD LOAD CASSETTES INSTEAD OF CARTRIDGES.</p>
+
+            <p>THAT DECISION DEFINED MY CHILDHOOD. WE SPENT COUNTLESS HOURS WAITING FOR THOSE LOADING BARS TO FLASH, LISTENING TO THE SCREECHING TAPE NOISES, AND DIVING INTO 8-BIT WORLDS THAT FELT MAGICAL.</p>
+
+            <div class="clearfix"></div>
+            <hr>
+
+            <h2>THE BIRTH OF THE CHANNEL</h2>
+
+            <figure class="content-image-figure large-image">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/meandwife.png" alt="Me and wife" class="content-image">
+                <figcaption>ME & MY WIFE MICHELLE</figcaption>
+            </figure>
+
+            <p>FAST FORWARD A FEW DECADES, AND I'M LIVING IN LANCASHIRE WITH MY WIFE MICHELLE AND OUR CHILDREN. MICHELLE WORKS UNUSUAL SHIFTS, WHICH OFTEN LEFT ME WITH QUIET EVENINGS ALONE. RATHER THAN MINDLESSLY SCROLLING OR WATCHING TV, I DECIDED TO RECONNECT WITH MY PASSION.</p>
+
+            <p>I REALIZED THAT WHILE THERE WERE MANY CHANNELS TALKING ABOUT TECHNICAL SPECS AND CODING MINUTIAE, VERY FEW FOCUSED ON THE <strong>JOY</strong> OF THE GAMES THEMSELVES. I WANTED TO CAPTURE THAT FEELING OF NOSTALGIA—THE MEMORIES OF THE MUSIC, THE FRUSTRATION OF "GAME OVER", AND THE THRILL OF DISCOVERY.</p>
+            
+            <hr>
+
+            <h2>MEET THE TEAM (THE DOG)</h2>
+            
+            <p>OF COURSE, NO TEAM IS COMPLETE WITHOUT A MASCOT. INTRODUCING <strong>JONATHAN</strong>, OUR LABRADOR. YES, HIS NAME IS JONATHAN. DON'T ASK WHY.</p>
+            
+            <p>TRY CALLING "JONATHAN!" IN A BUSY PUBLIC PARK AND WATCH THE CONFUSED LOOKS FROM PASSERSBY WHO THINK YOU'RE SHOUTING AT THEIR HUSBAND. RINGING THE VET IS EVEN BETTER: "HELLO, I'D LIKE TO BOOK JONATHAN IN FOR HIS WORM TABLETS." IT NEVER GETS OLD!</p>
+
+            <div class="image-grid-small">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/jonathan2.jpg" alt="Jonathan">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/jonathan3.jpg" alt="Jonathan">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/jonathan4.jpg" alt="Jonathan">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/jonathan5.jpg" alt="Jonathan">
+            </div>
+
+            <hr>
+
+            <h2>WHY SUBSCRIBE?</h2>
+            
+            <figure class="img-float-right">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/johnromero.png" alt="With John Romero" class="content-image">
+                <figcaption>WITH JOHN ROMERO (DOOM)</figcaption>
+            </figure>
+            <p>I DIVE INTO THE HEART OF RETRO GAMING CULTURE. I'M CURRENTLY WORKING ON BUILDING A <strong>C64 GAME MUSEUM</strong> IN MY HOME, ONE CASSETTE AT A TIME. ON THIS CHANNEL, YOU CAN EXPECT:</p>
+
+            <ul class="info-list" style="list-style: circle inside;">
+                <li>HONEST REVIEWS OF CLASSIC C64 & AMIGA TITLES.</li>
+                <li>GAMEPLAY WALKTHROUGHS (SORT OF!).</li>
+                <li>AMUSING TALES OF MY MANY LIVESTREAM MISADVENTURES (LIKE MANIC MINER!).</li>
+                <li>INTERVIEWS WITH LEGENDS OF THE SCENE.</li>
+            </ul>
+            
+            <div class="clearfix"></div>
+            <hr>
+
+            <h2>JOIN THE REVOLUTION!</h2>
+            <div class="btn-grid">
+                <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound"><i class="fa-brands fa-youtube"></i> SUBSCRIBE</a>
+                <a href="https://patreon.com/CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound"><i class="fa-brands fa-patreon"></i> PATREON</a>
+                <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="btn-retro play-sound"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+                <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="btn-retro play-sound"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+                <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="btn-retro play-sound"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            </div>
+
+            <hr>
+            
+            <div class="image-grid-captioned">
+                <figure>
+                    <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/2023-10-07%2017.30.24.jpg" alt="Martyn Brown">
+                    <figcaption>WITH MARTYN BROWN (TEAM 17)</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/jimbagley.png" alt="Jim Bagley">
+                    <figcaption>JIM BAGLEY - VETERAN CODER</figcaption>
+                </figure>
+                <figure>
+                    <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/warrendavies.png" alt="Warren Davies">
+                    <figcaption>WARREN DAVIES (Q*BERT)</figcaption>
+                </figure>
+            </div>
+
+            <hr>
+
+            <h2>FUN FACTS</h2>
+            <ul class="info-list" style="list-style: circle inside;">
+                <li><strong>FAVORITE C64 GAME:</strong> PIRATES!</li>
+                <li><strong>FAVORITE AMIGA GAME:</strong> SECRET OF MONKEY ISLAND</li>
+                <li><strong>ARCADE OBSESSION:</strong> DOUBLE DRAGON</li>
+                <li><strong>DREAM PROJECT:</strong> TURN MY HOUSE INTO A C64 MUSEUM</li>
+            </ul>
+
+            <figure class="content-image-figure large-image">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/1.png" alt="Setup" class="content-image">
+                <figcaption>WHERE THE MAGIC HAPPENS - THE STUDIO</figcaption>
+            </figure>
+
+            <figure class="content-image-figure large-image">
+                <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/end_father.jpg" alt="Father" class="content-image">
+                <figcaption>ALL OF THIS IS DEDICATED TO MY FATHER</figcaption>
+            </figure>
+            
+            <p style="text-align:center; margin-top:20px; color: var(--c64-green);">UNTIL THEN.... BYE FOR NOW 😇🕹️👌</p>
+        </div>
+
+        <div class="sitemap-container">
+            <h2>EXPLORE MORE</h2>
+            <div class="sitemap-links">
+                                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
+                <a href="/cheekycommodoregamer.github.io/games" class="play-sound">GAMES BY GENRE</a>
+                <a href="/cheekycommodoregamer.github.io/games/top-picks.html" class="play-sound">TOP PICKS</a>
+                <a href="/cheekycommodoregamer.github.io/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
+                <a href="/cheekycommodoregamer.github.io/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
+                <a href="/cheekycommodoregamer.github.io/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
+                <a href="/cheekycommodoregamer.github.io/games/adventure-games.html" class="play-sound">ADVENTURE</a>
+                <a href="/cheekycommodoregamer.github.io/games/arcade.html" class="play-sound">ARCADE</a>
+                <a href="/cheekycommodoregamer.github.io/games/fighting.html" class="play-sound">FIGHTING</a>
+                <a href="/cheekycommodoregamer.github.io/games/casino.html" class="play-sound">CASINO</a>
+                <a href="/cheekycommodoregamer.github.io/games/horror.html" class="play-sound">HORROR</a>
+                <a href="/cheekycommodoregamer.github.io/games/licensed-games.html" class="play-sound">LICENSED</a>
+                <a href="/cheekycommodoregamer.github.io/games/platform.html" class="play-sound">PLATFORM</a>
+                <a href="/cheekycommodoregamer.github.io/games/puzzle-games.html" class="play-sound">PUZZLE</a>
+                <a href="/cheekycommodoregamer.github.io/games/quiz-games.html" class="play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/games/racing.html" class="play-sound">RACING</a>
+                <a href="/cheekycommodoregamer.github.io/games/rpg.html" class="play-sound">RPG</a>
+                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
+                <a href="/cheekycommodoregamer.github.io/games/sports.html" class="play-sound">SPORTS</a>
+                <a href="/cheekycommodoregamer.github.io/games/strategy.html" class="play-sound">STRATEGY</a>
+                <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="play-sound">QUIZ</a>
+                <a href="/cheekycommodoregamer.github.io/retro-events.html" class="play-sound">EVENTS</a>
+                <a href="/cheekycommodoregamer.github.io/emulator-guide.html" class="play-sound">EMULATION</a>
+                <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="play-sound">FULL INDEX</a>
+                <a href="/cheekycommodoregamer.github.io/about.html" class="play-sound">ABOUT ME</a>
+                <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
+            </div>
+        </div>
+
+    </div>
+
+    <button id="back-to-top" class="play-sound">↑</button>
+
+    <script>
+        // --- SOUND EFFECT ---
+        const playClickSound = () => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator(), g = ctx.createGain();
+                o.connect(g); g.connect(ctx.destination);
+                o.type = 'square';
+                o.frequency.setValueAtTime(150, ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                o.start(); o.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
+        };
+        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
+
+        // --- BACK TO TOP ---
+        const btt = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    </script>
 </body>
 </html>
