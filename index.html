@@ -342,9 +342,7 @@
         </div>
 
         <div class="stats-box">
-            <span id="visitorCount">VISITORS: OFFLINE</span>
-            <span>|</span>
-            <span id="gamesCount">GAMES: 0</span>
+            <span>GAMES: 0</span>
         </div>
 
     </div>
@@ -427,13 +425,7 @@
             document.getElementById('loading-screen').style.display = 'flex';
             load(); 
             
-            // MOCK STATS FUNCTION: Actual stats fetching is removed
-            fetchStats();
-        }
-
-        // MOCK STATS FUNCTION: Since real tracking is removed, we mock the stats.
-        function fetchStats() {
-            document.getElementById('visitorCount').textContent = `VISITORS: OFFLINE`;
+            // NOTE: VISITOR COUNTER IS REMOVED
         }
 
         // --- SKIP LOADING ---
