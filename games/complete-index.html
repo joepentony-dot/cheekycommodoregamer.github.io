@@ -178,13 +178,29 @@
         .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
         .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
         .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
+        
+        /* New Link Styling for Game Details/Downloads */
+        .game-links-cell {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
 
-        .watch-btn {
-            background: var(--c64-light-blue); color: #fff;
-            border: 1px solid #fff; padding: 5px 10px;
-            text-decoration: none; font-size: 1rem;
-        }
-        .watch-btn:hover { background: #fff; color: var(--c64-blue); }
+        .game-link-btn {
+            background: var(--c64-blue); 
+            color: #fff;
+            border: 1px solid var(--c64-light-blue);
+            padding: 5px 10px;
+            text-decoration: none; 
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-shadow: none;
+            transition: background 0.2s;
+        }
+        .game-link-btn:hover { background: var(--c64-light-blue); }
 
         /* === FOOTER === */
         .sitemap-container {
@@ -239,7 +255,7 @@
             <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
             
             <div class="nav-bar">
-                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
+                                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
                 <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
                 <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
                 <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
@@ -272,7 +288,7 @@
         <div class="sitemap-container">
             <h2>EXPLORE MORE</h2>
             <div class="sitemap-links">
-                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
+                                <a href="/cheekycommodoregamer.github.io/index.html" class="play-sound">HOME</a>
                 <a href="/cheekycommodoregamer.github.io/games" class="play-sound">GAMES BY GENRE</a>
                 <a href="/cheekycommodoregamer.github.io/games/top-picks.html" class="play-sound">TOP PICKS</a>
                 <a href="/cheekycommodoregamer.github.io/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
@@ -300,12 +316,23 @@
                 <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
             </div>
         </div>
+        
+        <div class="social-strip" style="margin-top: 30px;">
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+        </div>
+
 
     </div>
 
     <button id="back-to-top" class="play-sound">↑</button>
 
     <script>
+        // MASTER CSV: Includes all data required for the game list
         const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
         
         let allGames = [];
@@ -345,13 +372,18 @@
                     header: true,
                     skipEmptyLines: true,
                     complete: function(results) {
-                        // Process and store all game data
+                        // Process and store all game data, including new link fields
                         allGames = results.data.map(g => ({
                             title: g.gametitle || '',
-                            url: `https://www.youtube.com/watch?v=${g.videoid}`,
+                            // Use direct YouTube link structure
+                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
                             platform: (g.platform || '').toLowerCase().includes('amiga') ? 'Amiga' : 'C64',
+                            // New link fields from the master database columns
+                            lemon: g.lemonlinks || '',
+                            pdf: g.pdflink || '',
+                            disk: g.disklinks || '',
                             sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
-                        })).filter(g => g.title); // Ensure valid titles
+                        })).filter(g => g.title); 
 
                         progressFill.style.width = "100%";
                         
@@ -435,14 +467,23 @@
                 sections[letter].forEach(game => {
                     const tr = document.createElement("tr");
                     const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
+                    
+                    // Build the external links section
+                    let linksHtml = '';
+                    if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="game-link-btn play-sound">LEMON</a>`;
+                    if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="game-link-btn play-sound">PDF</a>`;
+                    if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
                     
                     tr.innerHTML = `
-                        <td>
-                            <span class="badge ${badgeClass}">${game.platform}</span>
-                            <span>${game.title}</span>
-                        </td>
-                        <td style="text-align:right; width:80px;">
-                            <a href="${game.url}" target="_blank" class="watch-btn play-sound" onclick="playClickSound()">WATCH</a>
+                        <td style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                            <div>
+                                <span class="badge ${badgeClass}">${game.platform}</span>
+                                <span>${game.title}</span>
+                            </div>
+                                <div class="game-links-cell">
+                                    <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
+                                    ${linksHtml}
+                                </div>
                         </td>
                     `;
                     table.appendChild(tr);
