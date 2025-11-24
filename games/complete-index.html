@@ -109,6 +109,12 @@
         .pagination-btn.current { font-weight: bold; text-decoration: underline; }
         .pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; }
 
+        /* --- SEARCH BOX --- */
+        .search-wrapper { margin-bottom: 20px; display: flex; justify-content: center; }
+        .search-input { width: 100%; max-width: 500px; padding: 10px; font-size: 1.2rem; font-family: inherit; border: 2px solid; background: #000; color: #fff; text-transform: uppercase; }
+        body.c64-mode .search-input { border-color: var(--c64-light-blue); color: var(--c64-text); }
+        body.amiga-mode .search-input { border-color: var(--amiga-blue); background: #fff; color: #000; }
+
         /* --- EASTER EGGS (Hidden by default) --- */
         .secret-modal, #command-console, .d-pad-container, .fire-btn { display: none; } 
     </style>
@@ -124,6 +130,10 @@
         
         <h1 id="typewriter-text"><i class="fa-solid fa-list"></i> COMPLETE GAMES INDEX</h1>
         <h2><i class="fa-solid fa-database"></i> FULL ARCHIVE ACCESS</h2>
+
+        <div class="search-wrapper">
+            <input type="text" id="index-search" class="search-input" placeholder="TYPE TO FILTER GAMES..." onkeyup="filterGames()">
+        </div>
 
         <div class="info-box">
             <p>THE MASTER ARCHIVE. EVERY SINGLE TITLE IN THE CHEEKY COMMODORE GAMER DATABASE, SORTED ALPHABETICALLY.</p>
@@ -157,7 +167,7 @@
         const THIS_PAGE_GENRE = ""; 
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQWiuznK7CJeHvaMSAmdVyzDEdpeNQxXGjhqEzsvzLTV792D_B1B5pA55T6kV7maskDFkn0oU0CQ3JM/pub?gid=1584452405&single=true&output=csv";
         
-        let allGames = [], currentPage = 1, gamesPerPage = 48; // Higher count for index
+        let allGames = [], filteredGames = [], currentPage = 1, gamesPerPage = 48;
 
         // --- STARFIELD RESTORED ---
         const cvs = document.getElementById('starfield');
@@ -188,8 +198,7 @@
                 complete: results => {
                     const raw = results.data;
                     
-                    // Filter logic: If genre string is empty, return EVERYTHING
-                    // Otherwise check match
+                    // Load EVERYTHING that has a title
                     allGames = raw.map(g => ({
                         title: g.gametitle||'', genre: g.genre||'', videoID: g.videoid||'',
                         lemonLinks: g.lemonlinks||'', thumbLink: g.thumblink||'', 
@@ -197,6 +206,8 @@
                         sortTitle: g.sorttitle||g.gametitle||''
                     })).filter(g => g.title)
                       .sort((a,b) => a.sortTitle.localeCompare(b.sortTitle));
+                    
+                    filteredGames = allGames; // Initially show all
 
                     if(allGames.length > 0) renderPage(1);
                     else document.getElementById('game-list-container').innerHTML = "<p>NO GAMES FOUND.</p>";
@@ -204,13 +215,25 @@
             });
         });
 
+        // --- SEARCH FILTER LOGIC ---
+        function filterGames() {
+            const query = document.getElementById('index-search').value.toLowerCase();
+            filteredGames = allGames.filter(g => g.title.toLowerCase().includes(query));
+            renderPage(1); // Reset to page 1 on new search
+        }
+
         function renderPage(page) {
             currentPage = page;
             const start = (page - 1) * gamesPerPage;
             const end = start + gamesPerPage;
-            const list = allGames.slice(start, end);
+            const list = filteredGames.slice(start, end);
             const container = document.getElementById('game-list-container');
             container.innerHTML = '';
+
+            if(list.length === 0) {
+                container.innerHTML = "<p>NO MATCHES FOUND.</p>";
+                return;
+            }
 
             list.forEach(g => {
                 const thumb = g.thumbLink || `https://i.ytimg.com/vi/${g.videoID}/hqdefault.jpg`;
@@ -240,14 +263,22 @@
         }
 
         function renderPagination() {
-            const total = Math.ceil(allGames.length / gamesPerPage);
+            const total = Math.ceil(filteredGames.length / gamesPerPage);
+            const top = document.getElementById('pagination-container-top');
+            const bottom = document.getElementById('pagination-container-bottom');
+            
+            if (total <= 1) {
+                top.innerHTML = ""; bottom.innerHTML = "";
+                return;
+            }
+
             const html = `
                 <button class="pagination-btn" onclick="renderPage(${currentPage-1})" ${currentPage===1?'disabled':''}>&lt;</button>
                 <span style="padding:10px; font-size:1.2rem;">PAGE ${currentPage} OF ${total}</span>
                 <button class="pagination-btn" onclick="renderPage(${currentPage+1})" ${currentPage===total?'disabled':''}>&gt;</button>
             `;
-            document.getElementById('pagination-container-top').innerHTML = html;
-            document.getElementById('pagination-container-bottom').innerHTML = html;
+            top.innerHTML = html;
+            bottom.innerHTML = html;
         }
 
         // Back to Top Logic
