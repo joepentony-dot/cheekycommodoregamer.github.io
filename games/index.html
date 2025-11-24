@@ -2,45 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games Database | Cheeky Commodore Gamer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cheeky Commodore Gamer | Games Database</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* Page Specific Overrides to match your original look */
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        @media(max-width:768px){ .video-grid { grid-template-columns: 1fr; } }
+        
+        .video-card { border: 4px solid; border-radius: 10px; background: #000; overflow: hidden; box-shadow: 0 0 15px rgba(0,0,0,0.6); transition: transform 0.3s ease; }
+        body.c64-mode .video-card { border-color: #888; }
+        body.amiga-mode .video-card { border-color: var(--amiga-blue); }
+        
+        .video-card:hover { transform: scale(1.02); }
+        .video-label { background: #444; color: #fff; text-align: center; padding: 5px; font-size: 1.2rem; font-weight: bold; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .info-box { border: 2px dashed; padding: 20px; margin-bottom: 30px; text-align: left; font-size: 1.2rem; line-height: 1.6; background: rgba(0,0,0,0.2); }
+        body.c64-mode .info-box { border-color: var(--c64-light-blue); color: var(--c64-text); }
+        body.amiga-mode .info-box { border-color: var(--amiga-blue); color: #000; background: #fff; }
+        
+        ul.info-list { list-style: none; padding: 0; }
+        ul.info-list li { margin-bottom: 10px; }
+    </style>
 </head>
 <body class="c64-mode">
 
     <div id="global-header-container"></div>
 
     <div class="container">
-        <h1>GAMES DATABASE</h1>
-        <h2>SELECT A COLLECTION</h2>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="font-size: 2.5rem;">GAMES DATABASE</h1>
+            <h2 style="margin-top: 10px;">REVIEWS, DOWNLOADS & HISTORY</h2>
+        </div>
 
-        <div class="commodore-header" style="margin-top: 20px;">FEATURED COLLECTIONS</div>
+        <div class="info-box">
+            <ul class="info-list">
+                <li>> <strong>WATCH GAMEPLAY:</strong> INSTANT YOUTUBE REVIEWS</li>
+                <li>> <strong>REVIEWS:</strong> LEMON64 / LEMONAMIGA INTEGRATION</li>
+                <li>> <strong>MANUALS:</strong> ORIGINAL PDF SCANS INCLUDED</li>
+                <li>> <strong>DOWNLOAD:</strong> READY-TO-RUN EMULATOR FILES</li>
+            </ul>
+        </div>
+
+        <h2>FEATURED GAMEPLAY</h2>
+        <div class="video-grid">
+            <div class="video-card" id="featured-c64">
+                <div class="video-label">COMMODORE 64</div>
+                <div class="video-wrapper">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff;">LOADING...</div>
+                </div>
+            </div>
+            <div class="video-card" id="featured-amiga">
+                <div class="video-label">COMMODORE AMIGA</div>
+                <div class="video-wrapper">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff;">LOADING...</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>EXPLORE GENRES</h2>
         <div class="btn-grid">
             <a href="top-picks.html" class="btn-retro play-sound btn-emphasise"><i class="fa-solid fa-star"></i> TOP PICKS</a>
-            <a href="c64-cartridge.html" class="btn-retro play-sound"><i class="fa-solid fa-microchip"></i> CARTRIDGE GAMES</a>
-            <a href="index.html" class="btn-retro play-sound"><i class="fa-solid fa-list"></i> COMPLETE INDEX</a>
+            <a href="c64-cartridge.html" class="btn-retro play-sound"><i class="fa-solid fa-microchip"></i> CARTRIDGE</a>
+            <a href="complete-index.html" class="btn-retro play-sound"><i class="fa-solid fa-list"></i> FULL INDEX</a>
+            <a href="action-adventure.html" class="btn-retro play-sound"><i class="fa-solid fa-skull"></i> ACTION/ADV</a>
+            <a href="arcade.html" class="btn-retro play-sound"><i class="fa-solid fa-ghost"></i> ARCADE</a>
+            <a href="fighting.html" class="btn-retro play-sound"><i class="fa-solid fa-hand-fist"></i> FIGHTING</a>
+            <a href="horror.html" class="btn-retro play-sound"><i class="fa-solid fa-spider"></i> HORROR</a>
+            <a href="platform.html" class="btn-retro play-sound"><i class="fa-solid fa-person-running"></i> PLATFORM</a>
+            <a href="puzzle-quiz.html" class="btn-retro play-sound"><i class="fa-solid fa-puzzle-piece"></i> PUZZLE</a>
+            <a href="racing.html" class="btn-retro play-sound"><i class="fa-solid fa-car"></i> RACING</a>
+            <a href="rpg.html" class="btn-retro play-sound"><i class="fa-solid fa-scroll"></i> RPG</a>
+            <a href="shooting.html" class="btn-retro play-sound"><i class="fa-solid fa-jet-fighter"></i> SHOOTING</a>
+            <a href="sports.html" class="btn-retro play-sound"><i class="fa-solid fa-futbol"></i> SPORTS</a>
+            <a href="strategy.html" class="btn-retro play-sound"><i class="fa-solid fa-chess-knight"></i> STRATEGY</a>
+            <a href="casino.html" class="btn-retro play-sound"><i class="fa-solid fa-dice"></i> CASINO</a>
         </div>
 
-        <div class="commodore-header" style="margin-top: 30px;">BROWSE BY GENRE</div>
-        <div class="btn-grid">
-            <a href="action-adventure.html" class="btn-retro play-sound">ACTION & ADV</a>
-            <a href="arcade.html" class="btn-retro play-sound">ARCADE</a>
-            <a href="fighting.html" class="btn-retro play-sound">FIGHTING</a>
-            <a href="horror.html" class="btn-retro play-sound">HORROR</a>
-            <a href="platform.html" class="btn-retro play-sound">PLATFORM</a>
-            <a href="puzzle-quiz.html" class="btn-retro play-sound">PUZZLE & QUIZ</a>
-            <a href="racing.html" class="btn-retro play-sound">RACING</a>
-            <a href="rpg.html" class="btn-retro play-sound">RPG</a>
-            <a href="shooting.html" class="btn-retro play-sound">SHOOTING</a>
-            <a href="sports.html" class="btn-retro play-sound">SPORTS</a>
-            <a href="strategy.html" class="btn-retro play-sound">STRATEGY</a>
-            <a href="casino.html" class="btn-retro play-sound">CASINO</a>
+        <div class="btn-grid" style="margin-top: 30px;">
+            <a href="/resources/emulation-guide.html" class="btn-retro play-sound" style="background:#333; border-color:#666;">
+                <i class="fa-solid fa-gear"></i> EMULATION GUIDE
+            </a>
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound" style="border-color: #f00;">
+                <i class="fa-brands fa-youtube"></i> SUBSCRIBE
+            </a>
         </div>
+
     </div>
 
     <script src="../js/global.js"></script>
+
+    <script>
+        const API_KEY = "AIzaSyABtgqVHmOrfzw2DLE-3ta3OmlaQ0ad_t8"; 
+        const C64_ID = "PL_TYjnCNYSex7dxxCMMuOsjzcXE1VNiR9";
+        const AMIGA_ID = "PL_TYjnCNYSezw55SVAMN2_UhdH3gCca1n";
+
+        async function fetchVideo(playlistId) {
+            try {
+                const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}`);
+                const data = await res.json();
+                if(data.items && data.items.length > 0) {
+                    // Pick random video
+                    const item = data.items[Math.floor(Math.random() * data.items.length)];
+                    return item.snippet.resourceId.videoId;
+                }
+            } catch(e) { console.error(e); }
+            return null;
+        }
+
+        async function initPage() {
+            const [c64Vid, amigaVid] = await Promise.all([fetchVideo(C64_ID), fetchVideo(AMIGA_ID)]);
+            
+            if(c64Vid) {
+                document.querySelector('#featured-c64 .video-wrapper').innerHTML = 
+                    `<iframe src="https://www.youtube.com/embed/${c64Vid}" allowfullscreen></iframe>`;
+            }
+            if(amigaVid) {
+                document.querySelector('#featured-amiga .video-wrapper').innerHTML = 
+                    `<iframe src="https://www.youtube.com/embed/${amigaVid}" allowfullscreen></iframe>`;
+            }
+        }
+        
+        // Run once loaded
+        window.addEventListener('load', initPage);
+    </script>
 </body>
 </html>
