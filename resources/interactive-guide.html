@@ -1,0 +1,2580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Cheeky Commodore Gamer | Ultimate Masterclass</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+    :root {
+        --c64-blue: #352879;
+        --c64-light-blue: #6c5eb5;
+        --c64-text: #b8c76f;
+        --c64-red: #880000;
+        --c64-green: #55cc55;
+        --c64-cyan: #00ffff;
+        --c64-yellow: #feff6c;
+        --c64-white: #ffffff;
+        --c64-purple: #cc44cc;
+        --c64-orange: #ee7700;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: var(--c64-text);
+        font-family: 'VT323', monospace;
+        margin: 0; padding: 10px;
+        min-height: 100vh;
+        text-transform: uppercase;
+        overflow-x: hidden;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; }
+
+    /* HEADER */
+    .top-bar {
+        text-align: center;
+        border: 3px solid var(--c64-light-blue);
+        padding: 20px;
+        margin-bottom: 20px;
+        background: rgba(53, 40, 121, 0.3);
+        box-shadow: 0 0 30px rgba(108, 94, 181, 0.5);
+        position: relative;
+        overflow: hidden;
+    }
+    /* Shine effect sits at z-index 1 */
+    .top-bar::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+        animation: shine 3s infinite;
+        z-index: 1; 
+        pointer-events: none; 
+    }
+    @keyframes shine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    h1 { 
+        font-size: 2.5rem; 
+        color: #fff; 
+        margin: 10px 0; 
+        text-shadow: 0 0 20px var(--c64-cyan), 0 0 40px var(--c64-light-blue);
+        letter-spacing: 3px;
+        position: relative;
+        z-index: 2;
+    }
+    .subtitle { 
+        color: var(--c64-cyan); 
+        font-size: 1.3rem; 
+        margin: 10px 0;
+        text-shadow: 0 0 10px var(--c64-cyan);
+        position: relative;
+        z-index: 2;
+    }
+    /* Button sits at z-index 100 to ensure it is clickable */
+    .home-link { 
+        display: inline-block;
+        font-size: 1.1rem; 
+        color: #fff; 
+        text-decoration: none; 
+        margin-top: 15px; 
+        border: 2px solid var(--c64-cyan); 
+        padding: 8px 20px; 
+        background: var(--c64-blue);
+        transition: all 0.3s;
+        box-shadow: 0 0 10px var(--c64-cyan);
+        cursor: pointer;
+        position: relative;
+        z-index: 100; 
+    }
+    .home-link:hover {
+        background: var(--c64-cyan);
+        color: var(--c64-blue);
+        box-shadow: 0 0 20px var(--c64-cyan);
+        transform: scale(1.05);
+    }
+
+    /* TABS */
+    .tab-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .tab-btn {
+        background: var(--c64-blue);
+        border: 2px solid var(--c64-light-blue);
+        color: #fff;
+        padding: 12px 25px;
+        font-family: inherit;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-shadow: 0 0 5px #fff;
+    }
+    .tab-btn:hover {
+        background: var(--c64-light-blue);
+        box-shadow: 0 0 15px var(--c64-light-blue);
+        transform: translateY(-2px);
+    }
+    .tab-btn.active {
+        background: var(--c64-cyan);
+        color: var(--c64-blue);
+        border-color: var(--c64-cyan);
+        box-shadow: 0 0 20px var(--c64-cyan);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* GRID LAYOUTS */
+    .grid-2 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+
+    /* MONITOR BEZEL */
+    .monitor-bezel {
+        background: linear-gradient(145deg, #555 0%, #333 100%);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,0.5);
+        border: 3px solid #666;
+        position: relative;
+    }
+    .monitor-bezel::before {
+        content: "COMMODORE";
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #999;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+    }
+
+    .c64-screen {
+        background-color: var(--c64-blue);
+        color: var(--c64-light-blue);
+        border: 25px solid var(--c64-light-blue);
+        height: 450px; 
+        padding: 20px;
+        font-size: 1.3rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+        box-shadow: inset 0 0 50px rgba(0,0,0,0.7);
+        cursor: text;
+        text-shadow: 0 0 3px var(--c64-light-blue);
+        animation: screenFlicker 0.15s infinite;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    @keyframes screenFlicker {
+        0% { opacity: 0.98; }
+        100% { opacity: 1; }
+    }
+
+    .c64-screen::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,0.1) 0px,
+            transparent 1px,
+            transparent 2px,
+            rgba(0,0,0,0.1) 3px
+        );
+        pointer-events: none;
+    }
+
+    .terminal-output { 
+        white-space: pre-wrap; 
+        word-wrap: break-word;
+        flex-grow: 1;
+    }
+
+    .input-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+    }
+
+    .boot-text {
+        text-align: center;
+        margin-bottom: 20px;
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+        from { text-shadow: 0 0 5px var(--c64-light-blue); }
+        to { text-shadow: 0 0 15px var(--c64-cyan); }
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 1.2em;
+        background-color: var(--c64-light-blue);
+        animation: blink 0.8s infinite;
+        box-shadow: 0 0 8px var(--c64-light-blue);
+        vertical-align: text-bottom;
+        margin-left: 2px;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* --- FIXED INPUT POSITIONING --- */
+    #hidden-input { 
+        opacity: 0; 
+        position: absolute; 
+        top: 50px; 
+        left: 50px;
+        width: 1px;
+        height: 1px;
+        border: none;
+        padding: 0;
+        margin: 0;
+        z-index: -1;
+        pointer-events: none; 
+    }
+
+    /* PANELS */
+    .panel {
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid var(--c64-light-blue);
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px rgba(108, 94, 181, 0.3);
+        position: relative;
+    }
+    .panel-header {
+        background: linear-gradient(90deg, var(--c64-light-blue), var(--c64-cyan));
+        color: #000;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.3rem;
+        margin: -20px -20px 20px -20px;
+        text-shadow: 0 0 5px #fff;
+        letter-spacing: 2px;
+    }
+
+    /* BUTTONS */
+    .retro-btn {
+        background: linear-gradient(180deg, var(--c64-light-blue), var(--c64-blue));
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 12px 15px;
+        font-family: inherit;
+        font-size: 1.1rem;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 8px;
+        text-align: left;
+        transition: all 0.3s;
+        text-shadow: 0 0 5px #000;
+        position: relative;
+        overflow: hidden;
+    }
+    .retro-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+    .retro-btn:hover::before {
+        left: 100%;
+    }
+    .retro-btn:hover {
+        background: linear-gradient(180deg, var(--c64-cyan), var(--c64-light-blue));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 94, 181, 0.5);
+    }
+    .retro-btn:active {
+        transform: translateY(0);
+    }
+    .retro-btn i { width: 25px; text-align: center; margin-right: 8px; }
+
+    /* OVERLAY KEYBOARD (D-PAD) */
+    .d-pad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 200px;
+        margin: 20px auto;
+        padding: 10px;
+        background: rgba(0,0,0,0.5);
+        border-radius: 15px;
+        border: 2px solid var(--c64-light-blue);
+    }
+    .d-btn {
+        background: #222;
+        border: 2px solid var(--c64-light-blue);
+        color: var(--c64-cyan);
+        padding: 15px 0;
+        border-radius: 8px;
+        font-size: 1.5rem;
+        touch-action: manipulation;
+        user-select: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 0 #000;
+        transition: all 0.1s;
+    }
+    .d-btn:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 #000;
+        background: var(--c64-light-blue);
+        color: #fff;
+    }
+    .d-spacer { width: 100%; height: 100%; }
+
+    /* DRIVE */
+    .drive-face {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(180deg, #ddd, #bbb);
+        color: #000;
+        padding: 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+        margin-bottom: 15px;
+    }
+    .drive-led {
+        width: 20px;
+        height: 20px;
+        background: #300;
+        border-radius: 50%;
+        transition: all 0.2s;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .drive-led.active {
+        background: radial-gradient(circle, #ff0000, #aa0000);
+        box-shadow: 0 0 15px #f00, inset 0 0 5px #ff0000;
+    }
+
+    /* SPRITE STUDIO */
+    .sprite-workspace {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: start;
+    }
+    .sprite-grid {
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        gap: 1px;
+        background: #333;
+        border: 3px solid var(--c64-white);
+        aspect-ratio: 1/1;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .pixel {
+        background: var(--c64-blue);
+        cursor: pointer;
+        transition: all 0.1s;
+        aspect-ratio: 1/1;
+    }
+    .pixel:hover {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    .pixel.on { background: var(--c64-white); }
+    .sprite-preview {
+        background: var(--c64-blue);
+        border: 3px solid var(--c64-light-blue);
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 150px;
+    }
+    .sprite-preview-img {
+        width: 96px;
+        height: 96px;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+    }
+
+    /* COLOR PALETTE */
+    .color-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 8px;
+    }
+    .color-box {
+        aspect-ratio: 1/1;
+        border: 2px solid #666;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+    }
+    .color-box:hover {
+        transform: scale(1.1);
+        border-color: #fff;
+        box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    .color-box.selected {
+        border: 3px solid #fff;
+        box-shadow: 0 0 20px #fff;
+    }
+    .color-info {
+        text-align: center;
+        margin-top: 15px;
+        padding: 10px;
+        background: rgba(0,0,0,0.5);
+        border: 1px solid var(--c64-light-blue);
+    }
+
+    /* SID CONTROLS */
+    .sid-controls {
+        display: grid;
+        gap: 15px;
+    }
+    .control-group {
+        background: rgba(0,0,0,0.3);
+        padding: 15px;
+        border: 1px solid var(--c64-light-blue);
+        border-radius: 5px;
+    }
+    .control-label {
+        color: var(--c64-cyan);
+        font-size: 1rem;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    input[type="range"] {
+        flex: 1;
+        height: 8px;
+        background: var(--c64-blue);
+        border: 1px solid var(--c64-light-blue);
+        outline: none;
+        -webkit-appearance: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        background: var(--c64-cyan);
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0 0 5px var(--c64-cyan);
+    }
+    input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: var(--c64-cyan);
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0 0 5px var(--c64-cyan);
+    }
+    .slider-value {
+        min-width: 50px;
+        text-align: right;
+        color: var(--c64-yellow);
+        font-size: 1.1rem;
+    }
+
+    /* INFO CARDS */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .info-card {
+        background: linear-gradient(135deg, rgba(53,40,121,0.3), rgba(0,0,0,0.5));
+        border: 2px solid var(--c64-light-blue);
+        padding: 20px;
+        border-radius: 10px;
+        transition: all 0.3s;
+    }
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(108, 94, 181, 0.5);
+        border-color: var(--c64-cyan);
+    }
+    .info-card h3 {
+        color: var(--c64-cyan);
+        font-size: 1.5rem;
+        margin-top: 0;
+        text-shadow: 0 0 10px var(--c64-cyan);
+    }
+    .info-card p {
+        color: #ccc;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    .tech-table {
+        width: 100%;
+        color: #fff;
+        margin: 10px 0;
+        border-collapse: collapse;
+    }
+    .tech-table tr {
+        border-bottom: 1px dashed var(--c64-light-blue);
+    }
+    .tech-table td {
+        padding: 8px;
+        font-size: 1rem;
+    }
+    .tech-table td:first-child {
+        color: var(--c64-cyan);
+        font-weight: bold;
+    }
+
+    /* MEMORY MAP */
+    .memory-map {
+        background: rgba(0,0,0,0.5);
+        border: 2px solid var(--c64-light-blue);
+        padding: 10px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    .memory-block {
+        padding: 10px;
+        margin: 5px 0;
+        border-left: 4px solid var(--c64-cyan);
+        background: rgba(108, 94, 181, 0.2);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .memory-block:hover {
+        background: rgba(108, 94, 181, 0.4);
+        transform: translateX(5px);
+    }
+    .memory-address {
+        color: var(--c64-cyan);
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .memory-desc {
+        color: #ccc;
+        font-size: 0.9rem;
+    }
+
+    /* PRESET SOUNDS */
+    .preset-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    /* COMMAND HISTORY */
+    .command-history {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid var(--c64-light-blue);
+        padding: 10px;
+        margin-top: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+        font-size: 0.9rem;
+    }
+    .history-item {
+        color: var(--c64-yellow);
+        cursor: pointer;
+        padding: 3px 5px;
+        border-left: 2px solid transparent;
+    }
+    .history-item:hover {
+        background: rgba(108, 94, 181, 0.3);
+        border-left-color: var(--c64-cyan);
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 1024px) {
+        .grid-2 { grid-template-columns: 1fr; }
+        .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media(max-width: 768px) {
+        h1 { font-size: 1.8rem; }
+        .c64-screen { 
+            height: 300px; 
+            font-size: 1rem;
+            border-width: 15px;
+            padding: 10px;
+        }
+        .grid-3 { grid-template-columns: 1fr; }
+        .sprite-workspace { grid-template-columns: 1fr; }
+        .sprite-preview { margin-top: 15px; }
+        .tab-container { flex-direction: column; }
+        .tab-btn { width: 100%; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-bar">
+        <h1>⚡ C64 ULTIMATE MASTERCLASS ⚡</h1>
+        <div class="subtitle">COMPLETE INTERACTIVE GUIDE TO THE COMMODORE 64</div>
+        <a href="https://www.cheekycommodoregamer.co.uk/games" onclick="forceNavigate(this.href); return false;" class="home-link">
+            <i class="fa-solid fa-arrow-left"></i> RETURN TO MAIN MENU
+        </a>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="switchTab('terminal'); return false;">
+            <i class="fa-solid fa-terminal"></i> TERMINAL
+        </button>
+        <button class="tab-btn" onclick="switchTab('sprite'); return false;">
+            <i class="fa-solid fa-border-all"></i> SPRITE STUDIO
+        </button>
+        <button class="tab-btn" onclick="switchTab('sid'); return false;">
+            <i class="fa-solid fa-music"></i> SID SYNTHESIZER
+        </button>
+        <button class="tab-btn" onclick="switchTab('hardware'); return false;">
+            <i class="fa-solid fa-microchip"></i> HARDWARE
+        </button>
+        <button class="tab-btn" onclick="switchTab('memory'); return false;">
+            <i class="fa-solid fa-memory"></i> MEMORY MAP
+        </button>
+        <button class="tab-btn" onclick="switchTab('colors'); return false;">
+            <i class="fa-solid fa-palette"></i> COLOR PALETTE
+        </button>
+        <button class="tab-btn" onclick="switchTab('demos'); return false;">
+            <i class="fa-solid fa-rocket"></i> DEMO SCENE
+        </button>
+        <button class="tab-btn" onclick="switchTab('games'); return false;">
+            <i class="fa-solid fa-gamepad"></i> MINI GAMES
+        </button>
+    </div>
+
+    <div id="tab-terminal" class="tab-content active">
+        <div class="grid-2">
+            <div class="monitor-bezel">
+                <input type="text" id="hidden-input" autocomplete="off" autocorrect="off" autocapitalize="characters">
+                <div class="c64-screen" id="terminal-screen" onclick="focusTerminal()">
+                    <div class="terminal-output" id="output">
+                        <div class="boot-text">**** COMMODORE 64 BASIC V2 ****
+64K RAM SYSTEM  38911 BASIC BYTES FREE
+</div>READY.
+</div>
+                    <div class="input-line">
+                        <span id="current-line"></span><span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-floppy-disk"></i> 1541 DISK DRIVE
+                    </div>
+                    <div class="drive-face">
+                        <span>COMMODORE 1541</span>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div class="drive-led" id="drive-led"></div>
+                            <div style="width:60px; height:10px; background:#333; border:1px solid #999;"></div>
+                        </div>
+                    </div>
+                    <button class="retro-btn" onclick="runProgram('maze'); return false;">
+                        <i class="fa-solid fa-square"></i> 10 PRINT CHR$(205.5+RND(1))
+                    </button>
+                    <button class="retro-btn" onclick="runProgram('hello'); return false;">
+                        <i class="fa-solid fa-comment"></i> LOAD "HELLO WORLD"
+                    </button>
+                    <button class="retro-btn" onclick="runProgram('colors'); return false;">
+                        <i class="fa-solid fa-palette"></i> LOAD "COLOR CYCLE"
+                    </button>
+                    <button class="retro-btn" onclick="runProgram('music'); return false;">
+                        <i class="fa-solid fa-music"></i> LOAD "MUSIC DEMO"
+                    </button>
+                    <button class="retro-btn" onclick="runProgram('bouncer'); return false;">
+                        <i class="fa-solid fa-circle"></i> LOAD "BOUNCER"
+                    </button>
+                    <button class="retro-btn" onclick="resetC64(); return false;" style="background: var(--c64-red); border-color: #fff;">
+                        <i class="fa-solid fa-power-off"></i> RESET SYSTEM
+                    </button>
+                </div>
+
+                <div class="command-history" id="history">
+                    <div style="color: var(--c64-cyan); margin-bottom: 5px;">COMMAND HISTORY:</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-sprite" class="tab-content">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-paintbrush"></i> SPRITE STUDIO (24×24 PIXELS)
+            </div>
+            <div class="sprite-workspace">
+                <div>
+                    <div class="sprite-grid" id="spriteGrid"></div>
+                    <div style="margin-top: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <button class="retro-btn" onclick="clearSprite(); return false;">
+                            <i class="fa-solid fa-eraser"></i> CLEAR
+                        </button>
+                        <button class="retro-btn" onclick="fillSprite(); return false;">
+                            <i class="fa-solid fa-fill-drip"></i> FILL
+                        </button>
+                        <button class="retro-btn" onclick="invertSprite(); return false;">
+                            <i class="fa-solid fa-repeat"></i> INVERT
+                        </button>
+                        <button class="retro-btn" onclick="exportSprite(); return false;">
+                            <i class="fa-solid fa-code"></i> EXPORT DATA
+                        </button>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="retro-btn" onclick="loadPreset('smiley'); return false;">😊 SMILEY</button>
+                        <button class="retro-btn" onclick="loadPreset('heart'); return false;">❤️ HEART</button>
+                        <button class="retro-btn" onclick="loadPreset('skull'); return false;">💀 SKULL</button>
+                        <button class="retro-btn" onclick="loadPreset('spaceship'); return false;">🚀 SPACESHIP</button>
+                    </div>
+                </div>
+                <div class="sprite-preview">
+                    <canvas id="spriteCanvas" class="sprite-preview-img"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>ABOUT C64 SPRITES</h3>
+            <p>The Commodore 64 supported 8 hardware sprites (VIC-II chip), each 24×21 pixels. These were independent objects that could move over the background without erasing it - revolutionary for 1982!</p>
+            <p><strong>Features:</strong> Multicolor mode, collision detection, sprite priorities, and expandable to 48×42 pixels. Games like Impossible Mission and Paradroid showcased sprite mastery.</p>
+        </div>
+    </div>
+
+    <div id="tab-sid" class="tab-content">
+        <div class="grid-2">
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fa-solid fa-sliders"></i> SID 6581 ADVANCED CONTROLS
+                </div>
+                <div class="sid-controls">
+                    <div class="control-group">
+                        <label class="control-label">WAVEFORM</label>
+                        <select id="waveform" style="width:100%; padding:8px; font-family:inherit; background:var(--c64-blue); color:#fff; border:1px solid var(--c64-light-blue); font-size:1rem;">
+                            <option value="triangle">TRIANGLE</option>
+                            <option value="sawtooth">SAWTOOTH</option>
+                            <option value="square">SQUARE/PULSE</option>
+                            <option value="sine">SINE (APPROX)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">FREQUENCY: <span id="freq-val">440</span> HZ</label>
+                        <div class="slider-container">
+                            <input type="range" id="frequency" min="20" max="2000" value="440" step="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">ATTACK: <span id="attack-val">0.01</span>S</label>
+                        <div class="slider-container">
+                            <input type="range" id="attack" min="1" max="1000" value="10" step="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">DECAY: <span id="decay-val">0.2</span>S</label>
+                        <div class="slider-container">
+                            <input type="range" id="decay" min="1" max="2000" value="200" step="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">SUSTAIN: <span id="sustain-val">0.5</span></label>
+                        <div class="slider-container">
+                            <input type="range" id="sustain" min="0" max="100" value="50" step="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">RELEASE: <span id="release-val">0.5</span>S</label>
+                        <div class="slider-container">
+                            <input type="range" id="release" min="1" max="3000" value="500" step="1">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                        <button class="retro-btn" style="background: var(--c64-green);" onmousedown="playNote(); return false;" onmouseup="stopNote(); return false;" ontouchstart="playNote(); return false;" ontouchend="stopNote(); return false;">
+                            <i class="fa-solid fa-play"></i> PLAY NOTE
+                        </button>
+                        <button class="retro-btn" style="background: var(--c64-red);" onclick="stopNote(); return false;">
+                            <i class="fa-solid fa-stop"></i> STOP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-music"></i> PRESET SOUNDS
+                    </div>
+                    <div class="preset-grid">
+                        <button class="retro-btn" onclick="loadPresetSound('laser'); return false;">
+                            <i class="fa-solid fa-gun"></i> LASER
+                        </button>
+                        <button class="retro-btn" onclick="loadPresetSound('explosion'); return false;">
+                            <i class="fa-solid fa-burst"></i> EXPLOSION
+                        </button>
+                        <button class="retro-btn" onclick="loadPresetSound('powerup'); return false;">
+                            <i class="fa-solid fa-star"></i> POWER UP
+                        </button>
+                        <button class="retro-btn" onclick="loadPresetSound('coin'); return false;">
+                            <i class="fa-solid fa-coins"></i> COIN
+                        </button>
+                        <button class="retro-btn" onclick="loadPresetSound('jump'); return false;">
+                            <i class="fa-solid fa-up-long"></i> JUMP
+                        </button>
+                        <button class="retro-btn" onclick="loadPresetSound('hurt'); return false;">
+                            <i class="fa-solid fa-heart-crack"></i> HURT
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>THE LEGENDARY SID CHIP</h3>
+                    <p>The MOS Technology 6581 Sound Interface Device (SID) was designed by Bob Yannes. It featured 3 independent voices, each with 4 waveforms, ADSR envelope control, and programmable filters.</p>
+                    <p><strong>REVOLUTIONARY FEATURES:</strong></p>
+                    <ul style="color:#ccc; line-height:1.6;">
+                        <li>Ring Modulation & Sync capabilities</li>
+                        <li>Multi-mode resonant filter (low/high/band-pass)</li>
+                        <li>8-bit volume control per voice</li>
+                        <li>Random number generator via noise waveform</li>
+                    </ul>
+                    <p>Composers like Rob Hubbard, Martin Galway, and Ben Daglish created legendary game soundtracks that defined the chiptune genre.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-hardware" class="tab-content">
+        <div class="info-grid">
+            <div class="info-card">
+                <h3><i class="fa-solid fa-microchip"></i> MOS 6510 CPU</h3>
+                <table class="tech-table">
+                    <tr><td>SPEED</td><td>1.023 MHz (NTSC) / 0.985 MHz (PAL)</td></tr>
+                    <tr><td>ARCH</td><td>8-bit with 16-bit address bus</td></tr>
+                    <tr><td>REGISTERS</td><td>A, X, Y + Stack Pointer</td></tr>
+                    <tr><td>INSTRUCTIONS</td><td>56 opcodes, 151 addressing modes</td></tr>
+                </table>
+                <p>Based on the 6502, with added I/O port for bank switching and cassette control. Could address 64KB directly.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-image"></i> VIC-II CHIP (6567/6569)</h3>
+                <table class="tech-table">
+                    <tr><td>RESOLUTION</td><td>320×200 (Hi-res), 160×200 (Multi)</td></tr>
+                    <tr><td>COLORS</td><td>16 simultaneous from 16-color palette</td></tr>
+                    <tr><td>SPRITES</td><td>8 hardware sprites, 24×21 pixels</td></tr>
+                    <tr><td>SCROLLING</td><td>Hardware smooth scrolling</td></tr>
+                </table>
+                <p>Video Interface Chip II handled all graphics. Could mix text, bitmaps, and sprites with collision detection.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-volume-high"></i> SID CHIP (6581/8580)</h3>
+                <table class="tech-table">
+                    <tr><td>VOICES</td><td>3 independent synthesizer channels</td></tr>
+                    <tr><td>WAVEFORMS</td><td>Triangle, Sawtooth, Pulse, Noise</td></tr>
+                    <tr><td>ENVELOPE</td><td>ADSR (Attack, Decay, Sustain, Release)</td></tr>
+                    <tr><td>FILTER</td><td>12dB/octave multi-mode resonant</td></tr>
+                </table>
+                <p>The 6581 (1982-1987) had analog filters with warmth. The 8580 (1987+) was cleaner but colder.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-memory"></i> MEMORY SYSTEM</h3>
+                <table class="tech-table">
+                    <tr><td>RAM</td><td>64 KB (65,536 bytes)</td></tr>
+                    <tr><td>ROM</td><td>20 KB (BASIC + KERNAL + CHAR)</td></tr>
+                    <tr><td>BANK SWITCHING</td><td>Memory banking via $00/$01</td></tr>
+                    <tr><td>VIDEO RAM</td><td>1KB color RAM (separate)</td></tr>
+                </table>
+                <p>Clever bank switching let ROMs and RAM share address space, maximizing available memory.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-keyboard"></i> CIA CHIPS (6526)</h3>
+                <table class="tech-table">
+                    <tr><td>COUNT</td><td>2 Complex Interface Adapters</td></tr>
+                    <tr><td>CIA #1</td><td>Keyboard, joystick, timers</td></tr>
+                    <tr><td>CIA #2</td><td>Serial bus, user port, NMI</td></tr>
+                    <tr><td>TIMERS</td><td>2×16-bit timers per chip</td></tr>
+                </table>
+                <p>Handled I/O operations and timing. Critical for precise game loops and raster effects.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fa-solid fa-floppy-disk"></i> 1541 DISK DRIVE</h3>
+                <table class="tech-table">
+                    <tr><td>CPU</td><td>6502 @ 1 MHz (own processor!)</td></tr>
+                    <tr><td>RAM</td><td>2KB in drive itself</td></tr>
+                    <tr><td>CAPACITY</td><td>170KB per 5.25" disk</td></tr>
+                    <tr><td>SPEED</td><td>~300 bytes/second (notoriously slow)</td></tr>
+                </table>
+                <p>Infamously slow due to serial bus, but hackable! Fastloaders could achieve 10× speed increase.</p>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top: 20px;">
+            <div class="panel-header">HISTORICAL IMPACT</div>
+            <div style="color: #ccc; font-size: 1.1rem; line-height: 1.6; padding: 10px;">
+                <p><strong>RELEASED:</strong> August 1982 | <strong>PRICE:</strong> $595 USD | <strong>UNITS SOLD:</strong> 12.5-17 million (best-selling single computer model ever)</p>
+                <p><strong>NICKNAMES:</strong> "Breadbox" (original case), "C64", "64"</p>
+                <p>Dominated home computing 1982-1993. Outsold Apple II, IBM PC, and all competitors combined in its category. Created the demo scene, cracktro culture, and defined 8-bit gaming. Games like Impossible Mission, The Last Ninja, and Maniac Mansion became legendary.</p>
+                <p><strong>FUN FACT:</strong> Some C64s are still operational in businesses today, running HVAC systems and auto shops!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-memory" class="tab-content">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-map"></i> COMPLETE MEMORY MAP ($0000-$FFFF)
+            </div>
+            <div class="memory-map">
+                <div class="memory-block" onclick="showMemInfo('zero')">
+                    <div class="memory-address">$0000-$00FF</div>
+                    <div class="memory-desc">ZERO PAGE - Fast access RAM, processor stack pointer</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('stack')">
+                    <div class="memory-address">$0100-$01FF</div>
+                    <div class="memory-desc">PROCESSOR STACK - LIFO stack for subroutines</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('basic')">
+                    <div class="memory-address">$0200-$03FF</div>
+                    <div class="memory-desc">BASIC INPUT BUFFER & OS variables</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('screen')">
+                    <div class="memory-address">$0400-$07FF</div>
+                    <div class="memory-desc">DEFAULT SCREEN MEMORY - 1000 bytes (40×25)</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('program')">
+                    <div class="memory-address">$0800-$9FFF</div>
+                    <div class="memory-desc">BASIC PROGRAM RAM - 38911 bytes free</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('basicrom')">
+                    <div class="memory-address">$A000-$BFFF</div>
+                    <div class="memory-desc">BASIC ROM - Interpreter (8KB)</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('upperram')">
+                    <div class="memory-address">$C000-$CFFF</div>
+                    <div class="memory-desc">UPPER RAM - Available when BASIC ROM banked out</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('io')">
+                    <div class="memory-address">$D000-$DFFF</div>
+                    <div class="memory-desc">I/O AREA - VIC-II, SID, CIA chips, Color RAM</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('charrom')">
+                    <div class="memory-address">$D000-$DFFF</div>
+                    <div class="memory-desc">CHARACTER ROM - Also at $D000 (bank switched)</div>
+                </div>
+                <div class="memory-block" onclick="showMemInfo('kernal')">
+                    <div class="memory-address">$E000-$FFFF</div>
+                    <div class="memory-desc">KERNAL ROM - Operating system (8KB)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">KEY MEMORY LOCATIONS (POKE/PEEK)</div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>SCREEN CONTROL</h3>
+                    <table class="tech-table">
+                        <tr><td>53280</td><td>Border color</td></tr>
+                        <tr><td>53281</td><td>Background color</td></tr>
+                        <tr><td>646</td><td>Text color</td></tr>
+                        <tr><td>53272</td><td>Screen memory location</td></tr>
+                    </table>
+                </div>
+                <div class="info-card">
+                    <h3>SOUND (SID)</h3>
+                    <table class="tech-table">
+                        <tr><td>54272-54296</td><td>SID chip registers</td></tr>
+                        <tr><td>54273</td><td>Voice 1 frequency (low)</td></tr>
+                        <tr><td>54274</td><td>Voice 1 frequency (high)</td></tr>
+                        <tr><td>54276</td><td>Voice 1 waveform</td></tr>
+                    </table>
+                </div>
+                <div class="info-card">
+                    <h3>SPRITES</h3>
+                    <table class="tech-table">
+                        <tr><td>53248-53264</td><td>Sprite X/Y positions</td></tr>
+                        <tr><td>53269</td><td>Sprite enable register</td></tr>
+                        <tr><td>53271</td><td>Sprite expand Y</td></tr>
+                        <tr><td>53277</td><td>Sprite expand X</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-colors" class="tab-content">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-palette"></i> COMPLETE C64 COLOR PALETTE
+            </div>
+            <div class="color-grid" id="colorPalette"></div>
+            <div class="color-info" id="colorInfo">
+                CLICK ANY COLOR TO SEE DETAILS
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>ABOUT THE C64 PALETTE</h3>
+            <p>The VIC-II chip generated 16 colors from an internal palette. Colors were defined by analog circuitry, leading to variations between NTSC and PAL models.</p>
+            <p><strong>TECHNICAL DETAILS:</strong> Each color had a 4-bit value (0-15). The palette was designed for composite video output, creating the characteristic soft, warm look. Modern recreations use RGB approximations.</p>
+            <p><strong>FAMOUS COMBINATIONS:</strong></p>
+            <ul style="color:#ccc; line-height:1.6;">
+                <li>Light Blue on Dark Blue - Classic BASIC screen</li>
+                <li>White on Light Blue - Common game UI</li>
+                <li>Red/Orange on Black - Dramatic action games</li>
+                <li>Multi-color modes allowed 4 colors per sprite/character</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tab-demos" class="tab-content">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-star"></i> C64 DEMO SCENE SIMULATOR
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <button class="retro-btn" onclick="runDemo('plasma'); return false;">
+                    <i class="fa-solid fa-fire"></i> PLASMA EFFECT
+                </button>
+                <button class="retro-btn" onclick="runDemo('scroller'); return false;">
+                    <i class="fa-solid fa-text-width"></i> SINE SCROLLER
+                </button>
+                <button class="retro-btn" onclick="runDemo('starfield'); return false;">
+                    <i class="fa-solid fa-star"></i> STARFIELD
+                </button>
+                <button class="retro-btn" onclick="runDemo('raster'); return false;">
+                    <i class="fa-solid fa-bars"></i> RASTER BARS
+                </button>
+                <button class="retro-btn" onclick="runDemo('bouncing'); return false;">
+                    <i class="fa-solid fa-cube"></i> BOUNCING LOGO
+                </button>
+                <button class="retro-btn" onclick="stopDemo(); return false;" style="background: var(--c64-red);">
+                    <i class="fa-solid fa-stop"></i> STOP DEMO
+                </button>
+            </div>
+            <div id="demo-canvas-container" style="margin-top: 20px; display: flex; justify-content: center; align-items: center; min-height: 400px; background: #000; border: 3px solid var(--c64-light-blue);">
+                <canvas id="demo-canvas" width="320" height="200" style="width: 100%; max-width: 640px; image-rendering: pixelated; image-rendering: crisp-edges;"></canvas>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>THE LEGENDARY DEMO SCENE</h3>
+            <p>The C64 demo scene pushed hardware to impossible limits. Groups like Fairlight, The Judges, and Booze Design created mind-blowing effects through clever programming tricks.</p>
+            <p><strong>FAMOUS TECHNIQUES:</strong></p>
+            <ul style="color:#ccc; line-height:1.6;">
+                <li><strong>Raster Interrupts:</strong> Changed screen colors mid-frame for color bars</li>
+                <li><strong>Sprite Multiplexing:</strong> Displayed 20+ sprites by reusing the same 8</li>
+                <li><strong>FLI/AFLI:</strong> Flexible Line Interpretation for more colors</li>
+                <li><strong>Charset Animation:</strong> Redefined character sets every frame</li>
+                <li><strong>Cycle-exact Timing:</strong> Code timed to exact clock cycles</li>
+            </ul>
+            <p>Demos like "Edge of Disgrace" and "Booze Design" showcased effects that seemed impossible on 1MHz hardware!</p>
+        </div>
+    </div>
+
+    <div id="tab-games" class="tab-content">
+        <div class="panel">
+            <div class="panel-header">
+                <i class="fa-solid fa-gamepad"></i> PLAYABLE C64 MINI GAMES
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                <button class="retro-btn" onclick="startGame('snake'); return false;" id="snake-btn">
+                    <i class="fa-solid fa-worm"></i> SNAKE GAME
+                </button>
+                <button class="retro-btn" onclick="startGame('pong'); return false;" id="pong-btn">
+                    <i class="fa-solid fa-table-tennis-paddle-ball"></i> PONG
+                </button>
+                <button class="retro-btn" onclick="startGame('breakout'); return false;" id="breakout-btn">
+                    <i class="fa-solid fa-border-all"></i> BREAKOUT
+                </button>
+            </div>
+            <div id="game-canvas-container" style="display: flex; flex-direction: column; align-items: center; background: #000; border: 3px solid var(--c64-light-blue); padding: 20px;">
+                <canvas id="game-canvas" width="320" height="200" style="width: 100%; max-width: 640px; image-rendering: pixelated; image-rendering: crisp-edges; background: #000;"></canvas>
+                
+                <div class="d-pad" id="mobile-controls">
+                    <div class="d-spacer"></div>
+                    <div class="d-btn" id="btn-up"><i class="fa-solid fa-caret-up"></i></div>
+                    <div class="d-spacer"></div>
+                    
+                    <div class="d-btn" id="btn-left"><i class="fa-solid fa-caret-left"></i></div>
+                    <div class="d-btn" id="btn-fire" style="border-color: var(--c64-red); color: var(--c64-red);"><i class="fa-solid fa-circle"></i></div>
+                    <div class="d-btn" id="btn-right"><i class="fa-solid fa-caret-right"></i></div>
+                    
+                    <div class="d-spacer"></div>
+                    <div class="d-btn" id="btn-down"><i class="fa-solid fa-caret-down"></i></div>
+                    <div class="d-spacer"></div>
+                </div>
+
+                <div id="game-controls" style="margin-top: 15px; text-align: center; color: var(--c64-cyan); font-size: 1.2rem;">
+                    SELECT A GAME TO START
+                </div>
+                <div id="game-score" style="margin-top: 10px; color: var(--c64-yellow); font-size: 1.5rem; text-align: center;">
+                    SCORE: 0
+                </div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>LEGENDARY C64 GAMES</h3>
+                <p><strong>GOLDEN ERA CLASSICS:</strong></p>
+                <ul style="color:#ccc; line-height:1.6;">
+                    <li><strong>The Last Ninja (1987):</strong> Revolutionary isometric gameplay</li>
+                    <li><strong>Impossible Mission (1984):</strong> Iconic digitized speech</li>
+                    <li><strong>Boulder Dash (1984):</strong> Addictive puzzle-action</li>
+                    <li><strong>Maniac Mansion (1987):</strong> LucasArts adventure gaming</li>
+                    <li><strong>Paradroid (1985):</strong> Innovative robot combat</li>
+                    <li><strong>Wizball (1987):</strong> Unique physics-based shooter</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>GAME DEVELOPMENT TRICKS</h3>
+                <p>C64 developers used ingenious hacks to create smooth games:</p>
+                <ul style="color:#ccc; line-height:1.6;">
+                    <li><strong>Double Buffering:</strong> Flip between screen banks</li>
+                    <li><strong>Character-based Games:</strong> Used charset for fast updates</li>
+                    <li><strong>Sprite Multiplexing:</strong> More sprites via IRQ timing</li>
+                    <li><strong>Custom Loaders:</strong> Fast-load routines to beat 1541 slowness</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// GLOBAL STATE
+let audioCtx = null;
+let oscNode = null;
+let gainNode = null;
+let filterNode = null;
+let isRunning = false;
+let commandHistory = [];
+let programLines = {}; // Store BASIC program lines
+const c64Colors = [
+    {name: 'BLACK', hex: '#000000', poke: 0},
+    {name: 'WHITE', hex: '#FFFFFF', poke: 1},
+    {name: 'RED', hex: '#880000', poke: 2},
+    {name: 'CYAN', hex: '#AAFFEE', poke: 3},
+    {name: 'PURPLE', hex: '#CC44CC', poke: 4},
+    {name: 'GREEN', hex: '#00CC55', poke: 5},
+    {name: 'BLUE', hex: '#0000AA', poke: 6},
+    {name: 'YELLOW', hex: '#EEEE77', poke: 7},
+    {name: 'ORANGE', hex: '#DD8855', poke: 8},
+    {name: 'BROWN', hex: '#664400', poke: 9},
+    {name: 'LIGHT RED', hex: '#FF7777', poke: 10},
+    {name: 'DARK GREY', hex: '#333333', poke: 11},
+    {name: 'GREY', hex: '#777777', poke: 12},
+    {name: 'LIGHT GREEN', hex: '#AAFF66', poke: 13},
+    {name: 'LIGHT BLUE', hex: '#0088FF', poke: 14},
+    {name: 'LIGHT GREY', hex: '#BBBBBB', poke: 15}
+];
+
+// TERMINAL VARIABLES
+let outputDiv, currentLineSpan, hiddenInput, terminalScreen;
+
+// VIRTUAL INPUT STATE (Overlay Keyboard)
+const virtualInput = { up: false, down: false, left: false, right: false, fire: false };
+
+// INITIALIZE
+window.onload = function() {
+    // Initialize terminal elements
+    outputDiv = document.getElementById('output');
+    currentLineSpan = document.getElementById('current-line');
+    hiddenInput = document.getElementById('hidden-input');
+    terminalScreen = document.getElementById('terminal-screen');
+    
+    // Setup terminal listeners
+    setupTerminalListeners();
+    
+    initColorPalette();
+    initSpriteGrid();
+    initSIDControls();
+    setupMobileControls(); // Initialize overlay controls
+    
+    // Global Audio Unlock for Google Sites Iframe
+    document.addEventListener('click', function() {
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        } else if (!audioCtx) {
+            initAudio();
+        }
+    }, { once: true }); // Only needs to run once
+};
+
+// SETUP MOBILE CONTROLS
+function setupMobileControls() {
+    const bindBtn = (id, key) => {
+        const btn = document.getElementById(id);
+        const startHandler = (e) => {
+            e.preventDefault();
+            virtualInput[key] = true;
+            // Trigger keydown logic if game relies on it directly (Snake)
+            if(currentGame === 'snake') handleSnakeDirection(key);
+        };
+        const endHandler = (e) => {
+            e.preventDefault();
+            virtualInput[key] = false;
+        };
+
+        btn.addEventListener('mousedown', startHandler);
+        btn.addEventListener('touchstart', startHandler);
+        btn.addEventListener('mouseup', endHandler);
+        btn.addEventListener('touchend', endHandler);
+        btn.addEventListener('mouseleave', endHandler);
+    };
+
+    bindBtn('btn-up', 'up');
+    bindBtn('btn-down', 'down');
+    bindBtn('btn-left', 'left');
+    bindBtn('btn-right', 'right');
+    bindBtn('btn-fire', 'fire');
+}
+
+// SMART NAVIGATION
+function forceNavigate(url) {
+    try {
+        // Attempt to open in the same tab (may be blocked by sandbox)
+        if(window.top && window.top.location) {
+            window.top.location.href = url;
+        } else {
+            throw new Error("Top navigation blocked");
+        }
+    } catch (e) {
+        // Fallback: Open in new tab which always works
+        console.warn("Top navigation blocked, opening in new tab");
+        window.open(url, '_blank');
+    }
+}
+
+// TAB SWITCHING
+function switchTab(tabName) {
+    const allContent = document.querySelectorAll('.tab-content');
+    const allBtns = document.querySelectorAll('.tab-btn');
+    
+    for(let i = 0; i < allContent.length; i++) {
+        allContent[i].classList.remove('active');
+    }
+    for(let i = 0; i < allBtns.length; i++) {
+        allBtns[i].classList.remove('active');
+    }
+    
+    const targetTab = document.getElementById('tab-' + tabName);
+    if(targetTab) targetTab.classList.add('active');
+    
+    // Find and activate the clicked button
+    const buttons = document.querySelectorAll('.tab-btn');
+    for(let i = 0; i < buttons.length; i++) {
+        if(buttons[i].textContent.toLowerCase().includes(tabName.substring(0, 4))) {
+            buttons[i].classList.add('active');
+        }
+    }
+    
+    // Stop any running demos/games when switching tabs
+    if(tabName !== 'demos') stopDemo();
+    if(tabName !== 'games') stopGame();
+}
+
+// TERMINAL
+function focusTerminal() {
+    if(hiddenInput) {
+        hiddenInput.focus();
+        // Force focus back if lost (helper for iframes)
+        setTimeout(() => hiddenInput.focus(), 10);
+        initAudio();
+    }
+}
+
+function setupTerminalListeners() {
+    if(!hiddenInput) return;
+    
+    hiddenInput.addEventListener('input', (e) => {
+        currentLineSpan.textContent = hiddenInput.value.toUpperCase();
+    });
+
+    hiddenInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const command = hiddenInput.value.toUpperCase().trim();
+            if(command) {
+                printLine(command);
+                processCommand(command);
+                addToHistory(command);
+            } else {
+                printLine("");
+            }
+            hiddenInput.value = '';
+            currentLineSpan.textContent = '';
+            e.preventDefault();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if(commandHistory.length > 0) {
+                hiddenInput.value = commandHistory[commandHistory.length - 1];
+                currentLineSpan.textContent = hiddenInput.value;
+            }
+        }
+    });
+}
+
+function printLine(text) {
+    if(outputDiv) {
+        outputDiv.innerHTML += text + "<br>";
+        // Ensure we scroll to bottom
+        const screen = document.getElementById('terminal-screen');
+        if(screen) screen.scrollTop = screen.scrollHeight;
+    }
+}
+
+function addToHistory(cmd) {
+    commandHistory.push(cmd);
+    const histDiv = document.getElementById('history');
+    if(!histDiv) return;
+    
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.textContent = cmd;
+    item.onclick = () => {
+        if(hiddenInput) {
+            hiddenInput.value = cmd;
+            currentLineSpan.textContent = cmd;
+            focusTerminal();
+        }
+    };
+    histDiv.appendChild(item);
+    histDiv.scrollTop = histDiv.scrollHeight;
+}
+
+function processCommand(cmd) {
+    if (isRunning) return;
+
+    // Check if it's a line number (program line)
+    const lineMatch = cmd.match(/^(\d+)\s+(.+)$/);
+    if (lineMatch) {
+        const lineNum = parseInt(lineMatch[1]);
+        const lineCode = lineMatch[2];
+        programLines[lineNum] = lineCode;
+        printLine("READY.");
+        return;
+    }
+
+    // Delete line number
+    const deleteMatch = cmd.match(/^(\d+)$/);
+    if (deleteMatch) {
+        const lineNum = parseInt(deleteMatch[1]);
+        delete programLines[lineNum];
+        printLine("READY.");
+        return;
+    }
+
+    if (cmd === "LIST") {
+        const sortedLines = Object.keys(programLines).map(Number).sort((a, b) => a - b);
+        if (sortedLines.length === 0) {
+            printLine("READY.");
+        } else {
+            sortedLines.forEach(lineNum => {
+                printLine(`${lineNum} ${programLines[lineNum]}`);
+            });
+            printLine("READY.");
+        }
+    }
+    else if (cmd === "RUN") {
+        runBASICProgram();
+    }
+    else if (cmd === "NEW") {
+        programLines = {};
+        printLine("READY.");
+    }
+    else if (cmd.startsWith("PRINT") || cmd.startsWith("?")) {
+        const expression = cmd.replace(/^(PRINT|\?)\s*/, "");
+        const result = evaluateBASICExpression(expression);
+        printLine(result);
+        printLine("READY.");
+    }
+    else if (cmd.startsWith("POKE 53280,")) {
+        const val = parseInt(cmd.split(',')[1]);
+        if(!isNaN(val) && val >= 0 && val < 16) {
+            terminalScreen.style.borderColor = c64Colors[val].hex;
+            printLine("READY.");
+        } else {
+            printLine("?ILLEGAL QUANTITY ERROR");
+            printLine("READY.");
+        }
+    }
+    else if (cmd.startsWith("POKE 53281,")) {
+        const val = parseInt(cmd.split(',')[1]);
+        if(!isNaN(val) && val >= 0 && val < 16) {
+            terminalScreen.style.backgroundColor = c64Colors[val].hex;
+            printLine("READY.");
+        } else {
+            printLine("?ILLEGAL QUANTITY ERROR");
+            printLine("READY.");
+        }
+    }
+    else if (cmd === "HELP") {
+        printLine("AVAILABLE COMMANDS:");
+        printLine("10 PRINT \"HELLO\" - ADD PROGRAM LINE");
+        printLine("LIST - SHOW PROGRAM");
+        printLine("RUN - EXECUTE PROGRAM");
+        printLine("NEW - CLEAR PROGRAM");
+        printLine("PRINT \"TEXT\" OR ? \"TEXT\"");
+        printLine("PRINT 2+2 - EVALUATE EXPRESSION");
+        printLine("POKE 53280,N - BORDER COLOR (0-15)");
+        printLine("POKE 53281,N - BACKGROUND COLOR");
+        printLine("FOR/NEXT, IF/THEN, GOTO, GOSUB");
+        printLine("READY.");
+    }
+    else if (cmd === "CLS" || cmd === "CLR") {
+        outputDiv.innerHTML = "";
+        printLine("READY.");
+    }
+    else if (cmd === "") {
+        // Empty line
+    }
+    else {
+        printLine("?SYNTAX ERROR");
+        printLine("READY.");
+    }
+}
+
+// BASIC Expression Evaluator
+function evaluateBASICExpression(expr) {
+    try {
+        // Remove quotes for string literals
+        const stringMatch = expr.match(/^"([^"]*)"$/);
+        if (stringMatch) {
+            return stringMatch[1];
+        }
+        
+        // Handle string concatenation with ;
+        if (expr.includes(';')) {
+            const parts = expr.split(';').map(part => {
+                part = part.trim();
+                if (part.startsWith('"') && part.endsWith('"')) {
+                    return part.slice(1, -1);
+                }
+                return evaluateNumericExpression(part);
+            });
+            return parts.join('');
+        }
+        
+        // Numeric expression
+        return evaluateNumericExpression(expr);
+    } catch (e) {
+        return "?SYNTAX ERROR";
+    }
+}
+
+function evaluateNumericExpression(expr) {
+    try {
+        // Simple math evaluation (safe subset)
+        const sanitized = expr.replace(/[^0-9+\-*/().\s]/g, '');
+        if (sanitized !== expr) throw new Error("Invalid characters");
+        const result = Function('"use strict"; return (' + sanitized + ')')();
+        return result.toString();
+    } catch (e) {
+        throw new Error("Invalid expression");
+    }
+}
+
+// BASIC Program Runner
+function runBASICProgram() {
+    const sortedLines = Object.keys(programLines).map(Number).sort((a, b) => a - b);
+    if (sortedLines.length === 0) {
+        printLine("READY.");
+        return;
+    }
+    
+    isRunning = true;
+    let currentLineIndex = 0;
+    let loopStack = [];
+    let variables = {};
+    
+    function executeNextLine() {
+        if (currentLineIndex >= sortedLines.length || !isRunning) {
+            isRunning = false;
+            printLine("READY.");
+            return;
+        }
+        
+        const lineNum = sortedLines[currentLineIndex];
+        const code = programLines[lineNum];
+        
+        // PRINT statement
+        if (code.startsWith("PRINT ") || code.startsWith("? ")) {
+            const expr = code.replace(/^(PRINT|\?)\s+/, "");
+            const result = evaluateBASICExpression(expr);
+            printLine(result);
+            currentLineIndex++;
+            setTimeout(executeNextLine, 50);
+        }
+        // FOR loop
+        else if (code.startsWith("FOR ")) {
+            const match = code.match(/FOR\s+(\w+)\s*=\s*(\d+)\s+TO\s+(\d+)(?:\s+STEP\s+(\d+))?/);
+            if (match) {
+                const varName = match[1];
+                const start = parseInt(match[2]);
+                const end = parseInt(match[3]);
+                const step = match[4] ? parseInt(match[4]) : 1;
+                
+                variables[varName] = start;
+                loopStack.push({
+                    varName: varName,
+                    end: end,
+                    step: step,
+                    startLineIndex: currentLineIndex
+                });
+                currentLineIndex++;
+                setTimeout(executeNextLine, 10);
+            } else {
+                printLine("?SYNTAX ERROR IN " + lineNum);
+                isRunning = false;
+            }
+        }
+        // NEXT statement
+        else if (code.startsWith("NEXT")) {
+            if (loopStack.length === 0) {
+                printLine("?NEXT WITHOUT FOR");
+                isRunning = false;
+                return;
+            }
+            
+            const loop = loopStack[loopStack.length - 1];
+            variables[loop.varName] += loop.step;
+            
+            if ((loop.step > 0 && variables[loop.varName] <= loop.end) ||
+                (loop.step < 0 && variables[loop.varName] >= loop.end)) {
+                currentLineIndex = loop.startLineIndex + 1;
+            } else {
+                loopStack.pop();
+                currentLineIndex++;
+            }
+            setTimeout(executeNextLine, 10);
+        }
+        // GOTO
+        else if (code.startsWith("GOTO ")) {
+            const targetLine = parseInt(code.replace("GOTO ", ""));
+            const targetIndex = sortedLines.indexOf(targetLine);
+            if (targetIndex !== -1) {
+                currentLineIndex = targetIndex;
+                setTimeout(executeNextLine, 10);
+            } else {
+                printLine("?UNDEF'D STATEMENT ERROR");
+                isRunning = false;
+            }
+        }
+        // END
+        else if (code === "END") {
+            isRunning = false;
+            printLine("READY.");
+        }
+        else {
+            currentLineIndex++;
+            setTimeout(executeNextLine, 10);
+        }
+    }
+    
+    executeNextLine();
+}
+
+function runProgram(name) {
+    if(isRunning) return;
+    const programs = {
+        maze: { cmd: '10 PRINT CHR$(205.5+RND(1)); : GOTO 10', time: 2500, fn: runMaze },
+        hello: { cmd: 'LOAD "HELLO"', time: 1500, fn: runHello },
+        colors: { cmd: 'LOAD "COLORS"', time: 1800, fn: runColors },
+        music: { cmd: 'LOAD "MUSIC"', time: 2000, fn: runMusic },
+        bouncer: { cmd: 'LOAD "BOUNCER"', time: 2200, fn: runBouncer }
+    };
+    
+    const prog = programs[name];
+    if(prog) runCommand(prog.cmd, prog.time, prog.fn);
+}
+
+async function runCommand(cmdText, loadTime, callback) {
+    isRunning = true;
+    initAudio();
+    
+    // Simulate user typing or loading
+    if(cmdText.startsWith('LOAD')) {
+        printLine(cmdText);
+        printLine("PRESS PLAY ON TAPE");
+        await wait(600);
+        printLine("OK");
+        blinkLed(true);
+        printLine("SEARCHING");
+        await wait(800);
+        printLine("FOUND " + cmdText.split('"')[1]);
+        printLine("LOADING");
+        
+        await wait(loadTime);
+        
+        blinkLed(false);
+        printLine("READY.");
+        printLine("RUN");
+    } else {
+        // Direct BASIC entry simulation for 10 PRINT
+        printLine(cmdText);
+        await wait(500);
+        printLine("RUN");
+    }
+    
+    if(callback) callback();
+}
+
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function blinkLed(on) {
+    document.getElementById('drive-led').classList.toggle('active', on);
+}
+
+// PROGRAMS
+function runMaze() {
+    const chars = ["╱", "╲"];
+    let count = 0;
+    let lineLength = 0;
+    const maxLineLength = 38; // Keep within screen width
+    
+    const interval = setInterval(() => {
+        if(!isRunning || count++ > 400) {
+            clearInterval(interval);
+            isRunning = false;
+            printLine("<br>BREAK IN 10");
+            printLine("READY.");
+            return;
+        }
+        
+        outputDiv.innerHTML += chars[Math.floor(Math.random() * 2)];
+        lineLength++;
+        
+        if(lineLength >= maxLineLength) {
+            outputDiv.innerHTML += "<br>";
+            lineLength = 0;
+        }
+        
+        terminalScreen.scrollTop = terminalScreen.scrollHeight;
+    }, 30);
+}
+
+function runHello() {
+    let i = 0;
+    const interval = setInterval(() => {
+        if(i++ > 20) {
+            clearInterval(interval);
+            isRunning = false;
+            printLine("READY.");
+            return;
+        }
+        printLine("HELLO FROM THE COMMODORE 64!");
+    }, 100);
+}
+
+function runColors() {
+    let i = 0;
+    const interval = setInterval(() => {
+        if(i > 15) {
+            clearInterval(interval);
+            isRunning = false;
+            terminalScreen.style.borderColor = c64Colors[14].hex;
+            printLine("READY.");
+            return;
+        }
+        terminalScreen.style.borderColor = c64Colors[i].hex;
+        printLine(`POKE 53280,${i}`);
+        i++;
+    }, 250);
+}
+
+function runMusic() {
+    const notes = [262, 294, 330, 349, 392, 440, 494, 523];
+    let i = 0;
+    const interval = setInterval(() => {
+        if(i >= notes.length) {
+            clearInterval(interval);
+            stopNote();
+            isRunning = false;
+            printLine("READY.");
+            return;
+        }
+        document.getElementById('frequency').value = notes[i];
+        updateFreqDisplay();
+        playNote();
+        setTimeout(() => stopNote(), 300);
+        printLine(`PLAY ${notes[i]} HZ`);
+        i++;
+    }, 400);
+}
+
+function runBouncer() {
+    let x = 0, y = 0, dx = 1, dy = 1;
+    let count = 0;
+    const interval = setInterval(() => {
+        if(count++ > 100) {
+            clearInterval(interval);
+            isRunning = false;
+            printLine("<br>READY.");
+            return;
+        }
+        x += dx;
+        y += dy;
+        if(x <= 0 || x >= 38) dx = -dx;
+        if(y <= 0 || y >= 23) dy = -dy;
+        
+        const line = " ".repeat(x) + "●";
+        printLine(line);
+        
+        if(count % 25 === 0) {
+            outputDiv.innerHTML = outputDiv.innerHTML.split('<br>').slice(-24).join('<br>');
+        }
+    }, 50);
+}
+
+function resetC64() {
+    isRunning = false;
+    stopNote();
+    programLines = {};
+    outputDiv.innerHTML = '<div class="boot-text">**** COMMODORE 64 BASIC V2 ****\n64K RAM SYSTEM  38911 BASIC BYTES FREE\n</div>READY.<br>';
+    terminalScreen.style.borderColor = c64Colors[14].hex;
+    terminalScreen.style.backgroundColor = c64Colors[6].hex;
+    commandHistory = [];
+    document.getElementById('history').innerHTML = '<div style="color: var(--c64-cyan); margin-bottom: 5px;">COMMAND HISTORY:</div>';
+}
+
+// SPRITE STUDIO
+const spriteSize = 24;
+let pixels = [];
+
+function initSpriteGrid() {
+    const grid = document.getElementById('spriteGrid');
+    for(let i = 0; i < spriteSize * spriteSize; i++) {
+        const p = document.createElement('div');
+        p.className = 'pixel';
+        p.onclick = function() {
+            this.classList.toggle('on');
+            updateSpritePreview();
+        };
+        grid.appendChild(p);
+        pixels.push(p);
+    }
+    updateSpritePreview();
+}
+
+function clearSprite() {
+    pixels.forEach(p => p.classList.remove('on'));
+    updateSpritePreview();
+}
+
+function fillSprite() {
+    pixels.forEach(p => p.classList.add('on'));
+    updateSpritePreview();
+}
+
+function invertSprite() {
+    pixels.forEach(p => p.classList.toggle('on'));
+    updateSpritePreview();
+}
+
+function exportSprite() {
+    let data = [];
+    for(let row = 0; row < spriteSize; row++) {
+        let byte1 = "", byte2 = "", byte3 = "";
+        for(let col = 0; col < 8; col++) {
+            const idx = row * spriteSize + col;
+            byte1 += pixels[idx].classList.contains('on') ? "1" : "0";
+        }
+        for(let col = 8; col < 16; col++) {
+            const idx = row * spriteSize + col;
+            byte2 += pixels[idx].classList.contains('on') ? "1" : "0";
+        }
+        for(let col = 16; col < 24; col++) {
+            const idx = row * spriteSize + col;
+            byte3 += pixels[idx].classList.contains('on') ? "1" : "0";
+        }
+        data.push(parseInt(byte1, 2), parseInt(byte2, 2), parseInt(byte3, 2));
+    }
+    printLine("10 REM SPRITE DATA");
+    for(let i = 0; i < data.length; i += 8) {
+        printLine(`${20 + i} DATA ${data.slice(i, i + 8).join(",")}`);
+    }
+    printLine("READY.");
+    switchTab('terminal');
+}
+
+function updateSpritePreview() {
+    const canvas = document.getElementById('spriteCanvas');
+    canvas.width = spriteSize;
+    canvas.height = spriteSize;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = c64Colors[6].hex;
+    ctx.fillRect(0, 0, spriteSize, spriteSize);
+    
+    ctx.fillStyle = c64Colors[1].hex;
+    pixels.forEach((p, i) => {
+        if(p.classList.contains('on')) {
+            const x = i % spriteSize;
+            const y = Math.floor(i / spriteSize);
+            ctx.fillRect(x, y, 1, 1);
+        }
+    });
+}
+
+function loadPreset(name) {
+    clearSprite();
+    const presets = {
+        smiley: [
+            "000000000000000000000000",
+            "000000000000000000000000",
+            "000000000000000000000000",
+            "000001111111111111000000",
+            "000110000000000000110000",
+            "001000000000000000001000",
+            "010000110000000110000100",
+            "010001111000001111000100",
+            "100000110000000110000010",
+            "100000000000000000000010",
+            "100000000000000000000010",
+            "100000000000000000000010",
+            "100010000000000000100010",
+            "100001000000000001000010",
+            "100000110000000110000010",
+            "100000001111111000000010",
+            "010000000000000000000100",
+            "010000000000000000000100",
+            "001000000000000000001000",
+            "000110000000000000110000",
+            "000001111111111111000000",
+            "000000000000000000000000",
+            "000000000000000000000000",
+            "000000000000000000000000"
+        ],
+        heart: [
+            "000000000000000000000000",
+            "000000000000000000000000",
+            "000000000000000000000000",
+            "000001100000001100000000",
+            "000111110000111110000000",
+            "001111111001111111000000",
+            "011111111111111111100000",
+            "011111111111111111100000",
+            "111111111111111111110000",
+            "111111111111111111110000",
+            "111111111111111111110000",
+            "011111111111111111100000",
+            "011111111111111111100000",
+            "001111111111111111000000",
+            "001111111111111111000000",
+            "000111111111111110000000",
+            "000011111111111100000000",
+            "000001111111111000000000",
+            "000000111111110000000000",
+            "000000011111100000000000",
+            "000000001111000000000000",
+            "000000000110000000000000",
+            "000000000000000000000000",
+            "000000000000000000000000"
+        ],
+        skull: [
+            "000000000000000000000000",
+            "000000001111000000000000",
+            "000000111111110000000000",
+            "000001111111111000000000",
+            "000011111111111100000000",
+            "000111111111111110000000",
+            "001111111111111111000000",
+            "001111111111111111000000",
+            "001110011111100111000000",
+            "001110011111100111000000",
+            "001110011111100111000000",
+            "001111111111111111000000",
+            "001111111111111111000000",
+            "000111101111011110000000",
+            "000011101111011100000000",
+            "000011111111111100000000",
+            "000001111111111000000000",
+            "000001111111111000000000",
+            "000011011101101100000000",
+            "000011011101101100000000",
+            "000110001100011000000000",
+            "000110001100011000000000",
+            "000000000000000000000000",
+            "000000000000000000000000"
+        ],
+        spaceship: [
+            "000000000000000000000000",
+            "000000000110000000000000",
+            "000000001111000000000000",
+            "000000001111000000000000",
+            "000000011111100000000000",
+            "000000011111100000000000",
+            "000000111111110000000000",
+            "000001111111111000000000",
+            "000001111111111000000000",
+            "000011111111111100000000",
+            "000111111111111110000000",
+            "001111111111111111000000",
+            "011111111111111111100000",
+            "111111111111111111110000",
+            "111111111111111111110000",
+            "011111111111111111100000",
+            "001111100000011111000000",
+            "000111000000001110000000",
+            "000110000000001100000000",
+            "001100000000000110000000",
+            "011000000000000011000000",
+            "110000000000000001100000",
+            "000000000000000000000000",
+            "000000000000000000000000"
+        ]
+    };
+    
+    if(presets[name]) {
+        presets[name].forEach((row, y) => {
+            for(let x = 0; x < spriteSize; x++) {
+                if(row[x] === '1') {
+                    pixels[y * spriteSize + x].classList.add('on');
+                }
+            }
+        });
+        updateSpritePreview();
+    }
+}
+
+// SID SYNTHESIZER
+function initAudio() {
+    if(!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+function initSIDControls() {
+    const freqSlider = document.getElementById('frequency');
+    const attackSlider = document.getElementById('attack');
+    const decaySlider = document.getElementById('decay');
+    const sustainSlider = document.getElementById('sustain');
+    const releaseSlider = document.getElementById('release');
+    
+    freqSlider.addEventListener('input', updateFreqDisplay);
+    attackSlider.addEventListener('input', updateAttackDisplay);
+    decaySlider.addEventListener('input', updateDecayDisplay);
+    sustainSlider.addEventListener('input', updateSustainDisplay);
+    releaseSlider.addEventListener('input', updateReleaseDisplay);
+}
+
+function updateFreqDisplay() {
+    document.getElementById('freq-val').textContent = document.getElementById('frequency').value;
+}
+
+function updateAttackDisplay() {
+    const val = document.getElementById('attack').value / 1000;
+    document.getElementById('attack-val').textContent = val.toFixed(2);
+}
+
+function updateDecayDisplay() {
+    const val = document.getElementById('decay').value / 1000;
+    document.getElementById('decay-val').textContent = val.toFixed(2);
+}
+
+function updateSustainDisplay() {
+    const val = document.getElementById('sustain').value / 100;
+    document.getElementById('sustain-val').textContent = val.toFixed(2);
+}
+
+function updateReleaseDisplay() {
+    const val = document.getElementById('release').value / 1000;
+    document.getElementById('release-val').textContent = val.toFixed(2);
+}
+
+function playNote() {
+    initAudio();
+    stopNote();
+    
+    const waveform = document.getElementById('waveform').value;
+    const frequency = parseFloat(document.getElementById('frequency').value);
+    const attack = parseFloat(document.getElementById('attack').value) / 1000;
+    const decay = parseFloat(document.getElementById('decay').value) / 1000;
+    const sustain = parseFloat(document.getElementById('sustain').value) / 100;
+    const release = parseFloat(document.getElementById('release').value) / 1000;
+    
+    oscNode = audioCtx.createOscillator();
+    gainNode = audioCtx.createGain();
+    
+    oscNode.type = waveform;
+    oscNode.frequency.value = frequency;
+    
+    const now = audioCtx.currentTime;
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.3, now + attack);
+    gainNode.gain.linearRampToValueAtTime(0.3 * sustain, now + attack + decay);
+    
+    oscNode.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscNode.start(now);
+}
+
+function stopNote() {
+    if(oscNode && gainNode) {
+        const release = parseFloat(document.getElementById('release').value) / 1000;
+        const now = audioCtx.currentTime;
+        
+        gainNode.gain.cancelScheduledValues(now);
+        gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+        gainNode.gain.linearRampToValueAtTime(0, now + release);
+        
+        oscNode.stop(now + release);
+        oscNode = null;
+        gainNode = null;
+    }
+}
+
+function loadPresetSound(name) {
+    const presets = {
+        laser: { wave: 'sawtooth', freq: 800, attack: 5, decay: 100, sustain: 0, release: 200 },
+        explosion: { wave: 'square', freq: 100, attack: 1, decay: 500, sustain: 0, release: 800 },
+        powerup: { wave: 'square', freq: 400, attack: 10, decay: 50, sustain: 80, release: 100 },
+        coin: { wave: 'square', freq: 988, attack: 5, decay: 100, sustain: 0, release: 100 },
+        jump: { wave: 'triangle', freq: 300, attack: 10, decay: 200, sustain: 0, release: 100 },
+        hurt: { wave: 'sawtooth', freq: 200, attack: 5, decay: 300, sustain: 20, release: 200 }
+    };
+    
+    const preset = presets[name];
+    if(preset) {
+        document.getElementById('waveform').value = preset.wave;
+        document.getElementById('frequency').value = preset.freq;
+        document.getElementById('attack').value = preset.attack;
+        document.getElementById('decay').value = preset.decay;
+        document.getElementById('sustain').value = preset.sustain;
+        document.getElementById('release').value = preset.release;
+        
+        updateFreqDisplay();
+        updateAttackDisplay();
+        updateDecayDisplay();
+        updateSustainDisplay();
+        updateReleaseDisplay();
+        
+        playNote();
+        setTimeout(() => stopNote(), 1000);
+    }
+}
+
+// COLOR PALETTE
+function initColorPalette() {
+    const palette = document.getElementById('colorPalette');
+    c64Colors.forEach((color, i) => {
+        const box = document.createElement('div');
+        box.className = 'color-box';
+        box.style.backgroundColor = color.hex;
+        box.onclick = () => showColorInfo(i);
+        palette.appendChild(box);
+    });
+}
+
+function showColorInfo(index) {
+    const color = c64Colors[index];
+    const info = document.getElementById('colorInfo');
+    info.innerHTML = `
+        <strong>${color.name}</strong><br>
+        HEX: ${color.hex} | POKE VALUE: ${color.poke}<br>
+        USAGE: POKE 53280,${color.poke} (BORDER) | POKE 53281,${color.poke} (BACKGROUND)
+    `;
+    
+    document.querySelectorAll('.color-box').forEach((box, i) => {
+        box.classList.toggle('selected', i === index);
+    });
+}
+
+// MEMORY MAP INFO
+function showMemInfo(area) {
+    const info = {
+        zero: "Zero Page is the fastest RAM area. CPU can access it with single-byte addressing, making it crucial for performance-critical code.",
+        stack: "The 6510's hardware stack. Used for subroutine returns (JSR/RTS) and interrupt handling. Grows downward from $01FF.",
+        basic: "BASIC uses this area for input buffers, variable tables, and system pointers. Cassette buffer at $033C.",
+        screen: "Default video memory. 1000 bytes represent 40 columns × 25 rows. Each byte is a screen code (0-255).",
+        program: "Your BASIC programs live here! The famous '38911 BASIC BYTES FREE' starts at $0801 and ends at $9FFF.",
+        basicrom: "The BASIC interpreter ROM. Contains all BASIC commands like PRINT, FOR, NEXT, etc. Can be banked out to access RAM underneath.",
+        upperram: "When BASIC ROM is switched out, this RAM becomes available. Useful for machine language programs.",
+        io: "Memory-mapped I/O. VIC-II ($D000-$D3FF), SID ($D400-$D7FF), color RAM ($D800-$DBFF), CIA chips ($DC00-$DDFF).",
+        charrom: "Character set ROM with uppercase/graphics (set 1) and upper/lowercase (set 2). Can be switched with POKE 53272.",
+        kernal: "The operating system ROM. Handles I/O operations, screen routines, and hardware management. Essential for system function."
+    };
+    
+    if(info[area]) {
+        alert(info[area]);
+    }
+}
+
+// DEMO SCENE EFFECTS
+let demoInterval = null;
+let demoCanvas = null;
+let demoCtx = null;
+
+function runDemo(type) {
+    stopDemo();
+    demoCanvas = document.getElementById('demo-canvas');
+    demoCtx = demoCanvas.getContext('2d');
+    
+    const demos = {
+        plasma: runPlasmaDemo,
+        scroller: runScrollerDemo,
+        starfield: runStarfieldDemo,
+        raster: runRasterDemo,
+        bouncing: runBouncingDemo
+    };
+    
+    if(demos[type]) demos[type]();
+}
+
+function stopDemo() {
+    if(demoInterval) {
+        clearInterval(demoInterval);
+        demoInterval = null;
+    }
+    if(demoCtx) {
+        demoCtx.fillStyle = '#000';
+        demoCtx.fillRect(0, 0, 320, 200);
+    }
+}
+
+function runPlasmaDemo() {
+    let time = 0;
+    demoInterval = setInterval(() => {
+        for(let y = 0; y < 200; y += 2) {
+            for(let x = 0; x < 320; x += 2) {
+                const v = Math.sin(x * 0.04 + time) + Math.sin(y * 0.03 + time) + Math.sin((x + y) * 0.02 + time);
+                const colorIndex = Math.floor((v + 3) * 2.5) % 16;
+                demoCtx.fillStyle = c64Colors[colorIndex].hex;
+                demoCtx.fillRect(x, y, 2, 2);
+            }
+        }
+        time += 0.1;
+    }, 50);
+}
+
+function runScrollerDemo() {
+    const text = "    CHEEKY COMMODORE GAMER PRESENTS... THE ULTIMATE C64 MASTERCLASS!    GREETINGS TO ALL RETRO ENTHUSIASTS!    ";
+    let offset = 0;
+    demoInterval = setInterval(() => {
+        demoCtx.fillStyle = c64Colors[6].hex;
+        demoCtx.fillRect(0, 0, 320, 200);
+        
+        demoCtx.font = '20px VT323';
+        demoCtx.textBaseline = 'middle';
+        
+        for(let i = 0; i < text.length; i++) {
+            const x = (i * 15 - offset) % (320 + text.length * 15);
+            const y = 100 + Math.sin((x + offset) * 0.02) * 30;
+            const colorIndex = Math.floor((x + offset) * 0.05) % 16;
+            demoCtx.fillStyle = c64Colors[colorIndex].hex;
+            demoCtx.fillText(text[i], x, y);
+        }
+        offset += 2;
+    }, 30);
+}
+
+function runStarfieldDemo() {
+    const stars = [];
+    for(let i = 0; i < 100; i++) {
+        stars.push({
+            x: Math.random() * 320,
+            y: Math.random() * 200,
+            z: Math.random() * 320,
+            speed: Math.random() * 2 + 1
+        });
+    }
+    
+    demoInterval = setInterval(() => {
+        demoCtx.fillStyle = 'rgba(0,0,0,0.3)';
+        demoCtx.fillRect(0, 0, 320, 200);
+        
+        stars.forEach(star => {
+            star.z -= star.speed;
+            if(star.z <= 0) {
+                star.z = 320;
+                star.x = Math.random() * 320;
+                star.y = Math.random() * 200;
+            }
+            
+            const sx = (star.x - 160) * (320 / star.z) + 160;
+            const sy = (star.y - 100) * (320 / star.z) + 100;
+            const size = (320 - star.z) / 80;
+            
+            const brightness = Math.floor((320 - star.z) / 40);
+            const colorIndex = brightness > 7 ? 1 : 15;
+            
+            demoCtx.fillStyle = c64Colors[colorIndex].hex;
+            demoCtx.fillRect(sx, sy, size, size);
+        });
+    }, 30);
+}
+
+function runRasterDemo() {
+    let offset = 0;
+    demoInterval = setInterval(() => {
+        for(let y = 0; y < 200; y += 4) {
+            const colorIndex = Math.floor((y + offset) / 13) % 16;
+            demoCtx.fillStyle = c64Colors[colorIndex].hex;
+            demoCtx.fillRect(0, y, 320, 4);
+        }
+        offset += 2;
+    }, 30);
+}
+
+function runBouncingDemo() {
+    let x = 160, y = 100, dx = 3, dy = 2;
+    const logoSize = 40;
+    
+    demoInterval = setInterval(() => {
+        demoCtx.fillStyle = c64Colors[6].hex;
+        demoCtx.fillRect(0, 0, 320, 200);
+        
+        x += dx;
+        y += dy;
+        
+        if(x <= logoSize/2 || x >= 320 - logoSize/2) dx = -dx;
+        if(y <= logoSize/2 || y >= 200 - logoSize/2) dy = -dy;
+        
+        // Draw C= logo
+        demoCtx.fillStyle = c64Colors[1].hex;
+        demoCtx.beginPath();
+        demoCtx.arc(x, y, logoSize/2, 0.3 * Math.PI, 1.7 * Math.PI);
+        demoCtx.lineWidth = 8;
+        demoCtx.strokeStyle = c64Colors[1].hex;
+        demoCtx.stroke();
+        
+        demoCtx.fillStyle = c64Colors[14].hex;
+        demoCtx.fillRect(x - 5, y - 15, 10, 10);
+        demoCtx.fillRect(x - 5, y + 5, 10, 10);
+    }, 30);
+}
+
+// MINI GAMES
+let gameInterval = null;
+let gameCanvas = null;
+let gameCtx = null;
+let currentGame = null;
+let gameState = {};
+
+function startGame(type) {
+    stopGame();
+    gameCanvas = document.getElementById('game-canvas');
+    gameCtx = gameCanvas.getContext('2d');
+    currentGame = type;
+    
+    // Reset score
+    document.getElementById('game-score').textContent = 'SCORE: 0';
+    
+    const games = {
+        snake: initSnakeGame,
+        pong: initPongGame,
+        breakout: initBreakoutGame
+    };
+    
+    if(games[type]) games[type]();
+}
+
+function stopGame() {
+    if(gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+    if(gameCtx) {
+        gameCtx.fillStyle = '#000';
+        gameCtx.fillRect(0, 0, 320, 200);
+    }
+    currentGame = null;
+    document.removeEventListener('keydown', gameKeyHandler);
+}
+
+function gameKeyHandler(e) {
+    if(!currentGame) return;
+
+    // PREVENT SCROLLING FOR ARROW KEYS
+    const gameKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
+    if(gameKeys.includes(e.key)) {
+        e.preventDefault();
+    }
+    
+    if(currentGame === 'snake') {
+        if(e.key === 'ArrowUp' && gameState.snakeDir !== 'down') gameState.snakeDir = 'up';
+        if(e.key === 'ArrowDown' && gameState.snakeDir !== 'up') gameState.snakeDir = 'down';
+        if(e.key === 'ArrowLeft' && gameState.snakeDir !== 'right') gameState.snakeDir = 'left';
+        if(e.key === 'ArrowRight' && gameState.snakeDir !== 'left') gameState.snakeDir = 'right';
+    } else if(currentGame === 'pong') {
+        if(e.key === 'ArrowUp') gameState.paddleDir = -1;
+        if(e.key === 'ArrowDown') gameState.paddleDir = 1;
+    } else if(currentGame === 'breakout') {
+        if(e.key === 'ArrowLeft') gameState.paddleX -= 15;
+        if(e.key === 'ArrowRight') gameState.paddleX += 15;
+        gameState.paddleX = Math.max(25, Math.min(295 - 50, gameState.paddleX));
+    }
+}
+
+// Helper for Snake direction change via touch
+function handleSnakeDirection(key) {
+    if(key === 'up' && gameState.snakeDir !== 'down') gameState.snakeDir = 'up';
+    if(key === 'down' && gameState.snakeDir !== 'up') gameState.snakeDir = 'down';
+    if(key === 'left' && gameState.snakeDir !== 'right') gameState.snakeDir = 'left';
+    if(key === 'right' && gameState.snakeDir !== 'left') gameState.snakeDir = 'right';
+}
+
+function initSnakeGame() {
+    document.getElementById('game-controls').textContent = 'USE ARROW KEYS OR D-PAD TO MOVE';
+    document.addEventListener('keydown', gameKeyHandler);
+    
+    gameState = {
+        snake: [{x: 160, y: 100}],
+        snakeDir: 'right',
+        food: {x: Math.floor(Math.random() * 30) * 10 + 10, y: Math.floor(Math.random() * 18) * 10 + 10},
+        score: 0,
+        gridSize: 10
+    };
+    
+    gameInterval = setInterval(() => {
+        const head = {...gameState.snake[0]};
+        
+        // Direction is already set by event listeners (keys or touch)
+        
+        if(gameState.snakeDir === 'up') head.y -= gameState.gridSize;
+        if(gameState.snakeDir === 'down') head.y += gameState.gridSize;
+        if(gameState.snakeDir === 'left') head.x -= gameState.gridSize;
+        if(gameState.snakeDir === 'right') head.x += gameState.gridSize;
+        
+        // Wrap around
+        if(head.x < 0) head.x = 310;
+        if(head.x >= 320) head.x = 0;
+        if(head.y < 0) head.y = 190;
+        if(head.y >= 200) head.y = 0;
+        
+        // Check self collision
+        if(gameState.snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+            stopGame();
+            document.getElementById('game-controls').textContent = 'GAME OVER! CLICK TO RESTART';
+            return;
+        }
+        
+        gameState.snake.unshift(head);
+        
+        // Check food
+        if(head.x === gameState.food.x && head.y === gameState.food.y) {
+            gameState.score += 10;
+            document.getElementById('game-score').textContent = 'SCORE: ' + gameState.score;
+            gameState.food = {
+                x: Math.floor(Math.random() * 30) * 10 + 10,
+                y: Math.floor(Math.random() * 18) * 10 + 10
+            };
+        } else {
+            gameState.snake.pop();
+        }
+        
+        // Draw
+        gameCtx.fillStyle = c64Colors[6].hex;
+        gameCtx.fillRect(0, 0, 320, 200);
+        
+        gameCtx.fillStyle = c64Colors[5].hex;
+        gameState.snake.forEach(seg => {
+            gameCtx.fillRect(seg.x, seg.y, gameState.gridSize - 1, gameState.gridSize - 1);
+        });
+        
+        gameCtx.fillStyle = c64Colors[2].hex;
+        gameCtx.fillRect(gameState.food.x, gameState.food.y, gameState.gridSize - 1, gameState.gridSize - 1);
+    }, 100);
+}
+
+function initPongGame() {
+    document.getElementById('game-controls').textContent = 'USE ARROW UP/DOWN OR D-PAD';
+    document.addEventListener('keydown', gameKeyHandler);
+    
+    gameState = {
+        paddleY: 75,
+        paddleDir: 0,
+        ballX: 160,
+        ballY: 100,
+        ballDX: 2,
+        ballDY: 2,
+        cpuY: 75,
+        score: 0
+    };
+    
+    gameInterval = setInterval(() => {
+        // CHECK VIRTUAL INPUT FOR PADDLE
+        let currentDir = gameState.paddleDir;
+        if(virtualInput.up) currentDir = -1;
+        if(virtualInput.down) currentDir = 1;
+
+        // Move paddle
+        gameState.paddleY += currentDir * 5;
+        gameState.paddleY = Math.max(0, Math.min(150, gameState.paddleY));
+        gameState.paddleDir = 0; // Reset keyboard impulse
+        
+        // Move ball
+        gameState.ballX += gameState.ballDX;
+        gameState.ballY += gameState.ballDY;
+        
+        // Ball collision with top/bottom
+        if(gameState.ballY <= 0 || gameState.ballY >= 195) gameState.ballDY = -gameState.ballDY;
+        
+        // Ball collision with player paddle
+        if(gameState.ballX <= 15 && gameState.ballY >= gameState.paddleY && gameState.ballY <= gameState.paddleY + 50) {
+            gameState.ballDX = Math.abs(gameState.ballDX);
+            gameState.score += 1;
+            document.getElementById('game-score').textContent = 'SCORE: ' + gameState.score;
+        }
+        
+        // CPU AI
+        if(gameState.ballY > gameState.cpuY + 25) gameState.cpuY += 2;
+        if(gameState.ballY < gameState.cpuY + 25) gameState.cpuY -= 2;
+        
+        // Ball collision with CPU paddle
+        if(gameState.ballX >= 305 && gameState.ballY >= gameState.cpuY && gameState.ballY <= gameState.cpuY + 50) {
+            gameState.ballDX = -Math.abs(gameState.ballDX);
+        }
+        
+        // Reset if ball goes out
+        if(gameState.ballX < 0 || gameState.ballX > 320) {
+            gameState.ballX = 160;
+            gameState.ballY = 100;
+            gameState.ballDX = (Math.random() > 0.5 ? 2 : -2);
+        }
+        
+        // Draw
+        gameCtx.fillStyle = c64Colors[6].hex;
+        gameCtx.fillRect(0, 0, 320, 200);
+        
+        gameCtx.fillStyle = c64Colors[1].hex;
+        gameCtx.fillRect(10, gameState.paddleY, 5, 50); // Player
+        gameCtx.fillRect(305, gameState.cpuY, 5, 50); // CPU
+        gameCtx.fillRect(gameState.ballX, gameState.ballY, 5, 5); // Ball
+        
+        // Center line
+        for(let y = 0; y < 200; y += 10) {
+            gameCtx.fillRect(158, y, 4, 5);
+        }
+    }, 20);
+}
+
+function initBreakoutGame() {
+    document.getElementById('game-controls').textContent = 'USE ARROW LEFT/RIGHT OR D-PAD';
+    document.addEventListener('keydown', gameKeyHandler);
+    
+    const bricks = [];
+    for(let row = 0; row < 5; row++) {
+        for(let col = 0; col < 10; col++) {
+            bricks.push({
+                x: col * 32 + 2,
+                y: row * 10 + 20,
+                width: 30,
+                height: 8,
+                alive: true,
+                color: c64Colors[row + 2].hex
+            });
+        }
+    }
+    
+    gameState = {
+        paddleX: 135,
+        ballX: 160,
+        ballY: 150,
+        ballDX: 2,
+        ballDY: -2,
+        bricks: bricks,
+        score: 0
+    };
+    
+    gameInterval = setInterval(() => {
+        // CHECK VIRTUAL INPUT FOR PADDLE (Smooth Movement)
+        if(virtualInput.left) gameState.paddleX -= 10;
+        if(virtualInput.right) gameState.paddleX += 10;
+        gameState.paddleX = Math.max(25, Math.min(295 - 50, gameState.paddleX));
+
+        // Move ball
+        gameState.ballX += gameState.ballDX;
+        gameState.ballY += gameState.ballDY;
+        
+        // Wall collision
+        if(gameState.ballX <= 0 || gameState.ballX >= 315) gameState.ballDX = -gameState.ballDX;
+        if(gameState.ballY <= 0) gameState.ballDY = -gameState.ballDY;
+        
+        // Paddle collision
+        if(gameState.ballY >= 185 && gameState.ballX >= gameState.paddleX && gameState.ballX <= gameState.paddleX + 50) {
+            gameState.ballDY = -Math.abs(gameState.ballDY);
+        }
+        
+        // Brick collision
+        gameState.bricks.forEach(brick => {
+            if(brick.alive && 
+               gameState.ballX >= brick.x && gameState.ballX <= brick.x + brick.width &&
+               gameState.ballY >= brick.y && gameState.ballY <= brick.y + brick.height) {
+                brick.alive = false;
+                gameState.ballDY = -gameState.ballDY;
+                gameState.score += 10;
+                document.getElementById('game-score').textContent = 'SCORE: ' + gameState.score;
+            }
+        });
+        
+        // Game over
+        if(gameState.ballY > 200) {
+            stopGame();
+            document.getElementById('game-controls').textContent = 'GAME OVER! FINAL SCORE: ' + gameState.score;
+            return;
+        }
+        
+        // Win condition
+        if(gameState.bricks.every(b => !b.alive)) {
+            stopGame();
+            document.getElementById('game-controls').textContent = 'YOU WIN! SCORE: ' + gameState.score;
+            return;
+        }
+        
+        // Draw
+        gameCtx.fillStyle = c64Colors[6].hex;
+        gameCtx.fillRect(0, 0, 320, 200);
+        
+        // Bricks
+        gameState.bricks.forEach(brick => {
+            if(brick.alive) {
+                gameCtx.fillStyle = brick.color;
+                gameCtx.fillRect(brick.x, brick.y, brick.width, brick.height);
+            }
+        });
+        
+        // Paddle
+        gameCtx.fillStyle = c64Colors[1].hex;
+        gameCtx.fillRect(gameState.paddleX, 185, 50, 5);
+        
+        // Ball
+        gameCtx.fillRect(gameState.ballX, gameState.ballY, 5, 5);
+    }, 20);
+}
+</script>
+
+</body>
+</html>
