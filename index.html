@@ -202,7 +202,7 @@
             margin-left: 2px;
         }
         
-        /* FIX: Ensure loading cursor is visible over dark background */
+        /* FIX: Ensure loading cursor is visible, even if parent sets cursor:none */
         .loading-cursor {
             display: inline-block !important; /* Force display */
         }
@@ -411,10 +411,13 @@
             return new Promise(resolve => {
                 if (loadingAborted) { resolve(); return; }
                 const el = document.getElementById(elementId);
+                // Clear existing content to start fresh typing
+                el.innerHTML = ""; 
                 let i = 0;
                 const timer = setInterval(() => {
                     if (loadingAborted) { clearInterval(timer); resolve(); return; }
-                    el.innerHTML += text.charAt(i);
+                    // Append text without touching the separate cursor element
+                    el.innerHTML += text.charAt(i); 
                     i++;
                     if (i >= text.length) {
                         clearInterval(timer);
