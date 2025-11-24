@@ -2,37 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheeky Commodore Gamer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cheeky Commodore Gamer | Games Database</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* --- PAGE SPECIFIC VISUALS (Restoring the Bells & Whistles) --- */
+        body { overflow-x: hidden; }
+
+        /* STARFIELD & CRT */
+        #starfield { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; pointer-events: none; }
+        .crt-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none; z-index: 9999; }
+
+        /* LAYOUT OVERRIDES */
+        .container { 
+            margin-top: 20px; 
+            border-width: 4px;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker background for readability */
+        }
+        
+        /* SEARCH BAR */
+        .search-wrapper { margin: 20px 0; position: relative; }
+        .search-input { width: 100%; padding: 12px; font-size: 1.4rem; text-transform: uppercase; border: 2px solid; background: rgba(0,0,0,0.5); outline: none; color: inherit; }
+        
+        /* BUTTON GRIDS */
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .btn-retro { padding: 15px; font-size: 1.3rem; text-transform: uppercase; text-align: center; border: 2px solid; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.1s; font-weight: bold; }
+        
+        /* C64 SPECIFIC COLORS */
+        body.c64-mode .btn-retro { background: var(--c64-light-blue); color: #fff; border-color: #fff; font-family: 'VT323', monospace; text-shadow: 2px 2px 0 #000; }
+        body.c64-mode .btn-retro:hover { background: #fff; color: var(--c64-blue); }
+        
+        /* AMIGA SPECIFIC COLORS */
+        body.amiga-mode .btn-retro { background: linear-gradient(180deg, #eee, #ccc); color: #000; border-color: #fff; font-family: 'Amiga Topaz', monospace; }
+        body.amiga-mode .btn-retro:hover { filter: brightness(1.1); }
+
+        /* HEADERS */
+        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; text-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
+        h2 { font-size: 1.5rem; text-align: center; margin-bottom: 30px; opacity: 0.8; border-bottom: 2px dashed; padding-bottom: 10px; display: inline-block; width: 100%; }
+    </style>
 </head>
-<body class="c64-mode">
+<body class="c64-mode"> 
+    
+    <canvas id="starfield"></canvas>
+    <div class="crt-overlay"></div>
 
     <div id="global-header-container"></div>
 
     <div class="container">
+        
         <h1>ACTION ADVENTURE</h1>
-        <h2>BROWSE COLLECTION</h2>
+        <h2>COIN-OP CONVERSIONS</h2>
 
         <div class="search-wrapper">
-            <input type="text" class="search-input" placeholder="FILTER THIS LIST..." disabled>
+            <input type="text" class="search-input" placeholder="FILTER THIS COLLECTION..." onkeyup="filterGames(this.value)">
         </div>
 
-        <div style="text-align: center; padding: 40px;">
-            <p>LOADING GAME DATA...</p>
-            <p style="color:red;">(You can add your YouTube links here later!)</p>
+        <div class="btn-grid" id="game-list">
+            <a href="https://www.youtube.com/watch?v=VIDEO_ID" target="_blank" class="btn-retro play-sound">
+                <i class="fa-solid fa-ghost"></i> PAC-MAN
+            </a>
+            <a href="https://www.youtube.com/watch?v=VIDEO_ID" target="_blank" class="btn-retro play-sound">
+                <i class="fa-solid fa-rocket"></i> GALAGA
+            </a>
+            <a href="https://www.youtube.com/watch?v=VIDEO_ID" target="_blank" class="btn-retro play-sound">
+                <i class="fa-solid fa-car"></i> OUTRUN
+            </a>
+            <a href="https://www.youtube.com/watch?v=VIDEO_ID" target="_blank" class="btn-retro play-sound">
+                <i class="fa-solid fa-fighter-jet"></i> 1942
+            </a>
         </div>
 
-        <div style="margin-top: 30px;">
-            <a href="index.html" class="btn-retro play-sound" style="background:#444; border-color:#888;">
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="index.html" class="btn-retro play-sound" style="background:#333; border-color:#666; display:inline-flex; width:auto; padding: 10px 30px;">
                 <i class="fa-solid fa-arrow-left"></i> BACK TO GENRES
             </a>
         </div>
+
     </div>
 
     <script src="../js/global.js"></script>
+    
+    <script>
+        // --- RESTORE STARFIELD ---
+        const cvs = document.getElementById('starfield');
+        const cx = cvs.getContext('2d');
+        let stars = [];
+        function initStars() {
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            stars = Array(100).fill().map(() => ({
+                x: Math.random() * cvs.width,
+                y: Math.random() * cvs.height,
+                size: Math.random() * 2,
+                speed: Math.random() * 3 + 0.5
+            }));
+        }
+        function drawStars() {
+            cx.clearRect(0,0,cvs.width,cvs.height);
+            cx.fillStyle = "#fff";
+            stars.forEach(s => {
+                cx.fillRect(s.x, s.y, s.size, s.size);
+                s.y += s.speed;
+                if(s.y > cvs.height) s.y = 0;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        window.addEventListener('resize', initStars);
+        initStars();
+        drawStars();
+
+        // --- SIMPLE FILTER LOGIC ---
+        function filterGames(text) {
+            const val = text.toLowerCase();
+            const btns = document.querySelectorAll('#game-list a');
+            btns.forEach(btn => {
+                if(btn.innerText.toLowerCase().includes(val)) btn.style.display = "flex";
+                else btn.style.display = "none";
+            });
+        }
+    </script>
 </body>
 </html>
