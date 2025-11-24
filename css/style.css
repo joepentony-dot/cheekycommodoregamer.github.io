@@ -1,62 +1,93 @@
 /* --- CHEEKY COMMODORE GAMER: SHARED STYLES (V2 - FULL WIDTH) --- */
 
+/* --------------------------------- */
+/* === CRITICAL MISSING IMPORTS & VARIABLES === */
+/* --------------------------------- */
+
+/* 1. FONT IMPORTS (Loads the required typefaces) */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+@import url('https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz'); /* For Amiga Mode */
+
+/* 2. COLOR VARIABLES (Defines the colors your CSS uses) */
+:root {
+    --c64-blue: #352879;
+    --c64-light-blue: #6c5eb5;
+    --c64-text: #b8c76f;
+    --c64-red: #880000;
+    --c64-green: #55cc55;
+    --c64-cyan: #00ffff;
+    --c64-white: #ffffff;
+    --c64-black: #000000;
+    /* Amiga Colors */
+    --amiga-blue: #0055AA; 
+    --amiga-white: #FFFFFF; 
+    --amiga-grey: #CCCCCC; 
+    --amiga-orange: #FF8800; 
+    --amiga-black: #000000;
+}
+
+/* --------------------------------- */
+/* === YOUR EXISTING STYLES BELOW === */
+/* --------------------------------- */
+
 /* RESET & BASE */
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
 
 /* NAVIGATION */
 .main-nav {
-    width: 100%;
-    position: relative;
-    z-index: 10000;
-    background: rgba(0,0,0,0.8); /* Semi-transparent backing */
+    width: 100%;
+    position: relative;
+    z-index: 10000;
+    background: rgba(0,0,0,0.8); /* Semi-transparent backing */
 }
 
 .nav-list {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    list-style: none;
-    padding: 15px;
-    border-bottom: 4px solid;
-    flex-wrap: wrap;
-    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 15px;
+    border-bottom: 4px solid;
+    flex-wrap: wrap;
+    margin: 0;
 }
 
 .nav-link {
-    cursor: pointer;
-    font-size: 1.4rem; /* Larger Text */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
-    display: block;
-    position: relative;
-    letter-spacing: 1px;
+    cursor: pointer;
+    font-size: 1.4rem; /* Larger Text */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: block;
+    position: relative;
+    letter-spacing: 1px;
 }
 
 /* DROPDOWNS */
 .has-submenu { position: relative; }
 .submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 250px;
-    z-index: 10001;
-    text-align: left;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 250px;
+    z-index: 10001;
+    text-align: left;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
 }
 
 .has-submenu:hover .submenu { display: block; }
 
 /* Mega Menu */
 .mega-menu {
-    display: none;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 500px;
-    padding: 20px;
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 500px;
+    padding: 20px;
 }
 .has-submenu:hover .mega-menu { display: grid; }
 
@@ -91,23 +122,23 @@ body.amiga-mode .commodore-header-wrapper { display: none; }
 
 /* --- GLOBAL CONTAINER (THE FIX) --- */
 .container {
-    width: 95%;          /* Use 95% of the screen width */
-    max-width: 1600px;   /* Cap it only on huge 4K screens */
-    padding: 30px;
-    margin: 0 auto 60px auto;
-    position: relative;
-    min-height: 80vh;    /* Ensure it feels full height */
+    width: 95%;          /* Use 95% of the screen width */
+    max-width: 1600px;   /* Cap it only on huge 4K screens */
+    padding: 30px;
+    margin: 0 auto 60px auto;
+    position: relative;
+    min-height: 80vh;    /* Ensure it feels full height */
 }
 
 body.c64-mode .container {
-    border-left: 4px solid var(--c64-light-blue);
-    border-right: 4px solid var(--c64-light-blue);
-    background-color: rgba(53, 40, 121, 0.95);
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    border-left: 4px solid var(--c64-light-blue);
+    border-right: 4px solid var(--c64-light-blue);
+    background-color: rgba(53, 40, 121, 0.95);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
 }
 
 body.amiga-mode .container {
-    border: 3px solid var(--amiga-white);
-    background-color: var(--amiga-white);
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+    border: 3px solid var(--amiga-white);
+    background-color: var(--amiga-white);
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
 }
