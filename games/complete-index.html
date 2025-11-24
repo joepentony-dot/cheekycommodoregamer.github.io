@@ -15,7 +15,7 @@
     <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
@@ -27,12 +27,12 @@
             --c64-text: #b8c76f;
             --c64-red: #880000;
             --c64-green: #55cc55;
-            /* Amiga Colors */
-            --amiga-blue: #0055AA; 
-            --amiga-white: #FFFFFF; 
-            --amiga-grey: #CCCCCC; 
-            --amiga-orange: #FF8800; 
-            --amiga-black: #000000;
+            /* Amiga Colors */
+            --amiga-blue: #0055AA; 
+            --amiga-white: #FFFFFF; 
+            --amiga-grey: #CCCCCC; 
+            --amiga-orange: #FF8800; 
+            --amiga-black: #000000;
         }
 
         /* === GLOBAL RESET === */
@@ -51,20 +51,20 @@
             text-transform: uppercase;
             overflow-x: hidden;
         }
-        /* AMIGA MODE BASE STYLES */
-        body.amiga-mode { 
-            background: linear-gradient(180deg, var(--amiga-blue) 0%, #003D7A 100%); 
-            color: var(--amiga-black); 
-            font-family: 'Amiga Topaz', 'Courier New', monospace; 
-            cursor: default; /* Use default mouse cursor in Amiga Mode */
-        }
-        body.amiga-mode::before { 
-            content: ''; 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px); 
-            pointer-events: none; z-index: 9999; opacity: 0.3; 
-        }
-        body.amiga-mode .nav-link, body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
+        /* AMIGA MODE BASE STYLES */
+        body.amiga-mode { 
+            background: linear-gradient(180deg, var(--amiga-blue) 0%, #003D7A 100%); 
+            color: var(--amiga-black); 
+            font-family: 'Amiga Topaz', 'Courier New', monospace; 
+            cursor: default; /* Use default mouse cursor in Amiga Mode */
+        }
+        body.amiga-mode::before { 
+            content: ''; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px); 
+            pointer-events: none; z-index: 9999; opacity: 0.3; 
+        }
+        body.amiga-mode .nav-link, body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
 
         /* === CRT EFFECT === */
         .crt-overlay {
@@ -84,8 +84,8 @@
             align-items: center; 
             justify-content: flex-start; 
             padding-top: 50px; 
-            /* FIX: Ensure default mouse pointer is visible */
-            cursor: default !important;
+            /* FIX: Ensure default mouse pointer is visible */
+            cursor: default !important;
         }
         
         .loading-text { 
@@ -127,39 +127,56 @@
             margin-bottom: 20px;
             margin-left: auto; margin-right: auto;
         }
-        body.amiga-mode .container {
-            border: 3px solid var(--amiga-white); 
-            background-color: var(--amiga-white); 
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3);
-        }
+        body.amiga-mode .container {
+            border: 3px solid var(--amiga-white); 
+            background-color: var(--amiga-white); 
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3);
+        }
 
         /* === TYPOGRAPHY === */
         h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
-        body.amiga-mode h1 { color: var(--amiga-blue); text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
+        body.amiga-mode h1 { color: var(--amiga-blue); text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
         h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
-        body.amiga-mode h2 { color: var(--amiga-black); border-color: var(--amiga-blue); }
+        body.amiga-mode h2 { color: var(--amiga-black); border-color: var(--amiga-blue); }
         p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
-        body.amiga-mode p { color: var(--amiga-black); }
+        body.amiga-mode p { color: var(--amiga-black); }
         a { color: #fff; text-decoration: none; cursor: pointer; }
         a:hover { text-decoration: underline; }
+        
+        /* NEW: Styling for the Mode Toggle button in the nav bar */
+        #modeToggle {
+            background: none; border: none; cursor: pointer;
+            font-size: 1.2rem; color: var(--c64-text); padding: 0;
+            font-family: 'VT323', monospace; text-transform: uppercase;
+            white-space: nowrap;
+        }
+        #modeToggle:hover { color: #fff; text-decoration: underline; }
+
+        body.c64-mode #modeToggle { color: var(--c64-light-blue); }
+        body.amiga-mode #modeToggle { color: var(--amiga-blue); }
+
+        /* Mode Toggle Text Update */
+        body.c64-mode #modeToggle::after { content: " (AMIGA)"; }
+        body.amiga-mode #modeToggle::after { content: " (C64)"; }
+
 
         /* === HEADER & NAV === */
         .commodore-header {
             text-align: center; margin-bottom: 20px;
             border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
         }
-        body.amiga-mode .commodore-header { border-color: var(--amiga-blue); }
+        body.amiga-mode .commodore-header { border-color: var(--amiga-blue); }
 
         .nav-bar {
             display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
             margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
         }
-        body.amiga-mode .nav-bar { border-color: var(--amiga-blue); }
+        body.amiga-mode .nav-bar { border-color: var(--amiga-blue); }
 
         .nav-link { font-size: 1.2rem; color: var(--c64-text); white-space: nowrap; }
-        body.amiga-mode .nav-link { color: var(--amiga-blue); }
+        body.amiga-mode .nav-link { color: var(--amiga-blue); }
         .nav-link:hover { color: #fff; }
-        body.amiga-mode .nav-link:hover { color: var(--amiga-orange); }
+        body.amiga-mode .nav-link:hover { color: var(--amiga-orange); }
 
         /* === PLATFORM TOGGLES === */
         .platform-toggles {
@@ -173,24 +190,24 @@
         }
         .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
         .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
-        
-        /* Amiga Platform Button Styles */
-        body.amiga-mode .platform-btn { 
-            background: var(--amiga-grey); 
-            color: var(--amiga-black);
-            border: 3px outset var(--amiga-white);
-            box-shadow: 2px 2px 0 var(--amiga-black);
-        }
-        body.amiga-mode .platform-btn:hover { 
-            background: var(--amiga-white); 
-            transform: translateY(-1px);
-        }
-        body.amiga-mode .platform-btn.active { 
-            background: var(--amiga-orange); 
-            box-shadow: inset 2px 2px 0 var(--amiga-black), 0 0 8px var(--amiga-orange);
-            border: 3px inset var(--amiga-black);
-            color: var(--amiga-black);
-        }
+        
+        /* Amiga Platform Button Styles */
+        body.amiga-mode .platform-btn { 
+            background: var(--amiga-grey); 
+            color: var(--amiga-black);
+            border: 3px outset var(--amiga-white);
+            box-shadow: 2px 2px 0 var(--amiga-black);
+        }
+        body.amiga-mode .platform-btn:hover { 
+            background: var(--amiga-white); 
+            transform: translateY(-1px);
+        }
+        body.amiga-mode .platform-btn.active { 
+            background: var(--amiga-orange); 
+            box-shadow: inset 2px 2px 0 var(--amiga-black), 0 0 8px var(--amiga-orange);
+            border: 3px inset var(--amiga-black);
+            color: var(--amiga-black);
+        }
 
 
         /* === SEARCH & ACTIONS === */
@@ -202,15 +219,15 @@
             border: 2px solid var(--c64-light-blue);
             font-family: 'VT323'; text-transform: uppercase;
         }
-        body.amiga-mode .search-box {
-            background: var(--amiga-white); 
-            color: var(--amiga-black);
-            border: 3px inset var(--amiga-black);
-            box-shadow: inset 1px 1px 2px var(--amiga-black);
-        }
+        body.amiga-mode .search-box {
+            background: var(--amiga-white); 
+            color: var(--amiga-black);
+            border: 3px inset var(--amiga-black);
+            box-shadow: inset 1px 1px 2px var(--amiga-black);
+        }
 
         .search-results-count { margin-top: 5px; color: #fff; }
-        body.amiga-mode .search-results-count { color: var(--amiga-black); }
+        body.amiga-mode .search-results-count { color: var(--amiga-black); }
 
         .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .quick-btn {
@@ -219,23 +236,23 @@
             cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
         }
         .quick-btn:hover { background: var(--c64-light-blue); }
-        
-        /* Amiga Quick Button Styles */
-        body.amiga-mode .quick-btn {
-            background: linear-gradient(180deg, #EEEEEE 0%, #CCCCCC 100%);
-            color: #000;
-            border-top: 3px solid #FFFFFF; border-left: 3px solid #FFFFFF; border-right: 3px solid #666666; border-bottom: 3px solid #666666;
-            box-shadow: none;
-            font-family: 'Amiga Topaz', 'Courier New', monospace;
-        }
-        body.amiga-mode .quick-btn:hover {
-            background: linear-gradient(180deg, #FFFFFF 0%, #DDDDDD 100%);
-            transform: translateY(-1px);
-        }
-        body.amiga-mode .quick-btn:active {
-            border-top: 3px solid #666666; border-left: 3px solid #666666; border-right: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF;
-            transform: translate(2px, 2px);
-        }
+        
+        /* Amiga Quick Button Styles */
+        body.amiga-mode .quick-btn {
+            background: linear-gradient(180deg, #EEEEEE 0%, #CCCCCC 100%);
+            color: #000;
+            border-top: 3px solid #FFFFFF; border-left: 3px solid #FFFFFF; border-right: 3px solid #666666; border-bottom: 3px solid #666666;
+            box-shadow: none;
+            font-family: 'Amiga Topaz', 'Courier New', monospace;
+        }
+        body.amiga-mode .quick-btn:hover {
+            background: linear-gradient(180deg, #FFFFFF 0%, #DDDDDD 100%);
+            transform: translateY(-1px);
+        }
+        body.amiga-mode .quick-btn:active {
+            border-top: 3px solid #666666; border-left: 3px solid #666666; border-right: 3px solid #FFFFFF; border-bottom: 3px solid #FFFFFF;
+            transform: translate(2px, 2px);
+        }
 
 
         /* === GAME LIST (Accordion) === */
@@ -246,67 +263,68 @@
             display: flex; justify-content: space-between; font-size: 1.5rem;
             border-bottom: none; 
         }
-        body.amiga-mode .section h2 {
-            background: var(--amiga-blue);
-            color: var(--amiga-white);
-            border: 3px solid var(--amiga-white);
-            border-bottom: none;
-        }
+        body.amiga-mode .section h2 {
+            background: var(--amiga-blue);
+            color: var(--amiga-white);
+            border: 3px solid var(--amiga-white);
+            border-bottom: none;
+        }
         .section h2:hover { background: #fff; color: var(--c64-blue); }
-        body.amiga-mode .section h2:hover { background: #003D7A; color: var(--amiga-white); }
+        body.amiga-mode .section h2:hover { background: #003D7A; color: var(--amiga-white); }
         
         .games { display: none; border: 2px solid var(--c64-light-blue); border-top: none; background: rgba(0,0,0,0.3); }
-        body.amiga-mode .games { border-color: var(--amiga-white); background: rgba(255,255,255,0.9); }
+        body.amiga-mode .games { border-color: var(--amiga-white); background: rgba(255,255,255,0.9); }
         
         table { width: 100%; border-collapse: collapse; }
         td { padding: 10px; border-bottom: 1px solid var(--c64-light-blue); color: var(--c64-text); font-size: 1.2rem; }
-        body.amiga-mode td { border-bottom: 1px solid var(--amiga-grey); color: var(--amiga-black); }
+        body.amiga-mode td { border-bottom: 1px solid var(--amiga-grey); color: var(--amiga-black); }
 
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: rgba(255,255,255,0.1); color: #fff; }
-        body.amiga-mode tr:hover td { background: rgba(var(--amiga-orange), 0.1); }
+        body.amiga-mode tr:hover td { background: rgba(var(--amiga-orange), 0.1); }
 
         .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
         .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
         .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
-        body.amiga-mode .badge-c64 { border-color: var(--amiga-red); color: var(--amiga-red); }
-        body.amiga-mode .badge-amiga { border-color: var(--amiga-green); color: var(--amiga-green); }
+        /* Note: Assuming you have 'amiga-red' and 'amiga-green' defined elsewhere or meant for C64 colors in Amiga mode, keeping original variables here for consistency */
+        /* body.amiga-mode .badge-c64 { border-color: var(--amiga-red); color: var(--amiga-red); } */
+        /* body.amiga-mode .badge-amiga { border-color: var(--amiga-green); color: var(--amiga-green); } */
 
 
-        /* New Link Styling for Game Details/Downloads */
-        .game-links-cell {
-            display: flex;
-            gap: 5px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
+        /* New Link Styling for Game Details/Downloads */
+        .game-links-cell {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
 
-        .game-link-btn {
-            background: var(--c64-blue); 
-            color: #fff;
-            border: 1px solid var(--c64-light-blue);
-            padding: 5px 10px;
-            text-decoration: none; 
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            text-shadow: none;
-            transition: background 0.2s;
-        }
-        .game-link-btn:hover { background: var(--c64-light-blue); }
-        body.amiga-mode .game-link-btn {
-            background: var(--amiga-grey);
-            color: var(--amiga-black);
-            border: 3px outset var(--amiga-white);
-            font-family: 'Amiga Topaz', monospace;
-            box-shadow: 1px 1px 0 var(--amiga-black);
-            padding: 2px 8px;
-        }
-        body.amiga-mode .game-link-btn:hover { 
-            background: var(--amiga-white); 
-            border: 3px outset var(--amiga-white);
-        }
+        .game-link-btn {
+            background: var(--c64-blue); 
+            color: #fff;
+            border: 1px solid var(--c64-light-blue);
+            padding: 5px 10px;
+            text-decoration: none; 
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-shadow: none;
+            transition: background 0.2s;
+        }
+        .game-link-btn:hover { background: var(--c64-light-blue); }
+        body.amiga-mode .game-link-btn {
+            background: var(--amiga-grey);
+            color: var(--amiga-black);
+            border: 3px outset var(--amiga-white);
+            font-family: 'Amiga Topaz', monospace;
+            box-shadow: 1px 1px 0 var(--amiga-black);
+            padding: 2px 8px;
+        }
+        body.amiga-mode .game-link-btn:hover { 
+            background: var(--amiga-white); 
+            border: 3px outset var(--amiga-white);
+        }
 
 
         /* === FOOTER === */
@@ -314,11 +332,11 @@
             border-top: 1px solid var(--c64-light-blue);
             padding-top: 20px; text-align: center; margin-top: 40px;
         }
-        body.amiga-mode .sitemap-container { border-color: var(--amiga-blue); }
+        body.amiga-mode .sitemap-container { border-color: var(--amiga-blue); }
         .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
-        body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
+        body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
         .sitemap-links a:hover { color: #fff; text-decoration: underline; }
-        body.amiga-mode .sitemap-links a:hover { color: var(--amiga-orange); }
+        body.amiga-mode .sitemap-links a:hover { color: var(--amiga-orange); }
 
         /* === BACK TO TOP === */
         #back-to-top {
@@ -327,12 +345,12 @@
             border: 2px solid #fff; padding: 10px;
             font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
         }
-        body.amiga-mode #back-to-top {
-            background: var(--amiga-grey); 
-            color: var(--amiga-black); 
-            border: 3px outset var(--amiga-white);
-            box-shadow: 2px 2px 0 var(--amiga-black);
-        }
+        body.amiga-mode #back-to-top {
+            background: var(--amiga-grey); 
+            color: var(--amiga-black); 
+            border: 3px outset var(--amiga-white);
+            box-shadow: 2px 2px 0 var(--amiga-black);
+        }
 
         /* === RESPONSIVE === */
         @media (max-width: 600px) {
@@ -371,12 +389,13 @@
             <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
             
             <div class="nav-bar">
-                                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
+                <a href="/cheekycommodoregamer.github.io/games" class="nav-link play-sound">GENRES</a>
                 <a href="/cheekycommodoregamer.github.io/games/complete-index.html" class="nav-link play-sound">INDEX</a>
                 <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
                 <a href="/cheekycommodoregamer.github.io/retro-events.html" class="nav-link play-sound">EVENTS</a>
                 <a href="/cheekycommodoregamer.github.io/about.html" class="nav-link play-sound">ABOUT</a>
                 <a href="/cheekycommodoregamer.github.io/contact.html" class="nav-link play-sound">CONTACT</a>
+                                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0;">MODE</button>
             </div>
         </div>
 
@@ -432,15 +451,16 @@
                 <a href="/cheekycommodoregamer.github.io/contact.html" class="play-sound">CONTACT</a>
             </div>
         </div>
-        
-        <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
-            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
-            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
-            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
-            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound" style="background:#5865F2; border-color:#fff;"><i class="fa-brands fa-discord"></i> DISCORD</a>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound" style="background:#0070BA; border-color:#fff;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
-        </div>
+        
+        <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound" style="background:#5865F2; border-color:#fff;"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound" style="background:#0070BA; border-color:#fff;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+                        <a href="mailto:info@cheekycommodoregamer.co.uk" class="quick-btn play-sound" style="background:#FFD700; color:#000; border-color:#000;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
+        </div>
 
 
     </div>
@@ -448,8 +468,8 @@
     <button id="back-to-top" class="play-sound">↑</button>
 
     <script>
-        // MASTER CSV: Includes all data required for the game list
-        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
+        // MASTER CSV: Includes all data required for the game list
+        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
         
         let allGames = [];
         let currentPlatform = 'all';
@@ -479,35 +499,43 @@
         btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
         // Mode Switching Functions (from original games/index.html)
-        function toggleMode() {
+        function toggleMode() {
+            playClickSound();
             const body = document.body;
             const isAmiga = body.classList.contains('amiga-mode');
-            
+            
             if (isAmiga) setC64Mode();
             else setAmigaMode();
+
+            // When mode is manually toggled, we reset the platform filter to 'all' for clarity
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.p-all').classList.add('active');
+            currentPlatform = 'all';
+            renderGames(document.getElementById("searchBox").value.trim());
+
         }
 
-        function setAmigaMode() {
+        function setAmigaMode() {
             const body = document.body;
             body.classList.remove('c64-mode');
             body.classList.add('amiga-mode');
-            localStorage.setItem('preferredMode', 'amiga');
+            localStorage.setItem('preferredMode', 'amiga');
         }
 
         function setC64Mode() {
             const body = document.body;
             body.classList.remove('amiga-mode');
             body.classList.add('c64-mode');
-            localStorage.setItem('preferredMode', 'c64');
+            localStorage.setItem('preferredMode', 'c64');
         }
 
-        // Mode initialization on load
-        window.addEventListener('DOMContentLoaded', () => { 
-            const savedMode = localStorage.getItem('preferredMode'); 
-            if (savedMode === 'amiga') setAmigaMode();
-            // Start the data fetch only after DOM is ready
-            fetchAllGames();
-        });
+        // Mode initialization on load
+        window.addEventListener('DOMContentLoaded', () => { 
+            const savedMode = localStorage.getItem('preferredMode'); 
+            if (savedMode === 'amiga') setAmigaMode();
+            // Start the data fetch only after DOM is ready
+            fetchAllGames();
+        });
 
 
         // Loading & Data Fetching
@@ -526,19 +554,19 @@
                         // Process and store all game data, including new link fields
                         allGames = results.data.map(g => ({
                             title: g.gametitle || '',
-                            // Use direct YouTube link structure
-                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
-                            // CORRECTED LOGIC: Determine platform based on 'platform' column (G)
+                            // Use direct YouTube link structure
+                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
+                            // CORRECTED LOGIC: Determine platform based on 'platform' column (G)
                             platform: (g.platform || '').toLowerCase().includes('amiga') ? 'Amiga' : 'C64',
-                            // IMPORTANT: Ensure column names match your Google Sheet exactly
-                            lemon: g.lemonlinks || '', 
-                            pdf: g.pdflink || '',
-                            disk: g.disklinks || '',
+                            // IMPORTANT: Ensure column names match your Google Sheet exactly
+                            lemon: g.lemonlinks || '', 
+                            pdf: g.pdflink || '',
+                            disk: g.disklinks || '',
                             sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
-                        })).filter(g => g.title); 
+                        })).filter(g => g.title); 
 
                         progressFill.style.width = "100%";
-                        
+                        
                         // Hide loading screen and render games
                         setTimeout(() => {
                             overlay.style.opacity = "0";
@@ -566,6 +594,14 @@
         function filterPlatform(platform) {
             playClickSound();
             currentPlatform = platform;
+            
+            // NEW LOGIC: Also switch the site mode based on platform selection
+            if (platform === 'c64') {
+                setC64Mode();
+            } else if (platform === 'amiga') {
+                setAmigaMode();
+            }
+            
             document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.p-${platform}`).classList.add('active');
             renderGames(document.getElementById("searchBox").value.trim());
@@ -619,12 +655,12 @@
                 sections[letter].forEach(game => {
                     const tr = document.createElement("tr");
                     const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
-                    
-                    // Build the external links section
-                    let linksHtml = '';
-                    if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="game-link-btn play-sound">LEMON</a>`;
-                    if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="game-link-btn play-sound">PDF</a>`;
-                    if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
+                    
+                    // Build the external links section
+                    let linksHtml = '';
+                    if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="game-link-btn play-sound">LEMON</a>`;
+                    if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="game-link-btn play-sound">PDF</a>`;
+                    if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
                     
                     tr.innerHTML = `
                         <td style="display:flex; align-items:center; justify-content:space-between; width:100%;">
@@ -632,10 +668,10 @@
                                 <span class="badge ${badgeClass}">${game.platform}</span>
                                 <span>${game.title}</span>
                             </div>
-                                <div class="game-links-cell">
-                                    <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
-                                    ${linksHtml}
-                                </div>
+                                <div class="game-links-cell">
+                                    <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
+                                    ${linksHtml}
+                                </div>
                         </td>
                     `;
                     table.appendChild(tr);
