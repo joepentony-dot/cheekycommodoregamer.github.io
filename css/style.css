@@ -1,11 +1,15 @@
-/* --- CHEEKY COMMODORE GAMER: SHARED STYLES --- */
+/* --- CHEEKY COMMODORE GAMER: SHARED STYLES (V2 - FULL WIDTH) --- */
+
+/* RESET & BASE */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
 
 /* NAVIGATION */
 .main-nav {
     width: 100%;
-    margin-bottom: 20px;
     position: relative;
     z-index: 10000;
+    background: rgba(0,0,0,0.8); /* Semi-transparent backing */
 }
 
 .nav-list {
@@ -13,19 +17,21 @@
     justify-content: center;
     gap: 20px;
     list-style: none;
-    padding: 10px;
-    border-bottom: 2px solid;
+    padding: 15px;
+    border-bottom: 4px solid;
     flex-wrap: wrap;
+    margin: 0;
 }
 
 .nav-link {
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.4rem; /* Larger Text */
     text-decoration: none;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 10px 15px;
     display: block;
     position: relative;
+    letter-spacing: 1px;
 }
 
 /* DROPDOWNS */
@@ -36,10 +42,10 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 200px;
+    min-width: 250px;
     z-index: 10001;
     text-align: left;
-    box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
 }
 
 .has-submenu:hover .submenu { display: block; }
@@ -48,64 +54,60 @@
 .mega-menu {
     display: none;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    width: 400px;
-    padding: 15px;
+    gap: 20px;
+    width: 500px;
+    padding: 20px;
 }
 .has-submenu:hover .mega-menu { display: grid; }
 
-.submenu-col { display: flex; flex-direction: column; gap: 5px; }
-.submenu-title { font-weight: bold; text-decoration: underline; margin-bottom: 5px; display: block; }
-.submenu a { display: block; padding: 5px; text-decoration: none; font-size: 1rem; }
+.submenu-col { display: flex; flex-direction: column; gap: 10px; }
+.submenu-title { font-weight: bold; text-decoration: underline; margin-bottom: 5px; display: block; font-size: 1.1rem; }
+.submenu a { display: block; padding: 8px; text-decoration: none; font-size: 1.1rem; transition: background 0.2s; }
 
 /* --- AMIGA MODE STYLES --- */
 body.amiga-mode .nav-list { border-color: var(--amiga-blue); background: var(--amiga-white); }
 body.amiga-mode .nav-link { color: var(--amiga-blue); }
 body.amiga-mode .nav-link:hover { background: var(--amiga-blue); color: #fff; }
 
-body.amiga-mode .submenu {
-    background: var(--amiga-white);
-    border: 2px solid var(--amiga-blue);
-}
+body.amiga-mode .submenu { background: var(--amiga-white); border: 3px solid var(--amiga-blue); }
 body.amiga-mode .submenu a { color: var(--amiga-black); }
 body.amiga-mode .submenu a:hover { background: var(--amiga-orange); color: #fff; }
 body.amiga-mode .submenu-title { color: var(--amiga-blue); }
 
 /* --- C64 MODE STYLES --- */
-body.c64-mode .nav-list { border-color: var(--c64-light-blue); }
+body.c64-mode .nav-list { border-color: var(--c64-light-blue); background: var(--c64-blue); }
 body.c64-mode .nav-link { color: var(--c64-text); }
 body.c64-mode .nav-link:hover { background: var(--c64-light-blue); color: #fff; }
 
-body.c64-mode .submenu {
-    background: var(--c64-blue);
-    border: 2px solid var(--c64-light-blue);
-}
+body.c64-mode .submenu { background: var(--c64-blue); border: 3px solid var(--c64-light-blue); }
 body.c64-mode .submenu a { color: var(--c64-text); }
 body.c64-mode .submenu a:hover { background: var(--c64-light-blue); color: #fff; }
 body.c64-mode .submenu-title { color: #fff; }
 
-/* HIDE ELEMENTS BASED ON MODE */
+/* LAYOUT */
 body.c64-mode .workbench-bar { display: none; }
 body.amiga-mode .commodore-header-wrapper { display: none; }
-.commodore-header-wrapper { text-align: center; margin-bottom: 10px; }
+.commodore-header-wrapper { text-align: center; padding: 20px 0; background: var(--c64-blue); }
 
-/* GLOBAL CONTAINER DEFAULTS */
+/* --- GLOBAL CONTAINER (THE FIX) --- */
 .container {
-    width: 100%;
-    max-width: 900px;
-    padding: 20px;
-    margin: 20px auto;
+    width: 95%;          /* Use 95% of the screen width */
+    max-width: 1600px;   /* Cap it only on huge 4K screens */
+    padding: 30px;
+    margin: 0 auto 60px auto;
     position: relative;
+    min-height: 80vh;    /* Ensure it feels full height */
 }
 
 body.c64-mode .container {
-    border: 4px solid var(--c64-light-blue);
+    border-left: 4px solid var(--c64-light-blue);
+    border-right: 4px solid var(--c64-light-blue);
     background-color: rgba(53, 40, 121, 0.95);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
 }
 
 body.amiga-mode .container {
     border: 3px solid var(--amiga-white);
     background-color: var(--amiga-white);
-    box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
 }
