@@ -40,7 +40,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: var(--c64-blue); /* Default style handled here */
+            background-color: var(--c64-blue);
             color: var(--c64-text);
             font-family: 'VT323', monospace;
             margin: 0;
@@ -190,7 +190,6 @@
             background: var(--c64-blue); color: var(--c64-text);
             border: 2px solid var(--c64-light-blue);
             padding: 8px 20px; cursor: pointer; font-family: 'VT323'; font-size: 1.4rem;
-            transition: all 0.2s;
         }
         .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
         .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
@@ -247,7 +246,6 @@
             color: #000;
             border-top: 3px solid #FFFFFF; border-left: 3px solid #FFFFFF; border-right: 3px solid #666666; border-bottom: 3px solid #666666;
             box-shadow: none;
-            font-family: 'Amiga Topaz', 'Courier New', monospace;
         }
         body.amiga-mode .quick-btn:hover {
             background: linear-gradient(180deg, #FFFFFF 0%, #DDDDDD 100%);
@@ -582,8 +580,8 @@
                             title: g.gametitle || '',
                             // Use direct YouTube link structure
                             url: `https://www.youtube.com/watch?v=${g.videoid}`, 
-                            // CORRECTED LOGIC: Determine platform based on 'platform' column (G)
-                            platform: (g.platform || '').toLowerCase().includes('amiga') ? 'Amiga' : 'C64',
+                            // FIX: Smart detection based on actual Lemon links in your sheet
+                            platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
                             // IMPORTANT: Ensure column names match your Google Sheet exactly
                             lemon: g.lemonlinks || '', 
                             pdf: g.pdflink || '',
@@ -689,16 +687,16 @@
                     if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="game-link-btn play-sound">DISK</a>`;
                     
                     tr.innerHTML = `
-                        <td>
-                                                        <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-                                <div>
-                                    <span class="badge ${badgeClass}">${game.platform}</span>
-                                    <span>${game.title}</span>
-                                </div>
-                                <div class="game-links-cell">
-                                    <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
-                                    ${linksHtml}
-                                </div>
+                        <td style="width: 70%; max-width: 70%;">
+                                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="badge ${badgeClass}">${game.platform}</span>
+                                <span>${game.title}</span>
+                            </div>
+                        </td>
+                        <td style="text-align: right; width: 30%; max-width: 30%;">
+                                                        <div class="game-links-cell" style="justify-content: flex-end;">
+                                <a href="${game.url}" target="_blank" class="game-link-btn play-sound">WATCH</a>
+                                ${linksHtml}
                             </div>
                         </td>
                     `;
