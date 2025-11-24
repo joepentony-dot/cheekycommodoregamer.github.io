@@ -14,15 +14,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
-        /* CRITICAL FIX: Importing fonts and icons via @import, like your working index.html */
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        @import url('https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
-
-
         /* === C64 & AMIGA THEME VARIABLES === */
         :root {
             --c64-blue: #352879;
@@ -42,6 +40,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
+            background-color: var(--c64-blue); /* Default style handled here */
             color: var(--c64-text);
             font-family: 'VT323', monospace;
             margin: 0;
@@ -153,7 +152,7 @@
             padding: 0;
             font-family: 'VT323', monospace; 
             text-transform: uppercase;
-            color: inherit; /* FIX: Added inherit to fix color conflict */
+            color: inherit; 
         }
         #modeToggle:hover { color: #fff; text-decoration: underline; }
 
@@ -388,7 +387,7 @@
         }
     </style>
 </head>
-<body class="c64-mode" style="background-color: #352879; color: #b8c76f;">
+<body class="c64-mode">
 
     <div class="crt-overlay"></div>
 
@@ -457,7 +456,7 @@
                 <a href="/cheekycommodoregamer.github.io/games/quiz-games.html" class="play-sound">QUIZ</a>
                 <a href="/cheekycommodoregamer.github.io/games/racing.html" class="play-sound">RACING</a>
                 <a href="/cheekycommodoregamer.github.io/games/rpg.html" class="play-sound">RPG</a>
-                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-link play-sound">SHOOT 'EM UP</a>
+                <a href="/cheekycommodoregamer.github.io/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
                 <a href="/cheekycommodoregamer.github.io/games/sports.html" class="play-sound">SPORTS</a>
                 <a href="/cheekycommodoregamer.github.io/games/strategy.html" class="play-sound">STRATEGY</a>
                 <a href="/cheekycommodoregamer.github.io/resources/quiz.html" class="play-sound">QUIZ</a>
