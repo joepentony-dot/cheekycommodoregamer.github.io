@@ -601,7 +601,12 @@
                 });
                 
             } catch (err) {
-                document.querySelector('.loading-text').textContent = "LOAD ERROR.";
+                // FIX: Ensure overlay disappears on initial fetch error
+                document.querySelector('.loading-text').textContent = "LOAD ERROR. PRESS F5 TO RELOAD.";
+                setTimeout(() => {
+                    overlay.style.opacity = "0";
+                    setTimeout(() => overlay.style.display = "none", 500);
+                }, 1500);
             }
         }
 
@@ -620,7 +625,7 @@
             currentPlatform = platform;
             
             // Mode switch logic remains integrated with platform filter
-            if (platform === 'c64' || platform === 'all') { // <-- FIX: Added platform === 'all' to revert to C64 mode
+            if (platform === 'c64' || platform === 'all') { // Corrected 'all' to revert to C64 mode
                 setC64Mode();
             } else if (platform === 'amiga') {
                 setAmigaMode();
@@ -658,6 +663,12 @@
                 if (!sections[letter]) sections[letter] = [];
                 sections[letter].push(g);
             });
+
+            // If no games are found after filter, display a message
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="margin-top: 30px; font-size: 1.5rem; color: var(--c64-red);">*** ERROR: NO GAMES FOUND ***</p>';
+                return;
+            }
 
             // Build HTML
             Object.keys(sections).sort().forEach(letter => {
