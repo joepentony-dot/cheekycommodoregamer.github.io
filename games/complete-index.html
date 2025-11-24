@@ -14,15 +14,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
-        <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
-        /* Merged CSS loading method from Grok/index.html to ensure stability */
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
-
         /* === C64 & AMIGA THEME VARIABLES === */
         :root {
             --c64-blue: #352879;
@@ -59,7 +57,6 @@
         body.amiga-mode { 
             background: linear-gradient(180deg, var(--amiga-blue) 0%, #003D7A 100%); 
             color: var(--amiga-black); 
-            /* Added Amiga font back */
             font-family: 'Amiga Topaz', 'Courier New', monospace; 
             cursor: default;
         }
@@ -71,7 +68,7 @@
         }
         body.amiga-mode .nav-link, body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
 
-        /* Starfield & CRT (from Grok's good version) */
+        /* Starfield & CRT */
         #starfield { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; opacity:0.3; }
         .crt-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -81,8 +78,6 @@
             pointer-events: none; z-index: 9999;
         }
 
-        /* === LOADING OVERLAY (Removed, relying on instant load) === */
-        
         /* === CONTAINER === */
         .container {
             width: 100%;
@@ -210,7 +205,6 @@
 
         .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .quick-btn, .game-link-btn {
-            /* Merged Quick Button/Game Link Style for consistency, using the .quick-btn from previous working versions */
             background: var(--c64-blue); color: #fff;
             border: 1px solid var(--c64-light-blue); padding: 5px 15px;
             cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
@@ -364,7 +358,7 @@
         <div class="search-container">
             <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
         </div>
-                <div class="search-results-count" id="statsDisplay">FOUND 628 GAMES...</div>
+        <div class="search-results-count" id="statsDisplay">FOUND 628 GAMES...</div>
 
         <div class="quick-actions">
             <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
@@ -577,7 +571,7 @@
             
             document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
 
-            // Sorting & Grouping (Reused Grok's efficient grouping logic)
+            // Sorting & Grouping
             filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
             
             const sections = {};
