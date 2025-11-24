@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky Commodore Gamer - Retro Quiz</title>
+    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- QUIZ SPECIFIC STYLES (Self-Contained) --- */
+        :root {
+            --amiga-blue: #0055AA; --amiga-white: #FFFFFF; --amiga-orange: #FF8800;
+            --amiga-black: #000000; --c64-blue: #352879; --c64-light: #6C5EB5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background: linear-gradient(180deg, #0055AA 0%, #003D7A 100%);
+            color: #000; font-family: 'Amiga Topaz', monospace;
+            height: 100vh; overflow: hidden; display: flex; flex-direction: column;
+            transition: background 0.5s;
+        }
+
+        /* C64 MODE OVERRIDES */
+        body.c64-mode {
+            background: var(--c64-blue); color: var(--c64-light);
+        }
+        body.c64-mode .amiga-window {
+            background: var(--c64-blue); border: 4px solid var(--c64-light);
+        }
+        body.c64-mode .window-content {
+            background: var(--c64-blue); color: var(--c64-light); border-color: var(--c64-light);
+        }
+        body.c64-mode h1, body.c64-mode h2 { color: #fff; }
+        body.c64-mode button {
+            background: var(--c64-blue); color: #fff; border: 2px solid var(--c64-light);
+        }
+        body.c64-mode .workbench-bar { display: none; }
+        
+        /* LAYOUT */
+        .workbench-bar {
+            height: 28px; background: #FFF; border-bottom: 2px solid #000;
+            display: flex; justify-content: space-between; align-items: center; padding: 0 10px;
+            font-weight: bold; font-size: 14px;
+        }
+        
+        /* C64 HEADER (Hidden by default) */
+        .c64-header {
+            display: none; text-align: center; padding: 10px; color: var(--c64-light);
+        }
+        body.c64-mode .c64-header { display: block; }
+
+        .desktop { flex: 1; position: relative; padding: 20px; display: flex; justify-content: center; }
+        
+        .amiga-window {
+            width: 100%; max-width: 800px; background: #FFF; border: 3px solid #FFF;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5); display: flex; flex-direction: column;
+            max-height: calc(100vh - 60px);
+        }
+
+        .window-content { padding: 20px; overflow-y: auto; flex: 1; text-align: center; }
+
+        /* FLIP ANIMATION */
+        .power-cycle { animation: turnOffOn 0.8s forwards; }
+        @keyframes turnOffOn { 
+            0% { opacity: 0; transform: scaleY(0.001) scaleX(1); background: #fff; } 
+            31% { background: #000; transform: scale(1); } 
+            80% { opacity: 1; transform: scaleY(0.005) scaleX(1); } 
+            100% { opacity: 0; transform: scaleY(1) scaleX(1); } 
+        }
+        .power-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; pointer-events:none; opacity:0; transform:scaleY(0); }
+
+        /* COMPONENTS */
+        button {
+            background: #EEE; border: 2px outset #FFF; padding: 10px 20px; 
+            font-family: inherit; font-size: 1.2rem; cursor: pointer; margin: 5px;
+            width: 100%; max-width: 400px; text-transform: uppercase; font-weight: bold;
+        }
+        button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media(max-width:600px){ .btn-grid { grid-template-columns: 1fr; } }
+
+        .hidden { display: none !important; }
+        
+        .loader {
+            width: 50px; height: 50px; border: 5px solid; border-radius: 50%; 
+            border-top-color: transparent; margin: 20px auto; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .mode-btn {
+            position: fixed; bottom: 20px; right: 20px; z-index: 100;
+            width: auto; border-radius: 20px; background: rgba(0,0,0,0.5); color: #fff; border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="pwr" class="power-overlay"></div>
+
+    <div class="workbench-bar">
+        <span><i class="fa-solid fa-microchip"></i> Workbench 1.3</span>
+        <span id="clock">12:00</span>
+    </div>
+
+    <div class="c64-header">
+        <h3>**** COMMODORE 64 BASIC V2 ****</h3>
+        <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
+    </div>
+
+    <div class="desktop">
+        <div class="amiga-window">
+            <div class="window-content">
+                
+                <div id="screen-loading">
+                    <div class="loader"></div>
+                    <p>READING DISK...</p>
+                </div>
+
+                <div id="screen-home" class="hidden">
+                    <h1>RETRO QUIZ</h1>
+                    <p id="stats">LOADING STATS...</p>
+                    <div id="quiz-list" class="btn-grid" style="margin-top:20px;"></div>
+                    <br>
+                    <button onclick="app.showLeaderboard(null)">🏆 HIGH SCORES</button>
+                    <button onclick="location.href='/index.html'">🏠 EXIT TO MENU</button>
+                </div>
+
+                <div id="screen-quiz" class="hidden">
+                    <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:10px;">
+                        <span id="timer">00:00</span>
+                        <span id="score">0/0</span>
+                    </div>
+                    <div id="media-container"></div>
+                    <h2 id="q-text" style="margin:20px 0;">Question</h2>
+                    <div id="options" class="btn-grid"></div>
+                    <div id="feedback" style="font-size:1.5rem; margin-top:10px; min-height:30px;"></div>
+                </div>
+
+                <div id="screen-result" class="hidden">
+                    <h1>GAME OVER</h1>
+                    <h2 id="final-score">0 / 0</h2>
+                    <input type="text" id="player-name" placeholder="ENTER NAME" style="padding:10px; font-size:1.2rem; width:80%; margin:20px 0;">
+                    <button onclick="app.submitScore()">💾 SAVE SCORE</button>
+                    <button onclick="app.init()">🔄 PLAY AGAIN</button>
+                    <button onclick="location.href='/index.html'">🏠 EXIT</button>
+                </div>
+
+                <div id="screen-leaderboard" class="hidden">
+                    <h1>HALL OF FAME</h1>
+                    <button onclick="app.fetchOverall()">🌎 OVERALL TOTALS</button>
+                    <button onclick="app.init()">⬅ BACK</button>
+                    <div id="lb-content" style="margin-top:20px; text-align:left;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="mode-btn" onclick="app.toggleMode()">⚡ SWITCH SYSTEM</button>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwhkSGA6HcSvCljqBA91JmQVsVVUPU5LCEO1HlifB_Cjwc0DTFCK3m6hG5ZFDSgVHw9/exec';
+
+        const app = {
+            state: { q: [], index: 0, score: 0, start: 0 },
+            
+            init: async function() {
+                this.show('screen-loading');
+                // Load Preference
+                if(localStorage.getItem('prefMode') === 'c64') document.body.classList.add('c64-mode');
+                
+                try {
+                    const res = await fetch(`${API_URL}?getQuizSets=true`);
+                    const data = await res.json();
+                    
+                    const list = document.getElementById('quiz-list');
+                    list.innerHTML = '';
+                    data.sets.forEach(s => {
+                        const btn = document.createElement('button');
+                        btn.innerHTML = s.name;
+                        btn.onclick = () => this.loadQuiz(s.id);
+                        list.appendChild(btn);
+                    });
+                    
+                    this.show('screen-home');
+                    document.getElementById('stats').innerText = "READY.";
+                } catch(e) { alert("LOAD ERROR"); }
+            },
+
+            toggleMode: function() {
+                const overlay = document.getElementById('pwr');
+                overlay.classList.remove('power-cycle');
+                void overlay.offsetWidth;
+                overlay.classList.add('power-cycle');
+                setTimeout(() => {
+                    document.body.classList.toggle('c64-mode');
+                    localStorage.setItem('prefMode', document.body.classList.contains('c64-mode') ? 'c64' : 'amiga');
+                }, 400);
+            },
+
+            loadQuiz: async function(id) {
+                this.show('screen-loading');
+                this.state.setId = id;
+                try {
+                    const res = await fetch(`${API_URL}?set=${id}`);
+                    const data = await res.json();
+                    this.state.q = data.questions;
+                    this.state.index = 0;
+                    this.state.score = 0;
+                    this.state.start = new Date();
+                    this.renderQ();
+                    this.show('screen-quiz');
+                } catch(e) { this.init(); }
+            },
+
+            renderQ: function() {
+                const q = this.state.q[this.state.index];
+                document.getElementById('q-text').innerText = q.question;
+                document.getElementById('score').innerText = `${this.state.score}/${this.state.q.length}`;
+                document.getElementById('feedback').innerText = "";
+                
+                const media = document.getElementById('media-container');
+                media.innerHTML = '';
+                if(q.imageUrl) media.innerHTML += `<img src="${q.imageUrl}" style="max-width:100%; max-height:200px; border:2px solid #000;">`;
+                if(q.audioUrl) media.innerHTML += `<audio src="${q.audioUrl}" controls autoplay style="width:100%"></audio>`;
+
+                const opts = document.getElementById('options');
+                opts.innerHTML = '';
+                q.options.forEach((o, i) => {
+                    const btn = document.createElement('button');
+                    btn.innerText = o;
+                    btn.onclick = () => this.answer(i+1, q.answer);
+                    opts.appendChild(btn);
+                });
+            },
+
+            answer: function(sel, corr) {
+                const fb = document.getElementById('feedback');
+                if(sel === corr) {
+                    this.state.score++;
+                    fb.innerText = "CORRECT!";
+                    fb.style.color = "green";
+                } else {
+                    fb.innerText = "WRONG!";
+                    fb.style.color = "red";
+                }
+                setTimeout(() => {
+                    this.state.index++;
+                    if(this.state.index < this.state.q.length) this.renderQ();
+                    else this.endGame();
+                }, 1500);
+            },
+
+            endGame: function() {
+                this.state.end = new Date();
+                document.getElementById('final-score').innerText = `${this.state.score} / ${this.state.q.length}`;
+                this.show('screen-result');
+            },
+
+            submitScore: async function() {
+                const name = document.getElementById('player-name').value;
+                if(!name) return alert("ENTER NAME");
+                
+                // Calculate duration
+                const dur = Math.round((this.state.end - this.state.start)/1000);
+                const total = this.state.q.length;
+                
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'saveScore',
+                        set: this.state.setId,
+                        name: name,
+                        score: this.state.score,
+                        total: total,
+                        duration: dur,
+                        percent: Math.round((this.state.score/total)*100)
+                    })
+                });
+                this.showLeaderboard(this.state.setId);
+            },
+
+            showLeaderboard: async function(id) {
+                this.show('screen-loading');
+                const res = await fetch(`${API_URL}?getLeaderboard=${id||'true'}`);
+                const data = await res.json();
+                let html = '<table style="width:100%; border-collapse:collapse;"><tr><th>#</th><th>NAME</th><th>SCORE</th></tr>';
+                data.entries.forEach((r, i) => {
+                    html += `<tr><td style="border:1px solid #ccc; padding:5px;">${i+1}</td><td style="border:1px solid #ccc;">${r.name}</td><td style="border:1px solid #ccc;">${r.score}</td></tr>`;
+                });
+                html += '</table>';
+                document.getElementById('lb-content').innerHTML = html;
+                this.show('screen-leaderboard');
+            },
+            
+            fetchOverall: async function() {
+                this.show('screen-loading');
+                const res = await fetch(`${API_URL}?getOverallTotals=true`);
+                const data = await res.json();
+                let html = '<table style="width:100%;"><tr><th>NAME</th><th>TOTAL POINTS</th></tr>';
+                data.players.forEach(r => {
+                    html += `<tr><td>${r.name}</td><td>${r.score}</td></tr>`;
+                });
+                html += '</table>';
+                document.getElementById('lb-content').innerHTML = html;
+                this.show('screen-leaderboard');
+            },
+
+            show: function(id) {
+                document.querySelectorAll('.window-content > div').forEach(d => d.classList.add('hidden'));
+                document.getElementById(id).classList.remove('hidden');
+            }
+        };
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>
