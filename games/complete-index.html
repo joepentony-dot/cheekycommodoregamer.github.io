@@ -1,682 +1,682 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheeky Commodore Gamer - Games Index</title>
-    
-    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
-    
-    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky Commodore Gamer - Games Index</title>
+    
+    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
+    
+    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
-    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
+    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://db.onlinewebfonts.com/c/05eb10077a913e99089a693039e6273e?family=Amiga+Topaz" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    <style>
-        /* === C64 THEME VARIABLES (Expanded to include Amiga for mode switching) === */
-        :root {
-            --c64-blue: #352879;
-            --c64-light-blue: #6c5eb5;
-            --c64-text: #b8c76f;
-            --c64-red: #880000;
-            --c64-green: #55cc55;
-            --c64-cyan: #00ffff;
-            --c64-yellow: #feff6c;
-            --c64-purple: #cc44cc;
-            --c64-white: #ffffff;
-            --c64-black: #000000;
-            --c64-orange: #d55e00; 
-            --c64-brown: #664400;
-            /* Amiga Colors (Needed for full mode switching) */
-            --amiga-blue: #0055AA;  
-            --amiga-white: #FFFFFF; 
-            --amiga-grey: #CCCCCC;  
-            --amiga-orange: #FF8800; 
-            --amiga-black: #000000;
-        }
+    <style>
+        /* === C64 THEME VARIABLES (Expanded to include Amiga for mode switching) === */
+        :root {
+            --c64-blue: #352879;
+            --c64-light-blue: #6c5eb5;
+            --c64-text: #b8c76f;
+            --c64-red: #880000;
+            --c64-green: #55cc55;
+            --c64-cyan: #00ffff;
+            --c64-yellow: #feff6c;
+            --c64-purple: #cc44cc;
+            --c64-white: #ffffff;
+            --c64-black: #000000;
+            --c64-orange: #d55e00; 
+            --c64-brown: #664400;
+            /* Amiga Colors (Needed for full mode switching) */
+            --amiga-blue: #0055AA;  
+            --amiga-white: #FFFFFF; 
+            --amiga-grey: #CCCCCC;  
+            --amiga-orange: #FF8800; 
+            --amiga-black: #000000;
+        }
 
-        /* === GLOBAL RESET === */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            background-color: var(--c64-blue);
-            color: var(--c64-text);
-            font-family: 'VT323', monospace;
-            margin: 0;
-            padding: 10px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            text-transform: uppercase;
-            overflow-x: hidden;
-        }
-        
-        /* Amiga Mode Body Overrides (for the mode switch script) */
-        body.amiga-mode {
-            background-color: var(--amiga-blue);
-            color: var(--amiga-white);
-            font-family: 'Amiga Topaz', 'Courier New', monospace;
-        }
-
-
-        /* === CRT EFFECT === */
-        .crt-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none; z-index: 999;
-        }
-
-        /* === LOADING OVERLAY (POSITIONED AT TOP) === */
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--c64-blue); z-index: 2000;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            /* Moves content to the top */
-            justify-content: flex-start; 
-            /* Small buffer from the very top edge */
-            padding-top: 50px; 
-        }
-        
-        .loading-text { 
-            font-size: 2.5rem; 
-            color: #fff; 
-            margin-bottom: 10px; 
-            animation: blink 1s infinite; 
-            text-shadow: 4px 4px #000;
-        }
-        
-        .progress-bar { 
-            width: 90%; 
-            max-width: 600px;
-            height: 30px; 
-            border: 4px solid #fff; 
-            background: #000;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
-        }
-        
-        .progress-fill { 
-            width: 0%; 
-            height: 100%; 
-            background: var(--c64-light-blue); 
-            transition: width 0.2s; 
-        }
-        
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        /* === CONTAINER === */
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            border: 4px solid var(--c64-light-blue);
-            background-color: var(--c64-blue);
-            padding: 15px;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            margin-top: 10px;
-            margin-bottom: 20px;
-            margin-left: auto; margin-right: auto;
-        }
-        /* Amiga mode container style */
-        body.amiga-mode .container {
-            border: 4px solid var(--amiga-white);
-            background-color: var(--amiga-white); 
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
-        }
+        /* === GLOBAL RESET === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--c64-blue);
+            color: var(--c64-text);
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            text-transform: uppercase;
+            overflow-x: hidden;
+        }
+        
+        /* Amiga Mode Body Overrides (for the mode switch script) */
+        body.amiga-mode {
+            background-color: var(--amiga-blue);
+            color: var(--amiga-white);
+            font-family: 'Amiga Topaz', 'Courier New', monospace;
+        }
 
 
-        /* === TYPOGRAPHY === */
-        h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
-        h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
-        h3 { color: var(--c64-text); font-size: 1.5rem; text-align: center; } 
-        p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
-        a { color: #fff; text-decoration: none; cursor: pointer; }
-        a:hover { text-decoration: underline; }
-        
-        /* Amiga mode typography overrides */
-        body.amiga-mode h1, body.amiga-mode h2, body.amiga-mode h3 { color: var(--amiga-blue); }
-        body.amiga-mode p, body.amiga-mode a { color: var(--amiga-black); }
+        /* === CRT EFFECT === */
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none; z-index: 999;
+        }
+
+        /* === LOADING OVERLAY (POSITIONED AT TOP) === */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--c64-blue); z-index: 2000;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            /* Moves content to the top */
+            justify-content: flex-start; 
+            /* Small buffer from the very top edge */
+            padding-top: 50px; 
+        }
+        
+        .loading-text { 
+            font-size: 2.5rem; 
+            color: #fff; 
+            margin-bottom: 10px; 
+            animation: blink 1s infinite; 
+            text-shadow: 4px 4px #000;
+        }
+        
+        .progress-bar { 
+            width: 90%; 
+            max-width: 600px;
+            height: 30px; 
+            border: 4px solid #fff; 
+            background: #000;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+        }
+        
+        .progress-fill { 
+            width: 0%; 
+            height: 100%; 
+            background: var(--c64-light-blue); 
+            transition: width 0.2s; 
+        }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* === CONTAINER === */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            border: 4px solid var(--c64-light-blue);
+            background-color: var(--c64-blue);
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-top: 10px;
+            margin-bottom: 20px;
+            margin-left: auto; margin-right: auto;
+        }
+        /* Amiga mode container style */
+        body.amiga-mode .container {
+            border: 4px solid var(--amiga-white);
+            background-color: var(--amiga-white); 
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+        }
 
 
-        /* === HEADER & NAV === */
-        .commodore-header {
-            text-align: center; margin-bottom: 20px;
-            border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
-        }
-        .nav-bar {
-            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
-            margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
-        }
-        .nav-link { 
-            font-size: 1.2rem; 
-            color: var(--c64-text); 
-            white-space: nowrap; 
-            background: none; 
-            border: none;
-            padding: 0;
-            font-family: 'VT323';
-            cursor: pointer;
-        }
-        .nav-link:hover { color: #fff; text-decoration: underline; }
-        
-        /* Amiga mode nav bar */
-        body.amiga-mode .commodore-header { border-bottom-color: var(--amiga-blue); }
-        body.amiga-mode .nav-bar { border-bottom-color: var(--amiga-blue); }
-        body.amiga-mode .nav-link { color: var(--amiga-blue); }
-        body.amiga-mode .nav-link:hover { color: var(--amiga-orange); }
+        /* === TYPOGRAPHY === */
+        h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
+        h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
+        h3 { color: var(--c64-text); font-size: 1.5rem; text-align: center; } 
+        p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
+        a { color: #fff; text-decoration: none; cursor: pointer; }
+        a:hover { text-decoration: underline; }
+        
+        /* Amiga mode typography overrides */
+        body.amiga-mode h1, body.amiga-mode h2, body.amiga-mode h3 { color: var(--amiga-blue); }
+        body.amiga-mode p, body.amiga-mode a { color: var(--amiga-black); }
 
 
-        /* === PLATFORM TOGGLES === */
-        .platform-toggles {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;
-        }
-        .platform-btn {
-            background: var(--c64-blue); color: var(--c64-text);
-            border: 2px solid var(--c64-light-blue);
-            padding: 8px 20px; cursor: pointer; font-family: 'VT323'; font-size: 1.4rem;
-            transition: all 0.2s;
-        }
-        .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
-        .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
-
-        /* Amiga mode platform toggles */
-        body.amiga-mode .platform-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
-        body.amiga-mode .platform-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
-        body.amiga-mode .platform-btn.active { background: var(--amiga-blue); color: var(--amiga-white); box-shadow: none; }
-
-
-        /* === SEARCH & ACTIONS === */
-        .search-container { margin-bottom: 20px; text-align: center; }
-        .search-box {
-            width: 100%; max-width: 500px;
-            padding: 10px; font-size: 1.4rem;
-            background: #000; color: var(--c64-text);
-            border: 2px solid var(--c64-light-blue);
-            font-family: 'VT323'; text-transform: uppercase;
-        }
-        .search-results-count { margin-top: 5px; color: #fff; }
-        
-        /* Amiga mode search */
-        body.amiga-mode .search-box { background: var(--amiga-white); color: var(--amiga-black); border-color: var(--amiga-blue); }
-        body.amiga-mode .search-results-count { color: var(--amiga-black); }
+        /* === HEADER & NAV === */
+        .commodore-header {
+            text-align: center; margin-bottom: 20px;
+            border-bottom: 2px dashed var(--c64-light-blue); padding-bottom: 10px;
+        }
+        .nav-bar {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
+            margin-bottom: 15px; border-bottom: 2px solid var(--c64-light-blue); padding-bottom: 15px;
+        }
+        .nav-link { 
+            font-size: 1.2rem; 
+            color: var(--c64-text); 
+            white-space: nowrap; 
+            background: none; 
+            border: none;
+            padding: 0;
+            font-family: 'VT323';
+            cursor: pointer;
+        }
+        .nav-link:hover { color: #fff; text-decoration: underline; }
+        
+        /* Amiga mode nav bar */
+        body.amiga-mode .commodore-header { border-bottom-color: var(--amiga-blue); }
+        body.amiga-mode .nav-bar { border-bottom-color: var(--amiga-blue); }
+        body.amiga-mode .nav-link { color: var(--amiga-blue); }
+        body.amiga-mode .nav-link:hover { color: var(--amiga-orange); }
 
 
-        .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        /* Using the btn-grid styles for quick-actions to ensure responsiveness */
-        .quick-actions .quick-btn {
-            background: var(--c64-blue); color: #fff;
-            border: 1px solid var(--c64-light-blue); padding: 5px 15px;
-            cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
-            text-decoration: none; 
-            display: inline-flex; 
-            align-items: center;
-            gap: 5px;
-        }
-        .quick-actions .quick-btn:hover { background: var(--c64-light-blue); }
-        
-        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px; width: 100%; }
-        .btn-retro { background: var(--c64-light-blue); color: #fff; border: 2px solid #fff; padding: 15px 20px; font-family: 'VT323', monospace; font-size: 1.4rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; text-align: center; transition: all 0.1s; text-transform: uppercase; width: 100%; text-decoration: none; }
-        .btn-retro:hover { background: #fff; color: var(--c64-blue); }
+        /* === PLATFORM TOGGLES === */
+        .platform-toggles {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;
+        }
+        .platform-btn {
+            background: var(--c64-blue); color: var(--c64-text);
+            border: 2px solid var(--c64-light-blue);
+            padding: 8px 20px; cursor: pointer; font-family: 'VT323'; font-size: 1.4rem;
+            transition: all 0.2s;
+        }
+        .platform-btn:hover { background: var(--c64-light-blue); color: #fff; }
+        .platform-btn.active { background: var(--c64-light-blue); color: #fff; box-shadow: 0 0 10px #fff; }
+
+        /* Amiga mode platform toggles */
+        body.amiga-mode .platform-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
+        body.amiga-mode .platform-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
+        body.amiga-mode .platform-btn.active { background: var(--amiga-blue); color: var(--amiga-white); box-shadow: none; }
 
 
-        /* Amiga mode quick actions */
-        body.amiga-mode .quick-actions .quick-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
-        body.amiga-mode .quick-actions .quick-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
-        body.amiga-mode .btn-retro { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
-        body.amiga-mode .btn-retro:hover { background: var(--amiga-blue); color: var(--amiga-white); }
+        /* === SEARCH & ACTIONS === */
+        .search-container { margin-bottom: 20px; text-align: center; }
+        .search-box {
+            width: 100%; max-width: 500px;
+            padding: 10px; font-size: 1.4rem;
+            background: #000; color: var(--c64-text);
+            border: 2px solid var(--c64-light-blue);
+            font-family: 'VT323'; text-transform: uppercase;
+        }
+        .search-results-count { margin-top: 5px; color: #fff; }
+        
+        /* Amiga mode search */
+        body.amiga-mode .search-box { background: var(--amiga-white); color: var(--amiga-black); border-color: var(--amiga-blue); }
+        body.amiga-mode .search-results-count { color: var(--amiga-black); }
 
 
-        /* === GAME LIST (Accordion) === */
-        .section { margin-bottom: 10px; }
-        .section h2 {
-            cursor: pointer; background: var(--c64-light-blue); color: #fff;
-            padding: 10px; margin: 0; border: 2px solid #fff;
-            display: flex; justify-content: space-between; font-size: 1.5rem;
-            border-bottom: none; 
-        }
-        .section h2:hover { background: #fff; color: var(--c64-blue); }
-
-        /* Amiga mode accordion headers */
-        body.amiga-mode .section h2 { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-orange); }
-        body.amiga-mode .section h2:hover { background: var(--amiga-orange); color: var(--amiga-white); }
-        
-        .games { display: none; border: 2px solid var(--c64-light-blue); border-top: none; background: rgba(0,0,0,0.3); }
-        /* Amiga mode game list */
-        body.amiga-mode .games { border-color: var(--amiga-blue); background: var(--amiga-white); }
-        
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 10px; border-bottom: 1px solid var(--c64-light-blue); color: var(--c64-text); font-size: 1.2rem; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: rgba(255,255,255,0.1); color: #fff; }
-
-        /* Amiga mode table */
-        body.amiga-mode td { border-bottom-color: var(--amiga-grey); color: var(--amiga-black); }
-        body.amiga-mode tr:hover td { background: rgba(0,85,170,0.1); color: var(--amiga-blue); }
+        .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        /* Using the btn-grid styles for quick-actions to ensure responsiveness */
+        .quick-actions .quick-btn {
+            background: var(--c64-blue); color: #fff;
+            border: 1px solid var(--c64-light-blue); padding: 5px 15px;
+            cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center;
+            gap: 5px;
+        }
+        .quick-actions .quick-btn:hover { background: var(--c64-light-blue); }
+        
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px; width: 100%; }
+        .btn-retro { background: var(--c64-light-blue); color: #fff; border: 2px solid #fff; padding: 15px 20px; font-family: 'VT323', monospace; font-size: 1.4rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; text-align: center; transition: all 0.1s; text-transform: uppercase; width: 100%; text-decoration: none; }
+        .btn-retro:hover { background: #fff; color: var(--c64-blue); }
 
 
-        .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
-        .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
-        .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
-
-        .watch-btn {
-            background: var(--c64-light-blue); color: #fff;
-            border: 1px solid #fff; padding: 5px 10px;
-            text-decoration: none; font-size: 1rem;
-        }
-        .watch-btn:hover { background: #fff; color: var(--c64-blue); }
-
-        /* Amiga mode watch button */
-        body.amiga-mode .watch-btn { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-white); }
-        body.amiga-mode .watch-btn:hover { background: var(--amiga-orange); color: var(--amiga-white); }
+        /* Amiga mode quick actions */
+        body.amiga-mode .quick-actions .quick-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
+        body.amiga-mode .quick-actions .quick-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
+        body.amiga-mode .btn-retro { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
+        body.amiga-mode .btn-retro:hover { background: var(--amiga-blue); color: var(--amiga-white); }
 
 
-        /* === FOOTER === */
-        .sitemap-container {
-            border-top: 1px solid var(--c64-light-blue);
-            padding-top: 20px; text-align: center; margin-top: 40px;
-        }
-        .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
-        .sitemap-links a:hover { color: #fff; text-decoration: underline; }
+        /* === GAME LIST (Accordion) === */
+        .section { margin-bottom: 10px; }
+        .section h2 {
+            cursor: pointer; background: var(--c64-light-blue); color: #fff;
+            padding: 10px; margin: 0; border: 2px solid #fff;
+            display: flex; justify-content: space-between; font-size: 1.5rem;
+            border-bottom: none; 
+        }
+        .section h2:hover { background: #fff; color: var(--c64-blue); }
 
-        /* Amiga mode footer */
-        body.amiga-mode .sitemap-container { border-top-color: var(--amiga-blue); }
-        body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
-        body.amiga-mode .sitemap-links a:hover { color: var(--amiga-orange); }
+        /* Amiga mode accordion headers */
+        body.amiga-mode .section h2 { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-orange); }
+        body.amiga-mode .section h2:hover { background: var(--amiga-orange); color: var(--amiga-white); }
+        
+        .games { display: none; border: 2px solid var(--c64-light-blue); border-top: none; background: rgba(0,0,0,0.3); }
+        /* Amiga mode game list */
+        body.amiga-mode .games { border-color: var(--amiga-blue); background: var(--amiga-white); }
+        
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 10px; border-bottom: 1px solid var(--c64-light-blue); color: var(--c64-text); font-size: 1.2rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* Amiga mode table */
+        body.amiga-mode td { border-bottom-color: var(--amiga-grey); color: var(--amiga-black); }
+        body.amiga-mode tr:hover td { background: rgba(0,85,170,0.1); color: var(--amiga-blue); }
 
 
-        /* === BACK TO TOP === */
-        #back-to-top {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--c64-light-blue); color: #fff;
-            border: 2px solid #fff; padding: 10px;
-            font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
-        }
+        .badge { padding: 2px 6px; border-radius: 4px; font-size: 1rem; margin-right: 10px; border: 1px solid; }
+        .badge-c64 { border-color: var(--c64-red); color: var(--c64-red); }
+        .badge-amiga { border-color: var(--c64-green); color: var(--c64-green); }
 
-        /* Amiga mode back to top */
-        body.amiga-mode #back-to-top { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-white); }
+        .watch-btn {
+            background: var(--c64-light-blue); color: #fff;
+            border: 1px solid #fff; padding: 5px 10px;
+            text-decoration: none; font-size: 1rem;
+        }
+        .watch-btn:hover { background: #fff; color: var(--c64-blue); }
+
+        /* Amiga mode watch button */
+        body.amiga-mode .watch-btn { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-white); }
+        body.amiga-mode .watch-btn:hover { background: var(--amiga-orange); color: var(--amiga-white); }
 
 
-        /* === MARQUEE === */
-        /* Marquee Styles - Updated to match index.html style */
-        .marquee-container { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            width: 100%; 
-            background: var(--c64-light-blue); /* Updated from Red */
-            color: #fff; 
-            padding: 5px 0; 
-            border-top: 2px solid #fff; 
-            z-index: 100; 
-            overflow: hidden; 
-            white-space: nowrap; 
-            display: none; 
-        }
-        .marquee-content { 
-            display: inline-block; 
-            padding-left: 100%; 
-            animation: marquee 20s linear infinite; 
-            font-size: 1.2rem; 
-        }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        /* === FOOTER === */
+        .sitemap-container {
+            border-top: 1px solid var(--c64-light-blue);
+            padding-top: 20px; text-align: center; margin-top: 40px;
+        }
+        .sitemap-links a { display: inline-block; margin: 0 8px 8px 0; color: var(--c64-light-blue); font-size: 1.1rem; }
+        .sitemap-links a:hover { color: #fff; text-decoration: underline; }
 
-        /* Amiga Marquee Override (Preserved) */
-        body.amiga-mode .marquee-container {
-            background-color: var(--amiga-orange);
-            color: var(--amiga-white);
-            border-top: 3px solid var(--amiga-blue);
-        }
+        /* Amiga mode footer */
+        body.amiga-mode .sitemap-container { border-top-color: var(--amiga-blue); }
+        body.amiga-mode .sitemap-links a { color: var(--amiga-blue); }
+        body.amiga-mode .sitemap-links a:hover { color: var(--amiga-orange); }
 
-        /* === RESPONSIVE === */
-        @media (max-width: 600px) {
-            body { padding: 0; }
-            .container { padding: 10px 5px; margin-top: 15px; width: 100%; border-width: 2px; box-sizing: border-box; }
-            
-            .nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; justify-items: center; }
-            .nav-link { font-size: 1.1rem; padding: 5px; }
-            
-            .platform-toggles { gap: 5px; }
-            .platform-btn { padding: 5px 10px; font-size: 1.2rem; flex: 1; text-align: center; }
-            
-            .quick-actions { gap: 5px; }
-            .quick-actions .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
-            .btn-grid { grid-template-columns: 1fr; gap: 12px; }
-            
-            td { padding: 8px; font-size: 1.1rem; }
-            .badge { display: none; } 
-        }
 
-    </style>
+        /* === BACK TO TOP === */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--c64-light-blue); color: #fff;
+            border: 2px solid #fff; padding: 10px;
+            font-family: 'VT323'; cursor: pointer; display: none; z-index: 1000;
+        }
+
+        /* Amiga mode back to top */
+        body.amiga-mode #back-to-top { background: var(--amiga-blue); color: var(--amiga-white); border-color: var(--amiga-white); }
+
+
+        /* === MARQUEE === */
+        /* Marquee Styles - Updated to match index.html style */
+        .marquee-container { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: var(--c64-light-blue); /* Updated from Red */
+            color: #fff; 
+            padding: 5px 0; 
+            border-top: 2px solid #fff; 
+            z-index: 100; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            display: none; 
+        }
+        .marquee-content { 
+            display: inline-block; 
+            padding-left: 100%; 
+            animation: marquee 20s linear infinite; 
+            font-size: 1.2rem; 
+        }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        /* Amiga Marquee Override (Preserved) */
+        body.amiga-mode .marquee-container {
+            background-color: var(--amiga-orange);
+            color: var(--amiga-white);
+            border-top: 3px solid var(--amiga-blue);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 600px) {
+            body { padding: 0; }
+            .container { padding: 10px 5px; margin-top: 15px; width: 100%; border-width: 2px; box-sizing: border-box; }
+            
+            .nav-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; justify-items: center; }
+            .nav-link { font-size: 1.1rem; padding: 5px; }
+            
+            .platform-toggles { gap: 5px; }
+            .platform-btn { padding: 5px 10px; font-size: 1.2rem; flex: 1; text-align: center; }
+            
+            .quick-actions { gap: 5px; }
+            .quick-actions .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
+            .btn-grid { grid-template-columns: 1fr; gap: 12px; }
+            
+            td { padding: 8px; font-size: 1.1rem; }
+            .badge { display: none; } 
+        }
+
+    </style>
 </head>
 <body class="c64-mode">
 
-    <div class="crt-overlay"></div>
+    <div class="crt-overlay"></div>
 
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-text">LOADING DATABASE...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-    </div>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text">LOADING DATABASE...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
 
-    <div class="container" id="top">
-        <div class="commodore-header">
-            <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
-            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
-            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
-            
-            <div class="nav-bar">
-                <a href="/retro-events.html" class="nav-link play-sound">EVENTS</a>
-                <a href="/games/index.html" class="nav-link play-sound">GENRES</a>
-                <a href="/about.html" class="nav-link play-sound">ABOUT</a>
-                <a href="/games/complete-index.html" class="nav-link play-sound">INDEX</a>
-                <a href="/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
-                <a href="/contact.html" class="nav-link play-sound">CONTACT</a>
-                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; font-family: 'VT323', monospace;">MODE</button>
-            </div>
-        </div>
+    <div class="container" id="top">
+        <div class="commodore-header">
+            <img src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
+            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
+            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
+            
+            <div class="nav-bar">
+                <a href="/retro-events.html" class="nav-link play-sound">EVENTS</a>
+                <a href="/games/" class="nav-link play-sound">GENRES</a>
+                <a href="/about.html" class="nav-link play-sound">ABOUT</a>
+                <a href="/games/complete-index.html" class="nav-link play-sound">INDEX</a>
+                <a href="/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
+                <a href="/contact.html" class="nav-link play-sound">CONTACT</a>
+                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; font-family: 'VT323', monospace;">MODE</button>
+            </div>
+        </div>
 
-        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
-        
-        <div class="platform-toggles">
-            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
-            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
-            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
-        </div>
+        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
+        
+        <div class="platform-toggles">
+            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
+            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
+            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
+        </div>
 
-        <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
-            <div class="search-results-count" id="statsDisplay">LOADING DATA...</div>
-        </div>
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
+            <div class="search-results-count" id="statsDisplay">LOADING DATA...</div>
+        </div>
 
-        <div class="quick-actions">
-            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
-            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
-            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
-        </div>
+        <div class="quick-actions">
+            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
+            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
+            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
+        </div>
 
-        <div id="playlist-container"></div>
+        <div id="playlist-container"></div>
 
-        <h2>CONNECT AND SUPPORT</h2>
-        <div class="btn-grid social-grid" style="margin-bottom: 30px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound" style="border-color: var(--c64-red); background:#cc0000; font-size: 1.2rem;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
-            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#FF424D; font-size: 1.2rem;"><i class="fa-brands fa-patreon"></i> PATREON</a>
-            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#1877F2; font-size: 1.2rem;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
-            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#000; font-size: 1.2rem;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
-            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#5865F2; font-size: 1.2rem;"><i class="fa-brands fa-discord"></i> DISCORD</a>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#0070BA; font-size: 1.2rem;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
-            <a href="mailto:info@cheekycommodoregamer.co.uk" class="btn-retro play-sound" style="border-color: var(--c64-blue); color:var(--c64-black); background:var(--c64-yellow); font-size: 1.2rem;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
-        </div>
-        <div class="sitemap-container">
-            <h2>EXPLORE MORE</h2>
-            <div class="sitemap-links">
-                <a href="/index.html" class="play-sound">HOME</a>
-                <a href="/games/index.html" class="play-sound">GAMES BY GENRE</a>
-                <a href="/games/top-picks.html" class="play-sound">TOP PICKS</a>
-                <a href="/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
-                <a href="/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
-                <a href="/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
-                <a href="/games/adventure-games.html" class="play-sound">ADVENTURE</a>
-                <a href="/games/arcade.html" class="play-sound">ARCADE</a>
-                <a href="/games/fighting.html" class="play-sound">FIGHTING</a>
-                <a href="/games/casino.html" class="play-sound">CASINO</a>
-                <a href="/games/horror.html" class="play-sound">HORROR</a>
-                <a href="/games/licensed-games.html" class="play-sound">LICENSED</a>
-                <a href="/games/platform.html" class="play-sound">PLATFORM</a>
-                <a href="/games/puzzle-games.html" class="play-link play-sound">PUZZLE</a>
-                <a href="/games/quiz-games.html" class="play-sound">QUIZ</a>
-                <a href="/games/racing.html" class="play-sound">RACING</a>
-                <a href="/games/rpg.html" class="play-sound">RPG</a>
-                <a href="/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
-                <a href="/games/sports.html" class="play-sound">SPORTS</a>
-                <a href="/games/strategy.html" class="play-sound">STRATEGY</a>
-                <a href="/resources/quiz.html" class="play-sound">QUIZ</a>
-                <a href="/retro-events.html" class="play-sound">EVENTS</a>
-                <a href="/emulator-guide.html" class="play-sound">EMULATION</a>
-                <a href="/games/complete-index.html" class="play-sound">FULL INDEX</a>
-                <a href="/about.html" class="play-sound">ABOUT ME</a>
-                <a href="/contact.html" class="play-sound">CONTACT</a>
-            </div>
-        </div>
-    </div>
+        <h2>CONNECT AND SUPPORT</h2>
+        <div class="btn-grid social-grid" style="margin-bottom: 30px;">
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound" style="border-color: var(--c64-red); background:#cc0000; font-size: 1.2rem;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#FF424D; font-size: 1.2rem;"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#1877F2; font-size: 1.2rem;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#000; font-size: 1.2rem;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#5865F2; font-size: 1.2rem;"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#0070BA; font-size: 1.2rem;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+            <a href="mailto:info@cheekycommodoregamer.co.uk" class="btn-retro play-sound" style="border-color: var(--c64-blue); color:var(--c64-black); background:var(--c64-yellow); font-size: 1.2rem;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
+        </div>
+        <div class="sitemap-container">
+            <h2>EXPLORE MORE</h2>
+            <div class="sitemap-links">
+                <a href="/index.html" class="play-sound">HOME</a>
+                <a href="/games/" class="play-sound">GAMES BY GENRE</a>
+                <a href="/games/top-picks.html" class="play-sound">TOP PICKS</a>
+                <a href="/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
+                <a href="/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
+                <a href="/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
+                <a href="/games/adventure.html" class="play-sound">ADVENTURE</a>
+                <a href="/games/arcade.html" class="play-sound">ARCADE</a>
+                <a href="/games/fighting.html" class="play-sound">FIGHTING</a>
+                <a href="/games/casino.html" class="play-sound">CASINO</a>
+                <a href="/games/horror.html" class="play-sound">HORROR</a>
+                <a href="/games/licensed-games.html" class="play-sound">LICENSED</a>
+                <a href="/games/platform.html" class="play-sound">PLATFORM</a>
+                <a href="/games/puzzle-games.html" class="play-link play-sound">PUZZLE</a>
+                <a href="/games/quiz-games.html" class="play-sound">QUIZ</a>
+                <a href="/games/racing.html" class="play-sound">RACING</a>
+                <a href="/games/rpg.html" class="play-sound">RPG</a>
+                <a href="/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
+                <a href="/games/sports.html" class="play-sound">SPORTS</a>
+                <a href="/games/strategy.html" class="play-sound">STRATEGY</a>
+                <a href="/resources/quiz.html" class="play-sound">QUIZ</a>
+                <a href="/retro-events.html" class="play-sound">EVENTS</a>
+                <a href="/resources/emulation-guide.html" class="play-sound">EMULATION</a>
+                <a href="/games/complete-index.html" class="play-sound">FULL INDEX</a>
+                <a href="/about.html" class="play-sound">ABOUT ME</a>
+                <a href="/contact.html" class="play-sound">CONTACT</a>
+            </div>
+        </div>
+    </div>
 
-    <button id="back-to-top" class="play-sound">↑</button>
+    <button id="back-to-top" class="play-sound">↑</button>
 
-    <div class="marquee-container" id="marquee">
-        <div class="marquee-content">
-            *** CHEEKY COMMODORE GAMER - FULL C64 & AMIGA INDEX *** UPDATED DAILY *** SUBSCRIBE ON YOUTUBE ***
-        </div>
-    </div>
+    <div class="marquee-container" id="marquee">
+        <div class="marquee-content">
+            *** CHEEKY COMMODORE GAMER - FULL C64 & AMIGA INDEX *** UPDATED DAILY *** SUBSCRIBE ON YOUTUBE ***
+        </div>
+    </div>
 
-    <script>
-        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
-        
-        let allGames = [];
-        let currentPlatform = 'all';
-        
-        // Global Audio Context (required by the new sound logic)
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    <script>
+        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
+        
+        let allGames = [];
+        let currentPlatform = 'all';
+        
+        // Global Audio Context (required by the new sound logic)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // Sound - MODIFIED TO MATCH THE QUIZ FILE LOGIC
-        const playClickSound = () => {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-            o.connect(g); g.connect(audioCtx.destination);
-            const isAmiga = document.body.classList.contains('amiga-mode');
-            
-            if (isAmiga) {
-                // Amiga: Sine wave for a cleaner tone
-                o.type = 'sine'; o.frequency.setValueAtTime(1200, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
-                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-            } else {
-                // C64: Square wave for a classic retro menu sound
-                o.type = 'square'; o.frequency.setValueAtTime(150, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
-                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            }
-            o.start(); o.stop(audioCtx.currentTime + 0.1);
-        };
+        // Sound - MODIFIED TO MATCH THE QUIZ FILE LOGIC
+        const playClickSound = () => {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+            o.connect(g); g.connect(audioCtx.destination);
+            const isAmiga = document.body.classList.contains('amiga-mode');
+            
+            if (isAmiga) {
+                // Amiga: Sine wave for a cleaner tone
+                o.type = 'sine'; o.frequency.setValueAtTime(1200, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            } else {
+                // C64: Square wave for a classic retro menu sound
+                o.type = 'square'; o.frequency.setValueAtTime(150, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            }
+            o.start(); o.stop(audioCtx.currentTime + 0.1);
+        };
 
-        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
+        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
 
-        // Back to Top
-        const btt = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        // Back to Top
+        const btt = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-        // Mode Switching Functions 
-        function toggleMode() {
-            playClickSound();
-            const body = document.body;
-            const isAmiga = body.classList.contains('amiga-mode');
-            
-            if (isAmiga) setC64Mode();
-            else setAmigaMode();
+        // Mode Switching Functions 
+        function toggleMode() {
+            playClickSound();
+            const body = document.body;
+            const isAmiga = body.classList.contains('amiga-mode');
+            
+            if (isAmiga) setC64Mode();
+            else setAmigaMode();
 
-            // When mode is manually toggled, we reset the platform filter to 'all' for clarity
-            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.p-all').classList.add('active');
-            currentPlatform = 'all';
-            renderGames(document.getElementById("searchBox").value.trim());
-        }
+            // When mode is manually toggled, we reset the platform filter to 'all' for clarity
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.p-all').classList.add('active');
+            currentPlatform = 'all';
+            renderGames(document.getElementById("searchBox").value.trim());
+        }
 
-        function setAmigaMode() {
-            const body = document.body;
-            body.classList.remove('c64-mode');
-            body.classList.add('amiga-mode');
-            localStorage.setItem('preferredMode', 'amiga');
-        }
+        function setAmigaMode() {
+            const body = document.body;
+            body.classList.remove('c64-mode');
+            body.classList.add('amiga-mode');
+            localStorage.setItem('preferredMode', 'amiga');
+        }
 
-        function setC64Mode() {
-            const body = document.body;
-            body.classList.remove('amiga-mode');
-            body.classList.add('c64-mode');
-            localStorage.setItem('preferredMode', 'c64');
-        }
+        function setC64Mode() {
+            const body = document.body;
+            body.classList.remove('amiga-mode');
+            body.classList.add('c64-mode');
+            localStorage.setItem('preferredMode', 'c64');
+        }
 
-        // Mode initialization on load
-        window.addEventListener('DOMContentLoaded', () => { 
-            const savedMode = localStorage.getItem('preferredMode'); 
-            if (savedMode === 'amiga') setAmigaMode();
-            
-            fetchAllGames();
-        });
+        // Mode initialization on load
+        window.addEventListener('DOMContentLoaded', () => { 
+            const savedMode = localStorage.getItem('preferredMode'); 
+            if (savedMode === 'amiga') setAmigaMode();
+            
+            fetchAllGames();
+        });
 
 
-        // Data Fetching and Loading Overlay Logic
-        async function fetchAllGames() {
-            const progressFill = document.getElementById("progressFill");
-            const overlay = document.getElementById("loadingOverlay");
-            
-            try {
-                // Fetching CSV data
-                const response = await fetch(CSV_DATA_URL);
-                progressFill.style.width = "40%"; // Update progress
-                const csvText = await response.text();
+        // Data Fetching and Loading Overlay Logic
+        async function fetchAllGames() {
+            const progressFill = document.getElementById("progressFill");
+            const overlay = document.getElementById("loadingOverlay");
+            
+            try {
+                // Fetching CSV data
+                const response = await fetch(CSV_DATA_URL);
+                progressFill.style.width = "40%"; // Update progress
+                const csvText = await response.text();
 
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        allGames = results.data.map(g => ({
-                            title: g.gametitle || '',
-                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
-                            platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
-                            sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
-                        })).filter(g => g.title && g.url.includes('v=')); 
-                        
-                        progressFill.style.width = "100%";
-                        setTimeout(() => {
-                            overlay.style.opacity = "0";
-                            setTimeout(() => overlay.style.display = "none", 500);
-                            document.getElementById('marquee').style.display = 'block'; // Show marquee
-                            renderGames();
-                        }, 500);
-                    }
-                });
-                
-            } catch (err) {
-                console.error("Game list load error:", err);
-                document.getElementById("statsDisplay").textContent = `LOAD ERROR - REFRESH PAGE`;
-                document.querySelector('.loading-text').textContent = "LOAD ERROR.";
-                overlay.style.opacity = "0";
-                setTimeout(() => overlay.style.display = "none", 500);
-            }
-        }
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        allGames = results.data.map(g => ({
+                            title: g.gametitle || '',
+                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
+                            platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
+                            sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
+                        })).filter(g => g.title && g.url.includes('v=')); 
+                        
+                        progressFill.style.width = "100%";
+                        setTimeout(() => {
+                            overlay.style.opacity = "0";
+                            setTimeout(() => overlay.style.display = "none", 500);
+                            document.getElementById('marquee').style.display = 'block'; // Show marquee
+                            renderGames();
+                        }, 500);
+                    }
+                });
+                
+            } catch (err) {
+                console.error("Game list load error:", err);
+                document.getElementById("statsDisplay").textContent = `LOAD ERROR - REFRESH PAGE`;
+                document.querySelector('.loading-text').textContent = "LOAD ERROR.";
+                overlay.style.opacity = "0";
+                setTimeout(() => overlay.style.display = "none", 500);
+            }
+        }
 
-        function filterPlatform(platform) {
-            playClickSound();
-            currentPlatform = platform;
-            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.p-${platform}`).classList.add('active');
-            renderGames(document.getElementById("searchBox").value.trim());
-        }
+        function filterPlatform(platform) {
+            playClickSound();
+            currentPlatform = platform;
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.p-${platform}`).classList.add('active');
+            renderGames(document.getElementById("searchBox").value.trim());
+        }
 
-        function renderGames(filterText = "") {
-            const container = document.getElementById("playlist-container");
-            container.innerHTML = "";
-            
-            let filtered = allGames;
-            
-            if (currentPlatform !== 'all') {
-                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform);
-            }
-            
-            if (filterText) {
-                const lowerFilter = filterText.toLowerCase();
-                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
-            }
-            
-            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
+        function renderGames(filterText = "") {
+            const container = document.getElementById("playlist-container");
+            container.innerHTML = "";
+            
+            let filtered = allGames;
+            
+            if (currentPlatform !== 'all') {
+                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform);
+            }
+            
+            if (filterText) {
+                const lowerFilter = filterText.toLowerCase();
+                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
+            }
+            
+            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
 
-            // Sorting & Grouping
-            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
-            
-            const sections = {};
-            filtered.forEach(g => {
-                let letter = g.sortKey.charAt(0);
-                if (!/[A-Z]/.test(letter)) letter = "#";
-                if (!sections[letter]) sections[letter] = [];
-                sections[letter].push(g);
-            });
+            // Sorting & Grouping
+            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+            
+            const sections = {};
+            filtered.forEach(g => {
+                let letter = g.sortKey.charAt(0);
+                if (!/[A-Z]/.test(letter)) letter = "#";
+                if (!sections[letter]) sections[letter] = [];
+                sections[letter].push(g);
+            });
 
-            // If no games are found after filter, display a message
-            if (filtered.length === 0) {
-                container.innerHTML = '<p style="margin-top: 30px; font-size: 1.5rem; color: var(--c64-red);">*** ERROR: NO GAMES FOUND ***</p>';
-                return;
-            }
+            // If no games are found after filter, display a message
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="margin-top: 30px; font-size: 1.5rem; color: var(--c64-red);">*** ERROR: NO GAMES FOUND ***</p>';
+                return;
+            }
 
-            // Build HTML
-            Object.keys(sections).sort().forEach(letter => {
-                const section = document.createElement("div");
-                section.className = "section";
-                
-                const h2 = document.createElement("h2");
-                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
-                h2.onclick = () => {
-                    playClickSound();
-                    const content = h2.nextElementSibling;
-                    content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none";
-                };
-                
-                const gamesDiv = document.createElement("div");
-                gamesDiv.className = "games";
-                
-                const table = document.createElement("table");
-                sections[letter].forEach(game => {
-                    const tr = document.createElement("tr");
-                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
-                    
-                    tr.innerHTML = `
-                        <td>
-                            <span class="badge ${badgeClass}">${game.platform}</span>
-                            <span>${game.title}</span>
-                        </td>
-                        <td style="text-align:right; width:80px;">
-                            <a href="${game.url}" target="_blank" class="watch-btn play-sound" onclick="playClickSound()">WATCH</a>
-                        </td>
-                    `;
-                    table.appendChild(tr);
-                });
-                
-                gamesDiv.appendChild(table);
-                section.appendChild(h2);
-                section.appendChild(gamesDiv);
-                container.appendChild(section);
-            });
-        }
+            // Build HTML
+            Object.keys(sections).sort().forEach(letter => {
+                const section = document.createElement("div");
+                section.className = "section";
+                
+                const h2 = document.createElement("h2");
+                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
+                h2.onclick = () => {
+                    playClickSound();
+                    const content = h2.nextElementSibling;
+                    content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none";
+                };
+                
+                const gamesDiv = document.createElement("div");
+                gamesDiv.className = "games";
+                
+                const table = document.createElement("table");
+                sections[letter].forEach(game => {
+                    const tr = document.createElement("tr");
+                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
+                    
+                    tr.innerHTML = `
+                        <td>
+                            <span class="badge ${badgeClass}">${game.platform}</span>
+                            <span>${game.title}</span>
+                        </td>
+                        <td style="text-align:right; width:80px;">
+                            <a href="${game.url}" target="_blank" class="watch-btn play-sound" onclick="playClickSound()">WATCH</a>
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                });
+                
+                gamesDiv.appendChild(table);
+                section.appendChild(h2);
+                section.appendChild(gamesDiv);
+                container.appendChild(section);
+            });
+        }
 
-        document.getElementById("searchBox").addEventListener("input", (e) => {
-            renderGames(e.target.value.trim());
-        });
+        document.getElementById("searchBox").addEventListener("input", (e) => {
+            renderGames(e.target.value.trim());
+        });
 
-        document.getElementById("expandAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
-        };
-        document.getElementById("collapseAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
-        };
+        document.getElementById("expandAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
+        };
+        document.getElementById("collapseAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
+        };
 
-        document.getElementById("randomGame").onclick = () => {
-            playClickSound();
-            if (allGames.length === 0) return;
-            const random = allGames[Math.floor(Math.random() * allGames.length)];
-            window.open(random.url, '_blank');
-        };
+        document.getElementById("randomGame").onclick = () => {
+            playClickSound();
+            if (allGames.length === 0) return;
+            const random = allGames[Math.floor(Math.random() * allGames.length)];
+            window.open(random.url, '_blank');
+        };
 
-    </script>
+    </script>
 </body>
 </html>
