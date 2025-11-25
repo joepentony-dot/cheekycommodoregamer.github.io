@@ -1,113 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheeky Commodore Gamer - Games Index</title>
-    
-    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
-    
-    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheeky Commodore Gamer - Games Index</title>
+    
+    <meta name="description" content="Search the complete alphabetical index of Commodore 64 and Amiga games. Find video reviews, filter by platform, and discover retro gaming classics instantly.">
+    
+    <link rel="canonical" href="https://www.cheekycommodoregamer.co.uk/games-index">
 
-    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
-    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
+    <meta property="og:title" content="Cheeky Commodore Gamer: Full C64 & Amiga Games Index">
+    <meta property="og:description" content="The ultimate A-Z index of Commodore 64 and Amiga games. Search, filter, and watch video reviews for thousands of classic titles.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.cheekycommodoregamer.co.uk/games-index">
 
     <link rel="stylesheet" href="/css/style.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     </head>
 <body class="c64-mode">
 
-    <canvas id="starfield"></canvas>
-    <div class="crt-overlay"></div>
+    <canvas id="starfield"></canvas>
+    <div class="crt-overlay"></div>
 
-    <div class="container" id="top">
-        <div class="commodore-header">
-            <img id="header-logo" src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
-            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
-            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
-            
-            <div class="nav-bar">
-                <a href="/games/index.html" class="nav-link play-sound">GENRES</a>
-                <a href="/games/complete-index.html" class="nav-link play-sound">INDEX</a>
-                <a href="/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
-                <a href="/retro-events.html" class="nav-link play-sound">EVENTS</a>
-                <a href="/about.html" class="nav-link play-sound">ABOUT</a>
-                <a href="/contact.html" class="nav-link play-sound">CONTACT</a>
-                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; color: var(--c64-light-blue); font-family: 'VT323', monospace;">MODE</button>
-            </div>
-        </div>
+    <div class="container" id="top">
+        <div class="commodore-header">
+            <img id="header-logo" src="https://raw.githubusercontent.com/joepentony-dot/website-images/main/CCGAMER%20LOGO.png" alt="Cheeky Commodore Gamer Logo - Games Index" style="max-width: 150px; image-rendering: pixelated; margin-bottom: 10px;">
+            <h3>**** COMMODORE 64 BASIC V2 ****</h3>
+            <p>64K RAM SYSTEM 38911 BASIC BYTES FREE</p>
+            
+            <div class="nav-list">
+                <a href="/retro-events.html" class="nav-link play-sound">EVENTS</a>
+                <a href="/games/index.html" class="nav-link play-sound">GENRES</a>
+                <a href="/about.html" class="nav-link play-sound">ABOUT</a>
+                <a href="/games/complete-index.html" class="nav-link play-sound">INDEX</a>
+                <a href="/resources/quiz.html" class="nav-link play-sound">QUIZ</a>
+                <a href="/contact.html" class="nav-link play-sound">CONTACT</a>
+                <button class="nav-link play-sound" id="modeToggle" onclick="toggleMode()" style="background: none; border: none; cursor: pointer; padding: 0; font-family: 'VT323', monospace;">MODE</button>
+            </div>
+        </div>
 
-        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
-        
-        <div class="platform-toggles">
-            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
-            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
-            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
-        </div>
+        <h1>FULL GAMES INDEX: COMMODORE 64 & AMIGA</h1>
+        
+        <div class="platform-toggles">
+            <button class="platform-btn p-all active play-sound" onclick="filterPlatform('all')">ALL</button>
+            <button class="platform-btn p-c64 play-sound" onclick="filterPlatform('c64')">C64</button>
+            <button class="platform-btn p-amiga play-sound" onclick="filterPlatform('amiga')">AMIGA</button>
+        </div>
 
-        <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
-        </div>
-        <div class="search-results-count" id="statsDisplay">FOUND 628 GAMES...</div>
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="SEARCH TITLE..." aria-label="Search games">
+        </div>
+        <div class="search-results-count" id="statsDisplay">FOUND 628 GAMES...</div>
 
-        <div class="quick-actions">
-            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
-            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
-            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
-        </div>
+        <div class="quick-actions">
+            <button class="quick-btn play-sound" id="expandAll">EXPAND ALL</button>
+            <button class="quick-btn play-sound" id="collapseAll">COLLAPSE ALL</button>
+            <button class="quick-btn play-sound" id="randomGame">RANDOM GAME</button>
+        </div>
 
-        <div id="playlist-container"></div>
+        <div id="playlist-container"></div>
 
-        <div class="sitemap-container">
-            <h2>EXPLORE MORE</h2>
-            <div class="sitemap-links">
-                <a href="/index.html" class="play-sound">HOME</a>
-                <a href="/games/index.html" class="play-sound">GAMES BY GENRE</a>
-                <a href="/games/top-picks.html" class="play-sound">TOP PICKS</a>
-                <a href="/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
-                <a href="/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
-                <a href="/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
-                <a href="/games/adventure-games.html" class="play-sound">ADVENTURE</a>
-                <a href="/games/arcade.html" class="play-sound">ARCADE</a>
-                <a href="/games/fighting.html" class="play-sound">FIGHTING</a>
-                <a href="/games/casino.html" class="play-sound">CASINO</a>
-                <a href="/games/horror.html" class="play-sound">HORROR</a>
-                <a href="/games/licensed-games.html" class="play-sound">LICENSED</a>
-                <a href="/games/platform.html" class="play-sound">PLATFORM</a>
-                <a href="/games/puzzle-games.html" class="play-link play-sound">PUZZLE</a>
-                <a href="/games/quiz-games.html" class="play-sound">QUIZ</a>
-                <a href="/games/racing.html" class="play-sound">RACING</a>
-                <a href="/games/rpg.html" class="play-sound">RPG</a>
-                <a href="/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
-                <a href="/games/sports.html" class="play-sound">SPORTS</a>
-                <a href="/games/strategy.html" class="play-sound">STRATEGY</a>
-                <a href="/resources/quiz.html" class="play-sound">QUIZ</a>
-                <a href="/retro-events.html" class="play-sound">EVENTS</a>
-                <a href="/emulator-guide.html" class="play-sound">EMULATION</a>
-                <a href="/games/complete-index.html" class="play-sound">FULL INDEX</a>
-                <a href="/about.html" class="play-sound">ABOUT ME</a>
-                <a href="/contact.html" class="play-sound">CONTACT</a>
-            </div>
-        </div>
-        
-        <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
-            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
-            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
-            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
-            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound" style="background:#5865F2; border-color:#fff;"><i class="fa-brands fa-discord"></i> DISCORD</a>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound" style="background:#0070BA; border-color:#fff;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
-            <a href="mailto:info@cheekycommodoregamer.co.uk" class="quick-btn play-sound" style="background:#FFD700; color:#000; border-color:#000;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
-        </div>
+        <div class="sitemap-container">
+            <h2>EXPLORE MORE</h2>
+            <div class="sitemap-links">
+                <a href="/index.html" class="play-sound">HOME</a>
+                <a href="/games/index.html" class="play-sound">GAMES BY GENRE</a>
+                <a href="/games/top-picks.html" class="play-sound">TOP PICKS</a>
+                <a href="/games/c64-cartridge.html" class="play-sound">CARTRIDGE GAMES</a>
+                <a href="/games/bpjs-indexed-games.html" class="play-sound">BANNED GAMES</a>
+                <a href="/games/action-adventure.html" class="play-sound">ACTION-ADVENTURE</a>
+                <a href="/games/adventure-games.html" class="play-sound">ADVENTURE</a>
+                <a href="/games/arcade.html" class="play-sound">ARCADE</a>
+                <a href="/games/fighting.html" class="play-sound">FIGHTING</a>
+                <a href="/games/casino.html" class="play-sound">CASINO</a>
+                <a href="/games/horror.html" class="play-sound">HORROR</a>
+                <a href="/games/licensed-games.html" class="play-sound">LICENSED</a>
+                <a href="/games/platform.html" class="play-sound">PLATFORM</a>
+                <a href="/games/puzzle-games.html" class="play-link play-sound">PUZZLE</a>
+                <a href="/games/quiz-games.html" class="play-sound">QUIZ</a>
+                <a href="/games/racing.html" class="play-sound">RACING</a>
+                <a href="/games/rpg.html" class="play-sound">RPG</a>
+                <a href="/games/shooting.html" class="play-sound">SHOOT 'EM UP</a>
+                <a href="/games/sports.html" class="play-sound">SPORTS</a>
+                <a href="/games/strategy.html" class="play-sound">STRATEGY</a>
+                <a href="/resources/quiz.html" class="play-sound">QUIZ</a>
+                <a href="/retro-events.html" class="play-sound">EVENTS</a>
+                <a href="/emulator-guide.html" class="play-sound">EMULATION</a>
+                <a href="/games/complete-index.html" class="play-sound">FULL INDEX</a>
+                <a href="/about.html" class="play-sound">ABOUT ME</a>
+                <a href="/contact.html" class="play-sound">CONTACT</a>
+            </div>
+        </div>
+        
+        <div class="social-strip" style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="quick-btn play-sound" style="background:#cc0000; border-color:#fff;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#FF424D; border-color:#fff;"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="quick-btn play-sound" style="background:#1877F2; border-color:#fff;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="quick-btn play-sound" style="background:#000; border-color:#fff;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="quick-btn play-sound" style="background:#5865F2; border-color:#fff;"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="quick-btn play-sound" style="background:#0070BA; border-color:#fff;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+            <a href="mailto:info@cheekycommodoregamer.co.uk" class="quick-btn play-sound" style="background:#FFD700; color:#000; border-color:#000;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
+        </div>
 
 
-    </div>
+    </div>
 
-    <button id="back-to-top" class="play-sound">↑</button>
+    <button id="back-to-top" class="play-sound">↑</button>
     
     <div class="marquee-container">
         <div class="marquee-content">
@@ -116,7 +116,7 @@
     </div>
 
 
-    <script>
+    <script>
         // Starfield logic (kept from Grok/index.html)
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
@@ -125,7 +125,7 @@
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             stars = [];
             for(let i = 0; i < 130; i++) {
-                stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,                             size: Math.random()*2, speed: Math.random()*2+0.5 });
+                stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,                           size: Math.random()*2, speed: Math.random()*2+0.5 });
             }
         }
         function animateStars() {
@@ -141,214 +141,214 @@
         window.addEventListener('resize', initStars);
         initStars(); animateStars();
 
-        // MASTER CSV: Includes all data required for the game list
-        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
-        
-        let allGames = [];
-        let currentPlatform = 'all';
+        // MASTER CSV: Includes all data required for the game list
+        const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
+        
+        let allGames = [];
+        let currentPlatform = 'all';
 
-        // Sound (Moved to top of script)
-        function playClickSound(){
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const o = ctx.createOscillator(), g = ctx.createGain();
-                o.connect(g); g.connect(ctx.destination);
-                const isAmiga = document.body.classList.contains('amiga-mode');
-                if (isAmiga) {
-                    o.type = 'sine'; o.frequency.setValueAtTime(1200, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
-                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-                } else {
-                    o.type = 'square'; o.frequency.setValueAtTime(150, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
-                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                }
-                o.start(); o.stop(ctx.currentTime + 0.1);
-            } catch(e) {}
-        }
-        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
+        // Sound (Moved to top of script)
+        function playClickSound(){
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator(), g = ctx.createGain();
+                o.connect(g); g.connect(ctx.destination);
+                const isAmiga = document.body.classList.contains('amiga-mode');
+                if (isAmiga) {
+                    o.type = 'sine'; o.frequency.setValueAtTime(1200, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
+                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                } else {
+                    o.type = 'square'; o.frequency.setValueAtTime(150, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
+                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                }
+                o.start(); o.stop(ctx.currentTime + 0.1);
+            } catch(e) {}
+        }
+        document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
 
-        // Back to Top
-        const btt = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        // Back to Top
+        const btt = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+        btt.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-        // Mode Switching Functions 
-        function toggleMode() {
-            playClickSound();
-            const body = document.body;
-            const isAmiga = body.classList.contains('amiga-mode');
-            
-            if (isAmiga) setC64Mode();
-            else setAmigaMode();
+        // Mode Switching Functions 
+        function toggleMode() {
+            playClickSound();
+            const body = document.body;
+            const isAmiga = body.classList.contains('amiga-mode');
+            
+            if (isAmiga) setC64Mode();
+            else setAmigaMode();
 
-            // When mode is manually toggled, we reset the platform filter to 'all' for clarity
-            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.p-all').classList.add('active');
-            currentPlatform = 'all';
-            renderGames(document.getElementById("searchBox").value.trim());
+            // When mode is manually toggled, we reset the platform filter to 'all' for clarity
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.p-all').classList.add('active');
+            currentPlatform = 'all';
+            renderGames(document.getElementById("searchBox").value.trim());
 
-        }
+        }
 
-        function setAmigaMode() {
-            const body = document.body;
-            body.classList.remove('c64-mode');
-            body.classList.add('amiga-mode');
-            body.style.backgroundColor = '#0055AA'; 
-            body.style.color = '#000000';
-            body.style.fontFamily = "'Amiga Topaz', 'Courier New', monospace";
-            localStorage.setItem('preferredMode', 'amiga');
-        }
+        function setAmigaMode() {
+            const body = document.body;
+            body.classList.remove('c64-mode');
+            body.classList.add('amiga-mode');
+            body.style.backgroundColor = '#0055AA'; 
+            body.style.color = '#000000';
+            body.style.fontFamily = "'Amiga Topaz', 'Courier New', monospace";
+            localStorage.setItem('preferredMode', 'amiga');
+        }
 
-        function setC64Mode() {
-            const body = document.body;
-            body.classList.remove('amiga-mode');
-            body.classList.add('c64-mode');
-            body.style.backgroundColor = '#352879';
-            body.style.color = '#b8c76f';
-            body.style.fontFamily = "'VT323', monospace";
-            localStorage.setItem('preferredMode', 'c64');
-        }
+        function setC64Mode() {
+            const body = document.body;
+            body.classList.remove('amiga-mode');
+            body.classList.add('c64-mode');
+            body.style.backgroundColor = '#352879';
+            body.style.color = '#b8c76f';
+            body.style.fontFamily = "'VT323', monospace";
+            localStorage.setItem('preferredMode', 'c64');
+        }
 
-        // Mode initialization on load
-        window.addEventListener('DOMContentLoaded', () => { 
-            const savedMode = localStorage.getItem('preferredMode'); 
-            if (savedMode === 'amiga') setAmigaMode();
-            
-            // Start the data fetch instantly (no loading screen)
-            fetchAllGames();
-        });
+        // Mode initialization on load
+        window.addEventListener('DOMContentLoaded', () => { 
+            const savedMode = localStorage.getItem('preferredMode'); 
+            if (savedMode === 'amiga') setAmigaMode();
+            
+            // Start the data fetch instantly (no loading screen)
+            fetchAllGames();
+        });
 
 
-        // Data Fetching (simplified for instant load)
-        async function fetchAllGames() {
-            try {
-                const response = await fetch(CSV_DATA_URL);
-                const csvText = await response.text();
+        // Data Fetching (simplified for instant load)
+        async function fetchAllGames() {
+            try {
+                const response = await fetch(CSV_DATA_URL);
+                const csvText = await response.text();
 
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        allGames = results.data.map(g => ({
-                            title: g.gametitle || '',
-                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
-                            platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
-                            lemon: g.lemonlinks || '', 
-                            pdf: g.pdflink || '',
-                            disk: g.disklinks || '',
-                            sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
-                        })).filter(g => g.title); 
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        allGames = results.data.map(g => ({
+                            title: g.gametitle || '',
+                            url: `https://www.youtube.com/watch?v=${g.videoid}`, 
+                            platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
+                            lemon: g.lemonlinks || '', 
+                            pdf: g.pdflink || '',
+                            disk: g.disklinks || '',
+                            sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
+                        })).filter(g => g.title); 
 
-                        renderGames();
-                    }
-                });
-                
-            } catch (err) {
-                console.error("Game list load error:", err);
-                document.getElementById("statsDisplay").textContent = `LOAD ERROR - REFRESH PAGE`;
-            }
-        }
+                        renderGames();
+                    }
+                });
+                
+            } catch (err) {
+                console.error("Game list load error:", err);
+                document.getElementById("statsDisplay").textContent = `LOAD ERROR - REFRESH PAGE`;
+            }
+        }
 
-        function renderGames(filterText = "") {
-            const container = document.getElementById("playlist-container");
-            container.innerHTML = "";
-            
-            let filtered = allGames;
-            
-            // Filter logic
-            if (currentPlatform !== 'all') {
-                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform.toLowerCase());
-            }
-            if (filterText) {
-                const lowerFilter = filterText.toLowerCase();
-                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
-            }
-            
-            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
+        function renderGames(filterText = "") {
+            const container = document.getElementById("playlist-container");
+            container.innerHTML = "";
+            
+            let filtered = allGames;
+            
+            // Filter logic
+            if (currentPlatform !== 'all') {
+                filtered = filtered.filter(g => g.platform.toLowerCase() === currentPlatform.toLowerCase());
+            }
+            if (filterText) {
+                const lowerFilter = filterText.toLowerCase();
+                filtered = filtered.filter(g => g.title.toLowerCase().includes(lowerFilter));
+            }
+            
+            document.getElementById("statsDisplay").textContent = `FOUND ${filtered.length} GAMES`;
 
-            // Sorting & Grouping
-            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
-            
-            const sections = {};
-            filtered.forEach(g => {
-                let letter = g.sortKey.charAt(0);
-                if (!/[A-Z]/.test(letter)) letter = "#";
-                if (!sections[letter]) sections[letter] = [];
-                sections[letter].push(g);
-            });
+            // Sorting & Grouping
+            filtered.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+            
+            const sections = {};
+            filtered.forEach(g => {
+                let letter = g.sortKey.charAt(0);
+                if (!/[A-Z]/.test(letter)) letter = "#";
+                if (!sections[letter]) sections[letter] = [];
+                sections[letter].push(g);
+            });
 
-            // If no games are found after filter, display a message
-            if (filtered.length === 0) {
-                container.innerHTML = '<p style="margin-top: 30px; font-size: 1.5rem; color: var(--c64-red);">*** ERROR: NO GAMES FOUND ***</p>';
-                return;
-            }
+            // If no games are found after filter, display a message
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="margin-top: 30px; font-size: 1.5rem; color: var(--c64-red);">*** ERROR: NO GAMES FOUND ***</p>';
+                return;
+            }
 
-            // Build HTML
-            Object.keys(sections).sort().forEach(letter => {
-                const section = document.createElement("div");
-                section.className = "section";
-                
-                const h2 = document.createElement("h2");
-                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
-                // Added playClickSound to accordion headers
-                h2.onclick = () => { playClickSound(); const content = h2.nextElementSibling; content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none"; };
-                
-                const gamesDiv = document.createElement("div");
-                gamesDiv.className = "games";
-                
-                const table = document.createElement("table");
-                sections[letter].forEach(game => {
-                    const tr = document.createElement("tr");
-                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
-                    
-                    // Build the external links section
-                    let linksHtml = '';
-                    if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="quick-btn play-sound">LEMON</a>`;
-                    if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="quick-btn play-sound">PDF</a>`;
-                    if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="quick-btn play-sound">DISK</a>`;
-                    
-                    tr.innerHTML = `
-                        <td style="width: 70%; max-width: 70%;">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span class="badge ${badgeClass}">${game.platform}</span>
-                                <span>${game.title}</span>
-                            </div>
-                        </td>
-                        <td style="text-align: right; width: 30%; max-width: 30%;">
-                            <div class="game-links-cell" style="justify-content: flex-end;">
-                                <a href="${game.url}" target="_blank" class="quick-btn play-sound">WATCH</a>
-                                ${linksHtml}
-                            </div>
-                        </td>
-                    `;
-                    table.appendChild(tr);
-                });
-                
-                gamesDiv.appendChild(table);
-                section.appendChild(h2);
-                section.appendChild(gamesDiv);
-                container.appendChild(section);
-            });
-        }
+            // Build HTML
+            Object.keys(sections).sort().forEach(letter => {
+                const section = document.createElement("div");
+                section.className = "section";
+                
+                const h2 = document.createElement("h2");
+                h2.innerHTML = `<span>${letter}</span> <span style="font-size:1rem;">[${sections[letter].length}]</span>`;
+                // Added playClickSound to accordion headers
+                h2.onclick = () => { playClickSound(); const content = h2.nextElementSibling; content.style.display = (content.style.display === "none" || !content.style.display) ? "block" : "none"; };
+                
+                const gamesDiv = document.createElement("div");
+                gamesDiv.className = "games";
+                
+                const table = document.createElement("table");
+                sections[letter].forEach(game => {
+                    const tr = document.createElement("tr");
+                    const badgeClass = game.platform === 'C64' ? 'badge-c64' : 'badge-amiga';
+                    
+                    // Build the external links section
+                    let linksHtml = '';
+                    if (game.lemon) linksHtml += `<a href="${game.lemon}" target="_blank" class="quick-btn play-sound">LEMON</a>`;
+                    if (game.pdf) linksHtml += `<a href="${game.pdf}" target="_blank" class="quick-btn play-sound">PDF</a>`;
+                    if (game.disk) linksHtml += `<a href="${game.disk}" target="_blank" class="quick-btn play-sound">DISK</a>`;
+                    
+                    tr.innerHTML = `
+                        <td style="width: 70%; max-width: 70%;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span class="badge ${badgeClass}">${game.platform}</span>
+                                <span>${game.title}</span>
+                            </div>
+                        </td>
+                        <td style="text-align: right; width: 30%; max-width: 30%;">
+                            <div class="game-links-cell" style="justify-content: flex-end;">
+                                <a href="${game.url}" target="_blank" class="quick-btn play-sound">WATCH</a>
+                                ${linksHtml}
+                            </div>
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                });
+                
+                gamesDiv.appendChild(table);
+                section.appendChild(h2);
+                section.appendChild(gamesDiv);
+                container.appendChild(section);
+            });
+        }
 
-        document.getElementById("searchBox").addEventListener("input", (e) => {
-            renderGames(e.target.value.trim());
-        });
+        document.getElementById("searchBox").addEventListener("input", (e) => {
+            renderGames(e.target.value.trim());
+        });
 
-        document.getElementById("expandAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
-        };
-        document.getElementById("collapseAll").onclick = () => {
-            playClickSound();
-            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
-        };
+        document.getElementById("expandAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "block");
+        };
+        document.getElementById("collapseAll").onclick = () => {
+            playClickSound();
+            document.querySelectorAll(".games").forEach(d => d.style.display = "none");
+        };
 
-        document.getElementById("randomGame").onclick = () => {
-            playClickSound();
-            if (allGames.length === 0) return;
-            const random = allGames[Math.floor(Math.random() * allGames.length)];
-            window.open(random.url, '_blank');
-        };
-    </script>
+        document.getElementById("randomGame").onclick = () => {
+            playClickSound();
+            if (allGames.length === 0) return;
+            const random = allGames[Math.floor(Math.random() * allGames.length)];
+            window.open(random.url, '_blank');
+        };
+    </script>
 </body>
 </html>
