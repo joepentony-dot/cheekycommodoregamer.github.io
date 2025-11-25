@@ -465,24 +465,29 @@
         
         let allGames = [];
         let currentPlatform = 'all';
+        
+        // Global Audio Context (required by the new sound logic)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // Sound 
-        function playClickSound(){
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const o = ctx.createOscillator(), g = ctx.createGain();
-                o.connect(g); g.connect(ctx.destination);
-                const isAmiga = document.body.classList.contains('amiga-mode');
-                if (isAmiga) {
-                    o.type = 'sine'; o.frequency.setValueAtTime(1200, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.1);
-                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-                } else {
-                    o.type = 'square'; o.frequency.setValueAtTime(150, ctx.currentTime); o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
-                    g.gain.setValueAtTime(0.1, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                }
-                o.start(); o.stop(ctx.currentTime + 0.1);
-            } catch(e) {}
-        }
+        // Sound - MODIFIED TO MATCH THE QUIZ FILE LOGIC
+        const playClickSound = () => {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+            o.connect(g); g.connect(audioCtx.destination);
+            const isAmiga = document.body.classList.contains('amiga-mode');
+            
+            if (isAmiga) {
+                // Amiga: Sine wave for a cleaner tone
+                o.type = 'sine'; o.frequency.setValueAtTime(1200, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            } else {
+                // C64: Square wave for a classic retro menu sound
+                o.type = 'square'; o.frequency.setValueAtTime(150, audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            }
+            o.start(); o.stop(audioCtx.currentTime + 0.1);
+        };
+
         document.querySelectorAll('.play-sound').forEach(el => el.addEventListener('click', playClickSound));
 
         // Back to Top
@@ -548,7 +553,6 @@
                             title: g.gametitle || '',
                             url: `https://www.youtube.com/watch?v=${g.videoid}`, 
                             platform: g.lemonlinks?.includes('lemonamiga.com') ? 'Amiga' : 'C64',
-                            // The full link fields are omitted here to match the simple table rendering in the new style
                             sortKey: g.gametitle.replace(/^(the|a|an|c64:|amiga:)\s+/i, "").trim().toUpperCase()
                         })).filter(g => g.title && g.url.includes('v=')); 
                         
