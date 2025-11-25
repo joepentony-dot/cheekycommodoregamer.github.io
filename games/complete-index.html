@@ -28,6 +28,13 @@
             --c64-text: #b8c76f;
             --c64-red: #880000;
             --c64-green: #55cc55;
+            --c64-cyan: #00ffff;
+            --c64-yellow: #feff6c;
+            --c64-purple: #cc44cc;
+            --c64-white: #ffffff;
+            --c64-black: #000000;
+            --c64-orange: #d55e00; 
+            --c64-brown: #664400;
             /* Amiga Colors (Needed for full mode switching) */
             --amiga-blue: #0055AA;  
             --amiga-white: #FFFFFF; 
@@ -125,7 +132,7 @@
         /* Amiga mode container style */
         body.amiga-mode .container {
             border: 4px solid var(--amiga-white);
-            background-color: var(--amiga-white); /* Changed to white to match common Amiga theme */
+            background-color: var(--amiga-white); 
             box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
         }
 
@@ -133,7 +140,7 @@
         /* === TYPOGRAPHY === */
         h1 { font-size: 2rem; color: #fff; margin: 0 0 10px 0; text-align: center; font-weight: normal; }
         h2 { font-size: 1.5rem; color: #fff; border-bottom: 1px dashed var(--c64-light-blue); padding-bottom: 5px; margin-bottom: 15px; text-align: center; }
-        h3 { color: var(--c64-text); font-size: 1.5rem; text-align: center; } /* Added h3 specific style */
+        h3 { color: var(--c64-text); font-size: 1.5rem; text-align: center; } 
         p { font-size: 1.2rem; margin-bottom: 15px; text-align: center; line-height: 1.4; color: var(--c64-text); }
         a { color: #fff; text-decoration: none; cursor: pointer; }
         a:hover { text-decoration: underline; }
@@ -156,14 +163,13 @@
             font-size: 1.2rem; 
             color: var(--c64-text); 
             white-space: nowrap; 
-            /* Ensure the MODE button looks like a link */
             background: none; 
             border: none;
             padding: 0;
             font-family: 'VT323';
             cursor: pointer;
         }
-        .nav-link:hover { color: #fff; }
+        .nav-link:hover { color: #fff; text-decoration: underline; }
         
         /* Amiga mode nav bar */
         body.amiga-mode .commodore-header { border-bottom-color: var(--amiga-blue); }
@@ -208,20 +214,28 @@
 
 
         .quick-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .quick-btn {
+        /* Using the btn-grid styles for quick-actions to ensure responsiveness */
+        .quick-actions .quick-btn {
             background: var(--c64-blue); color: #fff;
             border: 1px solid var(--c64-light-blue); padding: 5px 15px;
             cursor: pointer; font-family: 'VT323'; font-size: 1.2rem;
-            text-decoration: none; /* Add for anchor tags */
-            display: inline-flex; /* Add for button/anchor consistency */
+            text-decoration: none; 
+            display: inline-flex; 
             align-items: center;
             gap: 5px;
         }
-        .quick-btn:hover { background: var(--c64-light-blue); }
+        .quick-actions .quick-btn:hover { background: var(--c64-light-blue); }
+        
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 25px; width: 100%; }
+        .btn-retro { background: var(--c64-light-blue); color: #fff; border: 2px solid #fff; padding: 15px 20px; font-family: 'VT323', monospace; font-size: 1.4rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; text-align: center; transition: all 0.1s; text-transform: uppercase; width: 100%; text-decoration: none; }
+        .btn-retro:hover { background: #fff; color: var(--c64-blue); }
+
 
         /* Amiga mode quick actions */
-        body.amiga-mode .quick-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
-        body.amiga-mode .quick-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
+        body.amiga-mode .quick-actions .quick-btn { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
+        body.amiga-mode .quick-actions .quick-btn:hover { background: var(--amiga-blue); color: var(--amiga-white); }
+        body.amiga-mode .btn-retro { background: var(--amiga-white); color: var(--amiga-blue); border-color: var(--amiga-blue); }
+        body.amiga-mode .btn-retro:hover { background: var(--amiga-blue); color: var(--amiga-white); }
 
 
         /* === GAME LIST (Accordion) === */
@@ -295,40 +309,35 @@
 
 
         /* === MARQUEE === */
-        .marquee-container {
-            background-color: var(--c64-red);
-            color: var(--c64-white);
-            padding: 8px 0;
-            overflow: hidden;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            white-space: nowrap;
-            font-family: 'VT323', monospace;
-            font-size: 1.3rem;
-            border-top: 3px solid var(--c64-light-blue);
+        /* Marquee Styles - Updated to match index.html style */
+        .marquee-container { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: var(--c64-light-blue); /* Updated from Red */
+            color: #fff; 
+            padding: 5px 0; 
+            border-top: 2px solid #fff; 
+            z-index: 100; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            display: none; 
         }
-
-        .marquee-content {
-            display: inline-block;
+        .marquee-content { 
+            display: inline-block; 
             padding-left: 100%; 
-            animation: marquee 30s linear infinite;
+            animation: marquee 20s linear infinite; 
+            font-size: 1.2rem; 
         }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
 
-        @keyframes marquee {
-            0%   { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-        
-        /* Amiga Marquee */
+        /* Amiga Marquee Override (Preserved) */
         body.amiga-mode .marquee-container {
             background-color: var(--amiga-orange);
             color: var(--amiga-white);
             border-top: 3px solid var(--amiga-blue);
         }
-
 
         /* === RESPONSIVE === */
         @media (max-width: 600px) {
@@ -342,11 +351,13 @@
             .platform-btn { padding: 5px 10px; font-size: 1.2rem; flex: 1; text-align: center; }
             
             .quick-actions { gap: 5px; }
-            .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
+            .quick-actions .quick-btn { flex: 1; font-size: 1rem; padding: 8px; }
+            .btn-grid { grid-template-columns: 1fr; gap: 12px; }
             
             td { padding: 8px; font-size: 1.1rem; }
             .badge { display: none; } 
         }
+
     </style>
 </head>
 <body class="c64-mode">
@@ -398,6 +409,16 @@
 
         <div id="playlist-container"></div>
 
+        <h2>CONNECT AND SUPPORT</h2>
+        <div class="btn-grid social-grid" style="margin-bottom: 30px;">
+            <a href="https://www.youtube.com/@CheekyCommodoreGamer" target="_blank" class="btn-retro play-sound" style="border-color: var(--c64-red); background:#cc0000; font-size: 1.2rem;"><i class="fa-brands fa-youtube"></i> YOUTUBE</a>
+            <a href="https://patreon.com/CheekyCommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#FF424D; font-size: 1.2rem;"><i class="fa-brands fa-patreon"></i> PATREON</a>
+            <a href="https://facebook.com/cheekycommodoregamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#1877F2; font-size: 1.2rem;"><i class="fa-brands fa-facebook"></i> FACEBOOK</a>
+            <a href="https://twitter.com/CheekyC64Gamer" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#000; font-size: 1.2rem;"><i class="fa-brands fa-x-twitter"></i> TWITTER</a>
+            <a href="https://discord.gg/83Xw9ktAn4" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#5865F2; font-size: 1.2rem;"><i class="fa-brands fa-discord"></i> DISCORD</a>
+            <a href="https://www.paypal.com/donate/?hosted_button_id=LGG86ZV9P4YKL" target="_blank" class="btn-retro play-sound" style="border-color: #fff; background:#0070BA; font-size: 1.2rem;"><i class="fa-brands fa-paypal"></i> PAYPAL</a>
+            <a href="mailto:info@cheekycommodoregamer.co.uk" class="btn-retro play-sound" style="border-color: var(--c64-blue); color:var(--c64-black); background:var(--c64-yellow); font-size: 1.2rem;"><i class="fa-solid fa-envelope"></i> EMAIL</a>
+        </div>
         <div class="sitemap-container">
             <h2>EXPLORE MORE</h2>
             <div class="sitemap-links">
@@ -429,20 +450,17 @@
                 <a href="/contact.html" class="play-sound">CONTACT</a>
             </div>
         </div>
-
     </div>
 
     <button id="back-to-top" class="play-sound">↑</button>
 
-    <div class="marquee-container">
+    <div class="marquee-container" id="marquee">
         <div class="marquee-content">
             *** CHEEKY COMMODORE GAMER - FULL C64 & AMIGA INDEX *** UPDATED DAILY *** SUBSCRIBE ON YOUTUBE ***
         </div>
     </div>
 
     <script>
-        // Use a CSV source instead of the YouTube API key for simplicity and reliability.
-        // If you need to use the YouTube API as in the provided style example, replace the CSV URL with that logic.
         const CSV_DATA_URL = "https://docs.google.com/spreadsheets/d/1kUniGNCLsTv4LaoVmcbflhi9Nnky5rCFumzKLI0IA44/gviz/tq?tqx=out:csv"; 
         
         let allGames = [];
@@ -505,7 +523,6 @@
         // Mode initialization on load
         window.addEventListener('DOMContentLoaded', () => { 
             const savedMode = localStorage.getItem('preferredMode'); 
-            // The HTML defaults to c64-mode, so only explicitly set Amiga if needed.
             if (savedMode === 'amiga') setAmigaMode();
             
             fetchAllGames();
@@ -539,6 +556,7 @@
                         setTimeout(() => {
                             overlay.style.opacity = "0";
                             setTimeout(() => overlay.style.display = "none", 500);
+                            document.getElementById('marquee').style.display = 'block'; // Show marquee
                             renderGames();
                         }, 500);
                     }
@@ -655,7 +673,6 @@
             window.open(random.url, '_blank');
         };
 
-        
     </script>
 </body>
 </html>
