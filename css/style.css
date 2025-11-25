@@ -11,20 +11,20 @@
 
 /* 2. COLOR VARIABLES (Defines the colors your CSS uses) */
 :root {
-    --c64-blue: #352879;
-    --c64-light-blue: #6c5eb5;
-    --c64-text: #b8c76f;
-    --c64-red: #880000;
-    --c64-green: #55cc55;
-    --c64-cyan: #00ffff;
+    --c64-blue: #352879;
+    --c64-light-blue: #6c5eb5;
+    --c64-text: #b8c76f;
+    --c64-red: #880000;
+    --c64-green: #55cc55;
+    --c64-cyan: #00ffff;
     --c64-white: #ffffff;
     --c64-black: #000000;
-    /* Amiga Colors */
-    --amiga-blue: #0055AA; 
-    --amiga-white: #FFFFFF; 
-    --amiga-grey: #CCCCCC; 
-    --amiga-orange: #FF8800; 
-    --amiga-black: #000000;
+    /* Amiga Colors */
+    --amiga-blue: #0055AA; 
+    --amiga-white: #FFFFFF; 
+    --amiga-grey: #CCCCCC; 
+    --amiga-orange: #FF8800; 
+    --amiga-black: #000000;
 }
 
 /* --------------------------------- */
@@ -32,62 +32,78 @@
 /* --------------------------------- */
 
 /* RESET & BASE */
-* { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; padding: 0; }
+* { 
+    box-sizing: border-box; 
+    /* Ensure all elements inherit font and color from body by default */
+    font-family: inherit;
+    color: inherit;
+}
+html, body { 
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+    /* Set default background/text for C64 mode */
+    background-color: var(--c64-blue); 
+    color: var(--c64-text);
+    font-family: 'VT323', monospace;
+}
 
 /* NAVIGATION */
 .main-nav {
-    width: 100%;
-    position: relative;
-    z-index: 10000;
-    background: rgba(0,0,0,0.8); /* Semi-transparent backing */
+    width: 100%;
+    position: relative;
+    z-index: 10000;
+    background: rgba(0,0,0,0.8); /* Semi-transparent backing */
 }
 
 .nav-list {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    list-style: none;
-    padding: 15px;
-    border-bottom: 4px solid;
-    flex-wrap: wrap;
-    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 15px;
+    border-bottom: 4px solid;
+    flex-wrap: wrap;
+    margin: 0;
 }
 
 .nav-link {
-    cursor: pointer;
-    font-size: 1.4rem; /* Larger Text */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
-    display: block;
-    position: relative;
-    letter-spacing: 1px;
+    cursor: pointer;
+    font-size: 1.4rem; /* Larger Text */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: block;
+    position: relative;
+    letter-spacing: 1px;
+    /* Ensure nav links use C64 text color by default */
+    color: var(--c64-text); 
+    font-family: 'VT323', monospace; /* Explicitly set font */
 }
 
 /* DROPDOWNS */
 .has-submenu { position: relative; }
 .submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 250px;
-    z-index: 10001;
-    text-align: left;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 250px;
+    z-index: 10001;
+    text-align: left;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
 }
 
 .has-submenu:hover .submenu { display: block; }
 
 /* Mega Menu */
 .mega-menu {
-    display: none;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 500px;
-    padding: 20px;
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 500px;
+    padding: 20px;
 }
 .has-submenu:hover .mega-menu { display: grid; }
 
@@ -96,6 +112,11 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .submenu a { display: block; padding: 8px; text-decoration: none; font-size: 1.1rem; transition: background 0.2s; }
 
 /* --- AMIGA MODE STYLES --- */
+body.amiga-mode {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+    font-family: 'Amiga Topaz', 'Courier New', monospace;
+}
 body.amiga-mode .nav-list { border-color: var(--amiga-blue); background: var(--amiga-white); }
 body.amiga-mode .nav-link { color: var(--amiga-blue); }
 body.amiga-mode .nav-link:hover { background: var(--amiga-blue); color: #fff; }
@@ -106,6 +127,7 @@ body.amiga-mode .submenu a:hover { background: var(--amiga-orange); color: #fff;
 body.amiga-mode .submenu-title { color: var(--amiga-blue); }
 
 /* --- C64 MODE STYLES --- */
+body.c64-mode { /* This section is for specific C64 overrides if needed, but defaults are set on body */ }
 body.c64-mode .nav-list { border-color: var(--c64-light-blue); background: var(--c64-blue); }
 body.c64-mode .nav-link { color: var(--c64-text); }
 body.c64-mode .nav-link:hover { background: var(--c64-light-blue); color: #fff; }
@@ -118,27 +140,434 @@ body.c64-mode .submenu-title { color: #fff; }
 /* LAYOUT */
 body.c64-mode .workbench-bar { display: none; }
 body.amiga-mode .commodore-header-wrapper { display: none; }
-.commodore-header-wrapper { text-align: center; padding: 20px 0; background: var(--c64-blue); }
+.commodore-header-wrapper { text-align: center; padding: 20px 0; background: var(--c64-blue); } /* This seems redundant with body.c64-mode background */
 
 /* --- GLOBAL CONTAINER (THE FIX) --- */
 .container {
-    width: 95%;          /* Use 95% of the screen width */
-    max-width: 1600px;   /* Cap it only on huge 4K screens */
-    padding: 30px;
-    margin: 0 auto 60px auto;
-    position: relative;
-    min-height: 80vh;    /* Ensure it feels full height */
+    width: 95%;            /* Use 95% of the screen width */
+    max-width: 1600px;     /* Cap it only on huge 4K screens */
+    padding: 30px;
+    margin: 0 auto 60px auto;
+    position: relative;
+    min-height: 80vh;      /* Ensure it feels full height */
+    /* Ensure content within container also adopts C64 font and color */
+    font-family: 'VT323', monospace;
+    color: var(--c64-text);
 }
 
 body.c64-mode .container {
-    border-left: 4px solid var(--c64-light-blue);
-    border-right: 4px solid var(--c64-light-blue);
-    background-color: rgba(53, 40, 121, 0.95);
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    border-left: 4px solid var(--c64-light-blue);
+    border-right: 4px solid var(--c64-light-blue);
+    background-color: rgba(53, 40, 121, 0.95);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
 }
 
 body.amiga-mode .container {
-    border: 3px solid var(--amiga-white);
-    background-color: var(--amiga-white);
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+    border: 3px solid var(--amiga-white);
+    background-color: var(--amiga-white);
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.3);
+}
+
+/* Additional Styles for other elements to match C64 theme */
+h1, h2, h3, p {
+    font-family: 'VT323', monospace;
+    color: var(--c64-text);
+    margin: 10px 0;
+}
+
+h1 { font-size: 2.5rem; text-align: center; }
+h3 { font-size: 1.8rem; text-align: center; }
+p { font-size: 1.2rem; text-align: center; }
+
+.platform-toggles {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.platform-btn {
+    background-color: var(--c64-blue);
+    color: var(--c64-text);
+    border: 2px solid var(--c64-light-blue);
+    padding: 8px 15px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.platform-btn:hover {
+    background-color: var(--c64-light-blue);
+    color: var(--c64-white);
+}
+
+.platform-btn.active {
+    background-color: var(--c64-light-blue);
+    color: var(--c64-white);
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+/* Amiga Mode for platform buttons */
+body.amiga-mode .platform-btn {
+    background-color: var(--amiga-white);
+    color: var(--amiga-blue);
+    border-color: var(--amiga-blue);
+}
+body.amiga-mode .platform-btn:hover {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+}
+body.amiga-mode .platform-btn.active {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+}
+
+
+.search-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-box {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    background-color: var(--c64-black);
+    color: var(--c64-text);
+    border: 2px solid var(--c64-light-blue);
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    text-align: center;
+    outline: none;
+}
+.search-box::placeholder {
+    color: rgba(184, 199, 111, 0.6); /* Lighter version of c64-text */
+}
+
+.search-results-count {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: var(--c64-text);
+    font-family: 'VT323', monospace;
+}
+
+.quick-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.quick-btn {
+    background-color: var(--c64-blue);
+    color: var(--c64-text);
+    border: 2px solid var(--c64-light-blue);
+    padding: 8px 15px;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none; /* For social links */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quick-btn:hover {
+    background-color: var(--c64-light-blue);
+    color: var(--c64-white);
+}
+
+/* Amiga Mode for quick buttons */
+body.amiga-mode .quick-btn {
+    background-color: var(--amiga-white);
+    color: var(--amiga-blue);
+    border-color: var(--amiga-blue);
+}
+body.amiga-mode .quick-btn:hover {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+}
+
+/* Accordion sections */
+.section h2 {
+    background-color: var(--c64-light-blue);
+    color: var(--c64-white);
+    padding: 10px 20px;
+    margin: 15px 0 0;
+    cursor: pointer;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--c64-text);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.amiga-mode .section h2 {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+    border-color: var(--amiga-orange);
+}
+
+
+.games {
+    padding: 10px 0;
+    background-color: rgba(0,0,0,0.3); /* Slightly darker background for game list */
+}
+
+.games table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.games tr {
+    border-bottom: 1px dashed rgba(184, 199, 111, 0.3); /* Faint dashed line */
+}
+
+.games tr:last-child {
+    border-bottom: none;
+}
+
+.games td {
+    padding: 8px 20px;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-right: 8px;
+    text-transform: uppercase;
+}
+
+.badge-c64 {
+    background-color: var(--c64-green);
+    color: var(--c64-black);
+}
+
+.badge-amiga {
+    background-color: var(--amiga-orange);
+    color: var(--amiga-black);
+}
+
+.game-links-cell {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Align links to the right */
+}
+
+.game-links-cell .quick-btn {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-width: 1px;
+}
+
+.game-links-cell a {
+    text-decoration: none; /* Remove underline from links inside game links cell */
+}
+
+
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--c64-light-blue);
+    color: var(--c64-white);
+    border: 2px solid var(--c64-text);
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    font-family: 'VT323', monospace;
+    z-index: 1000;
+}
+
+#back-to-top:hover {
+    background-color: var(--c64-blue);
+}
+
+body.amiga-mode #back-to-top {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+    border-color: var(--amiga-white);
+}
+body.amiga-mode #back-to-top:hover {
+    background-color: var(--amiga-orange);
+}
+
+.sitemap-container {
+    margin-top: 50px;
+    text-align: center;
+    padding: 20px;
+    border-top: 2px dashed var(--c64-light-blue);
+}
+
+.sitemap-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--c64-white);
+}
+
+.sitemap-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px 25px; /* Row and column gap */
+}
+
+.sitemap-links a {
+    color: var(--c64-text);
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.sitemap-links a:hover {
+    border-color: var(--c64-text);
+    background-color: rgba(0,0,0,0.2);
+}
+
+body.amiga-mode .sitemap-container h2 {
+    color: var(--amiga-blue);
+}
+
+body.amiga-mode .sitemap-links a {
+    color: var(--amiga-black);
+}
+body.amiga-mode .sitemap-links a:hover {
+    border-color: var(--amiga-orange);
+    background-color: rgba(255,136,0,0.1);
+}
+
+.social-strip {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 20px; /* Add some padding at the bottom */
+}
+
+/* Marquee Styles */
+.marquee-container {
+    background-color: var(--c64-red); /* C64 red */
+    color: var(--c64-white); /* C64 white text */
+    padding: 8px 0;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    white-space: nowrap;
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    border-top: 3px solid var(--c64-light-blue);
+}
+
+.marquee-content {
+    display: inline-block;
+    padding-left: 100%; /* Start off-screen */
+    animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* Amiga Marquee */
+body.amiga-mode .marquee-container {
+    background-color: var(--amiga-orange);
+    color: var(--amiga-white);
+    border-top: 3px solid var(--amiga-blue);
+}
+
+/* CRT Overlay */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJyZ2JhKDAsIDAsIDAsIDAuMykiLz48ZmlsdGVyIGlkPSJsaW5lcyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuODUiIG51bU9jdGF2ZXM9IjEiIHN0aXRjaFRpbGVzPSJubyIgcmVzdWx0PSJ0dXIiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+PGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9InR1ciIgb3BlcmF0b3I9ImluIiByZXN1bHQ9ImxpbmsiLz48ZmVBbmJpZW50TGlnaHRpbmcgcmVzdWx0PSJsaWdodCIgaW50ZXJjaGVwdEludGVyc2VjdGlvbnM9InRydWUiIGFtcGxpdHVkZT0iMSIgSURzZXRhbnQ9IjEiPjxmZURpc3RhbnRMaWdodCB4PSIwIiB5PSIwIiB6PSIxMDAiLz48L2ZlQW5iaWVudExpZ2h0aW5nPjxmZUNvbXBvc2l0ZSBpbj0ic2VjdGlvbmIiIGluMj0ibGlnaHQiIG9wZXJhdG9yPSJsaWdodGVuIiByZXN1bHQ9InNjcmVlbiIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNsaW5lcykiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==') repeat;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 9998;
+    mix-blend-mode: overlay; /* Creates a subtle CRT scanline effect */
+    opacity: 0.5;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 8px 10px;
+    }
+
+    .mega-menu {
+        grid-template-columns: 1fr;
+        width: 90%;
+        left: 5%;
+        transform: translateX(0);
+    }
+
+    .platform-toggles, .quick-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .platform-btn, .quick-btn {
+        width: 80%;
+        margin: 0 auto;
+        font-size: 1rem;
+    }
+
+    .search-box {
+        width: 90%;
+    }
+
+    .games td {
+        padding: 8px 10px;
+        font-size: 1rem;
+    }
+
+    .game-links-cell {
+        justify-content: center; /* Center links on smaller screens */
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+    }
+
+    .sitemap-links {
+        gap: 10px;
+    }
+
+    .sitemap-links a {
+        font-size: 0.9rem;
+    }
+    
+    .marquee-container {
+        font-size: 1rem;
+        padding: 5px 0;
+    }
 }
